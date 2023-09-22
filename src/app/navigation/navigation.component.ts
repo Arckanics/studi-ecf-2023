@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
         <div class="collapse navbar-collapse justify-content-end" id="navMenu">
           <ul class="navbar-nav gap-3 py-4">
             <li *ngFor="let nav of navs" class="nav-item">
-              <a routerLink="{{nav.url}}" class="btn d-block" [ngClass]="{
+              <a routerLink="{{nav.url}}" class="btn d-block" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [ngClass]="{
                 'btn-dark': rla.isActive, 'btn-outline-dark': !rla.isActive
             }" routerLinkActive #rla="routerLinkActive" [routerLinkActiveOptions]="{exact:true}">{{nav.name}}</a>
             </li>
