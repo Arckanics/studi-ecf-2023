@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand " routerLink="/" >
-          <img src="/assets/logo.png" height="80"/>
+          <img src="/assets/logo.png" height="80" alt="logo"/>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
           <span class="navbar-toggler-icon"></span>
@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
         <div class="collapse navbar-collapse justify-content-end" id="navMenu">
           <ul class="navbar-nav gap-3 py-4">
             <li *ngFor="let nav of navs" class="nav-item">
-              <a routerLink="{{nav.url}}" class="nav-link btn d-block" [ngClass]="{
+              <a routerLink="{{nav.url}}" class="btn d-block" [ngClass]="{
                 'btn-dark': rla.isActive, 'btn-outline-dark': !rla.isActive
             }" routerLinkActive #rla="routerLinkActive" [routerLinkActiveOptions]="{exact:true}">{{nav.name}}</a>
             </li>
