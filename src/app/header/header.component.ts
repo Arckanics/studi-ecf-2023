@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-header',
   template: `
-    <header id="header" class="container-fluid bg-white border-primary shadow-sm">
+    <header id="header" class="container-fluid bg-white border-primary flex-shrink-0 shadow-sm">
       <section class="container row m-auto">
         <app-navigation></app-navigation>
       </section>
