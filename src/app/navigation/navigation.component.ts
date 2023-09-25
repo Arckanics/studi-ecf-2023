@@ -32,6 +32,6 @@ export class NavigationComponent {
 
   public navs: { url:string, name:string }[] = [
     {url: "/", name: "Accueil"},
-    {url: "/vehicules", name: "Nos véhicules"},
+    {url: "/vehicles", name: "Nos véhicules"},
   ]
 }

@@ -8,9 +8,12 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { FooterComponent } from './footer/footer.component';
 import { ButtonComponent } from './component/button.component';
 import { HomeComponent } from './routes/home.component';
-import { VehiculesComponent } from './routes/vehicules.component';
+import { VehiclesComponent } from './routes/vehicles.component';
 import { DoubleRangeComponent } from './component/double-range.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { ContentHeaderComponent } from './component/content-header.component';
+import { StoreModule } from '@ngrx/store';
+import { headingReducer } from "../store/nav/heading.reducer";
 
 @NgModule({
   declarations: [
@@ -20,15 +23,18 @@ import { ReactiveFormsModule } from "@angular/forms";
     FooterComponent,
     ButtonComponent,
     HomeComponent,
-    VehiculesComponent,
-    DoubleRangeComponent
+    VehiclesComponent,
+    DoubleRangeComponent,
+    ContentHeaderComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    StoreModule.forRoot({ heading: headingReducer }, {}),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+}

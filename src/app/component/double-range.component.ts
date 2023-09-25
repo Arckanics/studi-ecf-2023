@@ -4,7 +4,7 @@ import { FormControl } from "@angular/forms";
 @Component({
   selector: 'app-double-range',
   template: `
-    <div id="{{ id }}" class="double-range">
+    <div id="{{ id }}" class="double-range d-block">
       <div class="range-slider">
         <span class="range-selected" [style]="
             'left:' + rangeSlide.start + '%;'+

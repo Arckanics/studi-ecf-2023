@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VehiculesComponent } from "./routes/vehicules.component";
+import { VehiclesComponent } from "./routes/vehicles.component";
 import { HomeComponent } from "./routes/home.component";
 
 const routes: Routes = [
-  {path: "vehicules", component: VehiculesComponent},
+  {path: "vehicles", component: VehiclesComponent},
   {path: "", component: HomeComponent}
 ];
 
