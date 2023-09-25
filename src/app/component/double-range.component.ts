@@ -14,10 +14,10 @@ import { FormControl } from "@angular/forms";
       <div class="range-inputs">
         <input type="range" class="form-range inner-range range-min" min="{{minMaxStep.min}}" max="{{minMaxStep.max}}"
                [step]="minMaxStep.step" id="{{ id }}-min"
-               name="min" [formControl]="minVal" (input)="inputSet($event)" value="{{minMaxStep.min}}">
+               name="min" [formControl]="minVal" (input)="inputSet('min')" value="{{minMaxStep.min}}">
         <input type="range" class="form-range inner-range range-max" min="{{minMaxStep.min}}" max="{{minMaxStep.max}}"
                [step]="minMaxStep.step" id="{{ id }}-max"
-               name="max" [formControl]="maxVal" (input)="inputSet($event)" value="{{minMaxStep.max}}">
+               name="max" [formControl]="maxVal" (input)="inputSet('max')" value="{{minMaxStep.max}}">
       </div>
     </div>
   `,
@@ -101,10 +101,9 @@ export class DoubleRangeComponent implements OnInit {
     max: this.maxVal.getRawValue(),
   }
 
-  inputSet($event: Event) {
-    const item: any = $event.target
+  inputSet(item:string) {
     const { minVal, maxVal } = this
-    const Limits = (one: any, thumb: string, op: string = 'upper') => {
+    const Limits = (one: any, thumb: string) => {
       const max = maxVal.getRawValue() || 0
       const min = minVal.getRawValue() || 0
       if (thumb == 'min') {
@@ -114,7 +113,7 @@ export class DoubleRangeComponent implements OnInit {
         min >= one.getRawValue() && one.setValue(min)
       }
     }
-    if (item.name == 'min') {
+    if (item == 'min') {
       Limits(minVal, 'min')
     } else {
       Limits(maxVal, 'max')
