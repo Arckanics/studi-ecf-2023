@@ -10,10 +10,11 @@ import { ButtonComponent } from './component/button.component';
 import { HomeComponent } from './routes/home.component';
 import { VehiclesComponent } from './routes/vehicles.component';
 import { DoubleRangeComponent } from './component/double-range.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ContentHeaderComponent } from './component/content-header.component';
 import { StoreModule } from '@ngrx/store';
 import { headingReducer } from "../store/nav/heading.reducer";
+import { FilterComponent } from './component/filter.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +26,15 @@ import { headingReducer } from "../store/nav/heading.reducer";
     HomeComponent,
     VehiclesComponent,
     DoubleRangeComponent,
-    ContentHeaderComponent
+    ContentHeaderComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot({ heading: headingReducer }, {}),
+    FormsModule,
   ],
   providers: [],
   bootstrap: [ AppComponent ]
