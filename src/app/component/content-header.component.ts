@@ -18,6 +18,5 @@ export class ContentHeaderComponent {
 
   constructor( private store: Store<{ heading: string }>) {
     this.heading$ = store.select("heading")
-    console.log(this.heading$)
   }
 }

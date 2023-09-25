@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl } from "@angular/forms";
 
 @Component({
@@ -13,10 +13,10 @@ import { FormControl } from "@angular/forms";
       </div>
       <div class="range-inputs">
         <input type="range" class="form-range inner-range range-min" min="{{minMaxStep.min}}" max="{{minMaxStep.max}}"
-               [step]="minMaxStep.step" id="{{ id }}-min"
+               [step]="minMaxStep.step" id="{{ id }}-min" (change)="emitChange()"
                name="min" [formControl]="minVal" (input)="inputSet('min')" value="{{minMaxStep.min}}">
         <input type="range" class="form-range inner-range range-max" min="{{minMaxStep.min}}" max="{{minMaxStep.max}}"
-               [step]="minMaxStep.step" id="{{ id }}-max"
+               [step]="minMaxStep.step" id="{{ id }}-max" (change)="emitChange()"
                name="max" [formControl]="maxVal" (input)="inputSet('max')" value="{{minMaxStep.max}}">
       </div>
     </div>
@@ -82,9 +82,10 @@ import { FormControl } from "@angular/forms";
     `
   ]
 })
-export class DoubleRangeComponent implements OnInit {
+export class DoubleRangeComponent implements OnInit, OnChanges {
   @Input() id!: string;
-  @Input() initInput!: { min: number, max: number };
+  @Input() values!: { min: number, max: number };
+  @Output() valuesChange = new EventEmitter<any>();
   @Input() minMaxStep: { min: number, max: number, step: number } = {
     min: 0,
     max: 100,
@@ -96,11 +97,6 @@ export class DoubleRangeComponent implements OnInit {
     start: 0,
     end: 0
   }
-  @Output() values = {
-    min: this.minVal.getRawValue(),
-    max: this.maxVal.getRawValue(),
-  }
-
   inputSet(item:string) {
     const { minVal, maxVal } = this
     const Limits = (one: any, thumb: string) => {
@@ -118,7 +114,15 @@ export class DoubleRangeComponent implements OnInit {
     } else {
       Limits(maxVal, 'max')
     }
+
     this.refreshSlider()
+  }
+
+  emitChange() {
+    this.valuesChange.emit({
+      min: this.minVal.getRawValue(),
+      max: this.maxVal.getRawValue(),
+    })
   }
 
   private refreshSlider() {
@@ -129,16 +133,24 @@ export class DoubleRangeComponent implements OnInit {
     this.rangeSlide.end = (1 - (max / staticMax)) * 100
   }
 
-  ngOnInit() {
+  private resetValues() {
     const { minVal, maxVal } = this
     const { min, max } = this.minMaxStep
-    if (this.initInput) {
-      minVal.setValue(this.initInput.min)
-      maxVal.setValue(this.initInput.max)
+    if (this.values) {
+      minVal.setValue(this.values.min)
+      maxVal.setValue(this.values.max)
     } else {
       minVal.setValue(min)
       maxVal.setValue(max)
     }
     this.refreshSlider()
+  }
+
+  ngOnInit() {
+    this.resetValues()
+  }
+
+  ngOnChanges() {
+    this.resetValues()
   }
 }
