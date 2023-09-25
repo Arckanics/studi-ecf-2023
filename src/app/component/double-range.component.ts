@@ -7,28 +7,31 @@ import { FormControl } from "@angular/forms";
     <div id="{{ id }}" class="double-range">
       <div class="range-slider">
         <span class="range-selected" [style]="
-            'left:' + leftSet + '%;'+
-            'right:' + rightSet + '%'
+            'left:' + rangeSlide.start + '%;'+
+            'right:' + rangeSlide.end + '%'
         "></span>
       </div>
       <div class="range-inputs">
-        <input type="range" class="form-range inner-range range-min" min="{{min}}" max="{{max}}" [step]="step" id="{{ id }}-min"
-               name="min" [formControl]="minVal" (input)="inputSet($event)" value="{{min}}">
-        <input type="range" class="form-range inner-range range-max" min="{{min}}" max="{{max}}" [step]="step" id="{{ id }}-max"
-               name="max" [formControl]="maxVal" (input)="inputSet($event)" value="{{max}}">
+        <input type="range" class="form-range inner-range range-min" min="{{minMaxStep.min}}" max="{{minMaxStep.max}}"
+               [step]="minMaxStep.step" id="{{ id }}-min"
+               name="min" [formControl]="minVal" (input)="inputSet($event)" value="{{minMaxStep.min}}">
+        <input type="range" class="form-range inner-range range-max" min="{{minMaxStep.min}}" max="{{minMaxStep.max}}"
+               [step]="minMaxStep.step" id="{{ id }}-max"
+               name="max" [formControl]="maxVal" (input)="inputSet($event)" value="{{minMaxStep.max}}">
       </div>
     </div>
   `,
   styles: [
     `
       .range-slider {
-        height: 10px;
+        height: 8px;
         position: relative;
         width: calc(100% - 20px);
         margin: auto;
         background-color: white;
         border-radius: 10px;
-        box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2) inset;
+        outline: 1px solid rgba(217, 35, 50, 0.2);
+        outline-offset: -1px;
 
         .range-selected {
           height: 100%;
@@ -36,21 +39,20 @@ import { FormControl } from "@angular/forms";
           right: 30%;
           position: absolute;
           border-radius: 8px;
-          background-color: #d9777F;
-          box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.1) inset;
+          background-color: #d92332;
         }
       }
     `,
     `
       .range-inputs {
         position: relative;
-        margin-top: -10px;
+        margin-top: -8px;
 
         .inner-range {
           display: inline;
           position: absolute;
           width: 100%;
-          height: 10px;
+          height: 8px;
           background: none;
           pointer-events: none;
           -webkit-appearance: none;
@@ -60,25 +62,20 @@ import { FormControl } from "@angular/forms";
             background-color: transparent;
           }
 
-          &::-webkit-slider-thumb {
-            height: 18px;
-            width: 18px;
+          &::-webkit-slider-thumb, &::-moz-range-thumb {
+            height: 15px;
+            width: 15px;
             border-radius: 20px;
-            border: 2px solid #d92332;
+            border: 5px solid #d92332;
             background-color: white;
             pointer-events: auto;
             -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            outline: 2px solid rgba(0, 0, 0, 0.15);
+            outline-offset: -1px;
           }
 
-          &::-moz-range-thumb {
-            height: 18px;
-            width: 18px;
-            border-radius: 20px;
-            border: 2px solid #d92332;
-            background-color: white;
-            pointer-events: auto;
-            -moz-appearance: none;
-          }
         }
       }
 
@@ -87,21 +84,27 @@ import { FormControl } from "@angular/forms";
 })
 export class DoubleRangeComponent implements OnInit {
   @Input() id!: string;
-  @Input() min!: number;
-  @Input() max!: number;
-  @Input() step: number = 1;
-  minVal = new FormControl(this.min);
-  maxVal = new FormControl(this.max);
-  leftSet: number = 0;
-  rightSet: number = 0;
-
-  @Output() minValue = this.minVal.getRawValue()
-  @Output() maxValue = this.maxVal.getRawValue()
+  @Input() initInput!: { min: number, max: number };
+  @Input() minMaxStep: { min: number, max: number, step: number } = {
+    min: 0,
+    max: 100,
+    step: 1
+  }
+  minVal = new FormControl(0);
+  maxVal = new FormControl(0);
+  rangeSlide = {
+    start: 0,
+    end: 0
+  }
+  @Output() values = {
+    min: this.minVal.getRawValue(),
+    max: this.maxVal.getRawValue(),
+  }
 
   inputSet($event: Event) {
     const item: any = $event.target
     const { minVal, maxVal } = this
-    const Limits = (one: any, thumb:string , op: string = 'upper') => {
+    const Limits = (one: any, thumb: string, op: string = 'upper') => {
       const max = maxVal.getRawValue() || 0
       const min = minVal.getRawValue() || 0
       if (thumb == 'min') {
@@ -110,20 +113,33 @@ export class DoubleRangeComponent implements OnInit {
       if (thumb == 'max') {
         min >= one.getRawValue() && one.setValue(min)
       }
-      this.leftSet = (min / this.max) * 100
-      this.rightSet = (1 - (max / this.max)) * 100
     }
     if (item.name == 'min') {
       Limits(minVal, 'min')
     } else {
       Limits(maxVal, 'max')
     }
+    this.refreshSlider()
+  }
 
+  private refreshSlider() {
+    const max = this.maxVal.getRawValue() || 0
+    const min = this.minVal.getRawValue() || 0
+    const staticMax = this.minMaxStep.max
+    this.rangeSlide.start = (min / staticMax) * 100
+    this.rangeSlide.end = (1 - (max / staticMax)) * 100
   }
 
   ngOnInit() {
-    const { min, max, minVal, maxVal } = this
-    minVal.setValue(min)
-    maxVal.setValue(max)
+    const { minVal, maxVal } = this
+    const { min, max } = this.minMaxStep
+    if (this.initInput) {
+      minVal.setValue(this.initInput.min)
+      maxVal.setValue(this.initInput.max)
+    } else {
+      minVal.setValue(min)
+      maxVal.setValue(max)
+    }
+    this.refreshSlider()
   }
 }

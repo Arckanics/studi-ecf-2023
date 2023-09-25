@@ -8,7 +8,8 @@ import { Component } from '@angular/core';
 
     </p>
     <app-double-range id="km"
-        [min]="0" [max]="200000" [step]="1000"
+                      [minMaxStep]="{min:0,max:200000,step:1000}"
+                      [initInput]="{min:50000,max:150000}"
     ></app-double-range>
   `,
   styles: [
