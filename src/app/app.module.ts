@@ -9,6 +9,8 @@ import { FooterComponent } from './footer/footer.component';
 import { ButtonComponent } from './component/button.component';
 import { HomeComponent } from './routes/home.component';
 import { VehiculesComponent } from './routes/vehicules.component';
+import { DoubleRangeComponent } from './component/double-range.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -18,10 +20,12 @@ import { VehiculesComponent } from './routes/vehicules.component';
     FooterComponent,
     ButtonComponent,
     HomeComponent,
-    VehiculesComponent
+    VehiculesComponent,
+    DoubleRangeComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
   ],
   providers: [],
