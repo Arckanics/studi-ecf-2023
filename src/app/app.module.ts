@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { headingReducer } from "../store/nav/heading.reducer";
 import { FilterComponent } from './component/filter.component';
 import { LongNumberPipe } from './pipes/long-number.pipe';
+import { CarCardComponent } from './component/car-card.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { LongNumberPipe } from './pipes/long-number.pipe';
     DoubleRangeComponent,
     ContentHeaderComponent,
     FilterComponent,
-    LongNumberPipe
+    LongNumberPipe,
+    CarCardComponent
   ],
   imports: [
     BrowserModule,

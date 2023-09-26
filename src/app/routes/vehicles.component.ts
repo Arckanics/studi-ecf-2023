@@ -23,7 +23,11 @@ import { setHeading } from "../../store/nav/heading.actions";
           <hr class="my-1">
         </div>
       </div>
-      <div class="flex-grow-1 bg-secondary"></div>
+      <div class="flex-grow-1 p-0 gap-0 pt-2 bg-secondary row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+        <app-car-card></app-car-card>
+        <app-car-card></app-car-card>
+        <app-car-card></app-car-card>
+      </div>
     </div>
 
   `,
