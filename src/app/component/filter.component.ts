@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-filter',
   template: `
-    <div class="d-flex flex-column gap-2">
-      <div class="p-2">{{ filter.name }} :</div>
+    <div class="d-flex flex-column gap-1 p-1">
+      <div class="p-1 p-md-2">{{ filter.name }} :</div>
       <app-double-range
         [id]="filter.id"
         [minMaxStep]="filter.minMaxStep"
@@ -12,7 +12,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         (valuesChange)="emitChange()"
       >
       </app-double-range>
-      <div class="d-flex justify-content-between py-3">
+      <div class="d-flex justify-content-between align-items-start py-3 flex-grow-1">
         <div class="text-secondary small-text p-2">
           <span>{{filter.values.min | longNumber }} {{filter.unit}}</span>
           -
@@ -26,6 +26,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     `
       .small-text {
         font-size: .9rem;
+      }
+      @media screen and (max-width: 768px) {
+        .small-text {
+          font-size: .8rem;
+        }
       }
     `
   ]

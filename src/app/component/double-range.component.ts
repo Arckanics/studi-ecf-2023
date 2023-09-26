@@ -25,6 +25,8 @@ import { FormControl } from "@angular/forms";
     `
       .double-range {
         position: relative;
+        height: 24px;
+        padding: calc((24px - 8px) / 2) 0;
       }
       .range-slider {
         height: 8px;
@@ -131,9 +133,10 @@ export class DoubleRangeComponent implements OnInit, OnChanges {
   private refreshSlider() {
     const max = this.maxVal.getRawValue() || 0
     const min = this.minVal.getRawValue() || 0
-    const staticMax = this.minMaxStep.max
-    this.rangeSlide.start = (min / staticMax) * 100
-    this.rangeSlide.end = (1 - (max / staticMax)) * 100
+    const staticMax = this.minMaxStep.max - this.minMaxStep.min
+    const staticMin = this.minMaxStep.min
+    this.rangeSlide.start = ((min - staticMin) / staticMax) * 100
+    this.rangeSlide.end = (1 - ((max - staticMin) / staticMax)) * 100
   }
 
   private updateValues() {

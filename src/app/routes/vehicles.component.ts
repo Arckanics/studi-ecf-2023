@@ -5,25 +5,25 @@ import { setHeading } from "../../store/nav/heading.actions";
 @Component({
   selector: 'app-vehicules',
   template: `
-    <div class="row row-cols-3 mt-4 pt-3">
-<!--      <div *ngFor="let filter of filters" class="d-flex flex-column gap-2">-->
-<!--        <div class="p-2">{{ filter.name }} :</div>-->
-<!--        <app-double-range-->
-<!--          [id]="filter.id"-->
-<!--          [minMaxStep]="filter.minMaxStep"-->
-<!--          [(values)]="filter.values"-->
-<!--        >-->
-<!--        </app-double-range>-->
-<!--        <div class="d-flex justify-content-between py-3">-->
-<!--          <div class="text-secondary small-text p-2">-->
-<!--            <span>{{filter.values.min}}{{filter.unit}}</span>-->
-<!--            - -->
-<!--            <span>{{filter.values.max}}{{filter.unit}}</span>-->
-<!--          </div>-->
-<!--          <button class="btn btn-light shadow-sm btn-sm" (click)="resetFilter(filter.id)">réinitialiser</button>-->
-<!--        </div>-->
-<!--      </div>-->
-      <app-filter *ngFor="let filter of filters" [filter]="filter" (filterChange)="updateFilter($event)"></app-filter>
+    <div class="d-flex flex-column h-100">
+      <div class="pt-2 flex-shrink-0 flex-grow-0">
+        <div class="d-flex justify-content-end mb-1">
+          <button class="btn btn-outline-primary d-md-block d-none" data-bs-toggle="collapse"
+                     data-bs-target="#filters"
+            >Filtres</button>
+          <button class="btn btn-outline-primary d-block d-md-none" data-bs-toggle="collapse"
+                  data-bs-target="#filters"
+          ><i class="bi bi-filter"></i></button>
+        </div>
+        <div class="collapse" id="filters">
+          <div class="row row-cols-1 row-cols-md-3 border-dark border-1 " >
+            <app-filter *ngFor="let filter of filters" [filter]="filter" (filterChange)="updateFilter($event)"></app-filter>
+
+          </div>
+          <hr class="my-1">
+        </div>
+      </div>
+      <div class="flex-grow-1 bg-secondary"></div>
     </div>
 
   `,
@@ -40,7 +40,20 @@ export class VehiclesComponent {
     values: {min:50000,max:150000},
     id: 'km',
     unit: 'Km'
-  }]
+  },{
+    name: 'Année',
+    minMaxStep: {min:2010,max:2021,step:1},
+    values: {min:2012,max:2019},
+    id: 'year',
+    unit: ''
+  },{
+    name: 'Prix',
+    minMaxStep: {min:1000,max:50000,step:100},
+    values: {min:24000,max:35000},
+    id: 'price',
+    unit: '€'
+  }
+  ]
 
   constructor( private store: Store<{heading:string}>) {
     this.store.dispatch(new setHeading('Nos véhicules'))
@@ -50,26 +63,8 @@ export class VehiclesComponent {
     return this.filters.find(f => f.id === id)
   }
 
-  onDrChange($event:any, id: string) {
-    const filter = this.getFilter(id)
-    if (filter) {
-      filter.values = {min:$event.min,max:$event.max}
-    }
-  }
-
-  resetFilter(id:string) {
-    const filter = this.getFilter(id)
-    if (filter) {
-      const {min,max} = filter.minMaxStep
-      filter.values = {
-        min: min,
-        max: max
-      }
-    }
-  }
-
   updateFilter($event:any) {
-    let filter = this.filters.find(f => f.id === $event.id)
+    let filter = this.getFilter($event.id)
     if (filter) {
       filter = {
         ...filter,
