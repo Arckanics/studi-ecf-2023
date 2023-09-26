@@ -15,6 +15,7 @@ import { ContentHeaderComponent } from './component/content-header.component';
 import { StoreModule } from '@ngrx/store';
 import { headingReducer } from "../store/nav/heading.reducer";
 import { FilterComponent } from './component/filter.component';
+import { LongNumberPipe } from './pipes/long-number.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { FilterComponent } from './component/filter.component';
     VehiclesComponent,
     DoubleRangeComponent,
     ContentHeaderComponent,
-    FilterComponent
+    FilterComponent,
+    LongNumberPipe
   ],
   imports: [
     BrowserModule,

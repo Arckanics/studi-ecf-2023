@@ -14,9 +14,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       </app-double-range>
       <div class="d-flex justify-content-between py-3">
         <div class="text-secondary small-text p-2">
-          <span>{{filter.values.min}}{{filter.unit}}</span>
+          <span>{{filter.values.min | longNumber }} {{filter.unit}}</span>
           -
-          <span>{{filter.values.max}}{{filter.unit}}</span>
+          <span>{{filter.values.max | longNumber }} {{filter.unit}}</span>
         </div>
         <button class="btn btn-light shadow-sm btn-sm" (click)="resetFilter()">réinitialiser</button>
       </div>
