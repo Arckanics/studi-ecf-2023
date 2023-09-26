@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-car-card',
   template: `
-    <div class="col">
-      <div class="card bg-white rounded-2 position-relative overflow-hidden car-card m-auto pb-2">
+      <div class="card bg-white rounded-2 position-relative car-card pb-2 shadow">
         <div class="car-price bg-dark rounded-2 text-white px-2">5000€</div>
-        <img src="https://placehold.co/600x400" class="card-img-top ratio-16x9 w-100" alt="...">
+        <img src="https://placehold.co/600x400" class="card-img-top ratio-16x9 w-100 rounded-top-2" alt="...">
         <div class="card-body p-2 px-3">
           <h5 class="card-title mb-2">Laguna III</h5>
           <div class="card-text text-secondary">
@@ -21,12 +20,17 @@ import { Component } from '@angular/core';
           <button class="btn btn-dark btn-sm m-auto d-block">Détails</button>
         </div>
       </div>
-    </div>
   `,
   styles: [
     `
       .car-card {
         font-family: Rajdhani, sans-serif;
+        outline: 4px solid transparent;
+        outline-offset: 4px;
+        transition: outline-color 200ms ease;
+        &:hover {
+          outline-color: rgba(0, 0, 0, 0.4);
+        }
       }
 
       .car-under-price {
