@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { setHeading } from "../../store/nav/heading.actions";
+import { CarService } from "../services/car.service";
 
 @Component({
   selector: 'app-vehicules',
@@ -17,24 +18,12 @@ import { setHeading } from "../../store/nav/heading.actions";
         <div class="collapse bg-white p-2 rounded-2" id="filters">
           <div class="row row-cols-1 row-cols-md-3" >
             <app-filter *ngFor="let filter of filters" [filter]="filter" (filterChange)="updateFilter($event)"></app-filter>
-
           </div>
           <hr class="my-1">
         </div>
       </div>
       <div id="cars" class="container p-2 m-auto gap-0 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
-        <app-car-card class="col p-3"></app-car-card>
+        <app-car-card *ngFor="let car of cars$" [car]="car" class="col p-3"></app-car-card>
       </div>
 
   `,
@@ -71,7 +60,7 @@ import { setHeading } from "../../store/nav/heading.actions";
     `
   ]
 })
-export class VehiclesComponent {
+export class VehiclesComponent implements OnInit {
   public filters = [{
     name: 'Kilomètres',
     minMaxStep: {min:0,max:340000,step:1000},
@@ -93,8 +82,20 @@ export class VehiclesComponent {
   }
   ]
 
-  constructor( private store: Store<{heading:string}>) {
+  public cars$!: any
+
+  constructor(
+    private store: Store<{heading:string}>,
+    private carService: CarService
+  ) {
     this.store.dispatch(new setHeading('Nos véhicules'))
+  }
+
+  ngOnInit() {
+    this.carService.getCars().subscribe({
+      next: (data: any) => this.cars$ = data,
+      error: (e) => console.log(e),
+    })
   }
 
   private getFilter(id:string) {

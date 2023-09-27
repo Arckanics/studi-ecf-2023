@@ -17,6 +17,7 @@ import { headingReducer } from "../store/nav/heading.reducer";
 import { FilterComponent } from './component/filter.component';
 import { LongNumberPipe } from './pipes/long-number.pipe';
 import { CarCardComponent } from './component/car-card.component';
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CarCardComponent } from './component/car-card.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot({ heading: headingReducer }, {}),
