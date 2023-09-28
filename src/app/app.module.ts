@@ -18,6 +18,7 @@ import { FilterComponent } from './component/filter.component';
 import { LongNumberPipe } from './pipes/long-number.pipe';
 import { CarCardComponent } from './component/car-card.component';
 import { HttpClientModule } from "@angular/common/http";
+import { LoadingComponent } from './component/loading.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { HttpClientModule } from "@angular/common/http";
     ContentHeaderComponent,
     FilterComponent,
     LongNumberPipe,
-    CarCardComponent
+    CarCardComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

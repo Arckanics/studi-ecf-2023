@@ -23,6 +23,7 @@ import { CarService } from "../services/car.service";
         </div>
       </div>
       <div id="cars" class="container p-2 m-auto gap-0 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+        <app-loading *ngIf="!cars$"></app-loading>
         <app-car-card *ngFor="let car of cars$" [car]="car" class="col p-3"></app-car-card>
       </div>
 
@@ -35,6 +36,7 @@ import { CarService } from "../services/car.service";
         flex-direction: column;
         flex-grow: 1;
         flex-shrink: 1;
+        height: 100%;
         max-height: 100%;
       }
 
@@ -42,6 +44,8 @@ import { CarService } from "../services/car.service";
         flex-grow: 1;
         flex-shrink: 1;
         overflow: auto;
+        position: relative;
+        height: 100%;
       }
     `,
     `
@@ -82,7 +86,7 @@ export class VehiclesComponent implements OnInit {
   }
   ]
 
-  public cars$!: any
+  public cars$: any = null
 
   constructor(
     private store: Store<{heading:string}>,
