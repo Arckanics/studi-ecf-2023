@@ -25,6 +25,7 @@ import { CarService } from "../services/car.service";
       <div id="cars" class="container p-2 m-auto gap-0 row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
         <app-loading *ngIf="!cars$"></app-loading>
         <app-car-card *ngFor="let car of cars$" [car]="car" class="col p-3"></app-car-card>
+
       </div>
 
   `,
@@ -68,13 +69,13 @@ export class VehiclesComponent implements OnInit {
   public filters = [{
     name: 'Kilomètres',
     minMaxStep: {min:0,max:340000,step:1000},
-    values: {min:50000,max:150000},
+    values: {min:50000,max:50000},
     id: 'km',
     unit: 'Km'
   },{
     name: 'Année',
     minMaxStep: {min:2010,max:2021,step:1},
-    values: {min:2012,max:2019},
+    values: {min:2,max:2019},
     id: 'year',
     unit: ''
   },{
@@ -87,6 +88,7 @@ export class VehiclesComponent implements OnInit {
   ]
 
   public cars$: any = null
+  public carsData$: any = null
 
   constructor(
     private store: Store<{heading:string}>,
@@ -96,14 +98,59 @@ export class VehiclesComponent implements OnInit {
   }
 
   ngOnInit() {
+    const date = new Date()
+    const year = this.filters.find(f => f.id === 'year')
+    if (year) {
+      year.minMaxStep.min = date.getFullYear()
+      year.minMaxStep.max = date.getFullYear()
+    }
     this.carService.getCars().subscribe({
-      next: (data: any) => this.cars$ = data,
+      next: (data: any) => {
+        this.setupFilters(data)
+        this.carsData$ = data
+        return this.cars$ = data
+      },
       error: (e) => console.log(e),
     })
+  }
+  private setupFilters(data:any) {
+    const filters = this.filters
+    for (let [k, value] of Object.entries(filters)) {
+      const feature = value.id
+      let sorting = data.sort((a:any,b:any) => {
+        if (a[feature] < b[feature]) {
+          return -1
+        }
+        if (a[feature] > b[feature]) {
+          return 1
+        }
+        return 0
+      })
+      const minMax = {min:sorting[0][feature],max:sorting[sorting.length-1][feature]}
+      value.minMaxStep = {
+        ...value.minMaxStep,
+        ...minMax
+      }
+      value.values = {
+        ...value.values,
+        ...minMax
+      }
+      filters[Number(k)] = { ...value }
+    }
   }
 
   private getFilter(id:string) {
     return this.filters.find(f => f.id === id)
+  }
+
+  private applyFilters() {
+    let res = [...this.carsData$]
+      for (let value of Object.values(this.filters)) {
+        res = res.filter((car) => {
+          return !(car[value.id] < value.values.min || car[value.id] > value.values.max);
+        })
+      }
+    this.cars$ = [...res]
   }
 
   updateFilter($event:any) {
@@ -113,6 +160,7 @@ export class VehiclesComponent implements OnInit {
         ...filter,
         ...$event
       }
+      this.applyFilters()
     }
   }
 }
