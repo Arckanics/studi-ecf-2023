@@ -19,6 +19,7 @@ import { LongNumberPipe } from './pipes/long-number.pipe';
 import { CarCardComponent } from './component/car-card.component';
 import { HttpClientModule } from "@angular/common/http";
 import { LoadingComponent } from './component/loading.component';
+import { CarServiceComponent } from './component/car-service.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { LoadingComponent } from './component/loading.component';
     FilterComponent,
     LongNumberPipe,
     CarCardComponent,
-    LoadingComponent
+    LoadingComponent,
+    CarServiceComponent
   ],
   imports: [
     BrowserModule,
