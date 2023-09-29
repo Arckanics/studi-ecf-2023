@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
+import { catchError } from "rxjs";
+import { AbstractService } from "./abstract-service";
 import { HttpClient } from "@angular/common/http";
-import { catchError, Observable, of } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CarService {
+export class CarService extends AbstractService {
 
   url="http://localhost:3000/cars"
   constructor(
     private http: HttpClient
-  ) { }
-
-  private handleError<T>(operation= 'operation', result?: []) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} : ${error}`)
-      return of(result as T)
-    }
+  ) {
+    super()
   }
 
   getCars() {

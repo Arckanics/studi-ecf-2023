@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "json-serv": "json-server -d 500 json-data.json",
+    "json-serv": "json-server -w -d 500 json-data.json",
     "test": "ng test"
   },
   "private": true,

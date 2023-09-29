@@ -183,5 +183,20 @@
         "https://placehold.co/600x400"
       ]
     }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "title": "Réparation Carrosserie",
+      "text": "Découvrez notre service de réparation de carrosserie expert. Confiez-nous votre véhicule et retrouvez son éclat d'origine en un clin d'oeil "
+    },{
+      "id": 2,
+      "title": "Entretien",
+      "text": "Découvrez notre service de d'entretien expert. Confiez-nous votre véhicule et retrouvez le prêt à l'emploi en un clin d'oeil "
+    },{
+      "id": 3,
+      "title": "Reprise",
+      "text": "Nouse reprenons votre véhicules. Pour tout achat de véhicules neuf, nous nous engagons à reprendre le votre"
+    }
   ]
 }

@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-car-service',
   template: `
     <div class="service-card p-3">
-      <h5 class="h5 f-rajdhani fw-bold">Réparation Carrosserie</h5>
+      <h5 class="h5 f-rajdhani fw-bold">{{feat.title | titlecase}}</h5>
       <p class="f-rajdhani m-0 desc">
-        Découvrez notre service de réparation de carrosserie expert.
-        Confiez-nous votre véhicule et retrouvez son éclat d'origine en un clin d'oeil
+        {{feat.text}}
       </p>
     </div>
   `,
@@ -27,5 +26,5 @@ import { Component } from '@angular/core';
   ]
 })
 export class CarServiceComponent {
-
+  @Input() feat!: any
 }
