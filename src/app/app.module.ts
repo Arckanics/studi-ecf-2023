@@ -20,6 +20,7 @@ import { CarCardComponent } from './component/car-card.component';
 import { HttpClientModule } from "@angular/common/http";
 import { LoadingComponent } from './component/loading.component';
 import { CarServiceComponent } from './component/car-service.component';
+import { ClientNoteComponent } from './component/client-note.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CarServiceComponent } from './component/car-service.component';
     LongNumberPipe,
     CarCardComponent,
     LoadingComponent,
-    CarServiceComponent
+    CarServiceComponent,
+    ClientNoteComponent
   ],
   imports: [
     BrowserModule,

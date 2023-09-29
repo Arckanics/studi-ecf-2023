@@ -198,5 +198,64 @@
       "title": "Reprise",
       "text": "Nouse reprenons votre véhicules. Pour tout achat de véhicules neuf, nous nous engagons à reprendre le votre"
     }
+  ],
+  "commentaire": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "message": "Super service avec des prix corrects",
+      "note": 7,
+      "enabled": true
+    }
+  ,{
+      "id": 2,
+      "name": "Alice Smith",
+      "message": "Excellent service et tarifs compétitifs",
+      "note": 9,
+      "enabled": true
+    }
+  ,{
+      "id": 3,
+      "name": "Bob Johnson",
+      "message": "Service exceptionnel, mais un peu cher",
+      "note": 8,
+      "enabled": false
+    },{
+      "id": 4,
+      "name": "Emily Brown",
+      "message": "Bonne qualité à un prix abordable",
+      "note": 6,
+      "enabled": true
+    },{
+      "id": 5,
+      "name": "Sophia Wilson",
+      "message": "Service rapide et efficace",
+      "note": 8,
+      "enabled": true
+    },{
+      "id": 6,
+      "name": "James Lee",
+      "message": "Très satisfait du service client",
+      "note": 9,
+      "enabled": true
+    },{
+      "id": 7,
+      "name": "Olivia Davis",
+      "message": "Qualité exceptionnelle à un prix élevé",
+      "note": 7,
+      "enabled": false
+    },{
+      "id": 9,
+      "name": "Ava Anderson",
+      "message": "Service fiable mais un peu lent",
+      "note": 6,
+      "enabled": true
+    },{
+      "id": 10,
+      "name": "Noah Wilson",
+      "message": "Service de qualité supérieure, mais cher",
+      "note": 9,
+      "enabled": false
+    }
   ]
 }

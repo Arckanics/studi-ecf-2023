@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { setHeading } from "../../store/nav/heading.actions";
 import { HomeFeatureService } from "../services/home-feature.service";
+import { ClientNoteService } from "../services/client-note.service";
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ import { HomeFeatureService } from "../services/home-feature.service";
         <h3 class="h4 f-rajdhani component-title">Commentaires</h3>
         <hr class="m-1">
         <div class="list">
-          <app-car-service *ngFor="let feat of features$" [feat]="feat"></app-car-service>
+          <app-client-note *ngFor="let comment of comments$" [comment]="comment"></app-client-note>
         </div>
       </div>
     </div>
@@ -63,9 +64,11 @@ import { HomeFeatureService } from "../services/home-feature.service";
 export class HomeComponent implements OnInit {
 
   features$: any = null
+  comments$: any = null
   constructor(
     private store: Store<{ heading: string }>,
-    private features: HomeFeatureService
+    private features: HomeFeatureService,
+    private comments: ClientNoteService
   ) {
     this.store.dispatch(new setHeading('Accueil'))
   }
@@ -73,6 +76,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.features.getFeatures().subscribe({
       next: (data: any) => this.features$ = data,
+      error: (err:any) => console.log(err),
+      complete: () => {}
+    })
+    this.comments.getFrontComments().subscribe({
+      next: (data: any) => this.comments$ = data,
       error: (err:any) => console.log(err),
       complete: () => {}
     })
