@@ -256,6 +256,12 @@
       "message": "Service de qualité supérieure, mais cher",
       "note": 9,
       "enabled": false
+    },{
+      "id": 10,
+      "name": "Ava Richard",
+      "message": "Très déçue de la relation client",
+      "note": 1,
+      "enabled": true
     }
   ]
 }
