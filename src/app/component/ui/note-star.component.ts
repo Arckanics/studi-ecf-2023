@@ -3,7 +3,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 @Component({
   selector: 'app-note-star',
   template: `
-    <div class="star-container d-flex gap-4 px-3">
+    <div class="star-container d-flex gap-2 px-1 gap-md-3">
       <i class="bi bi-star-fill" *ngFor="let s of toLoop(stars)"></i>
       <i class="bi bi-star-half" *ngIf="half"></i>
       <i class="bi bi-star" *ngFor="let s of toLoop(empty)"></i>
@@ -20,6 +20,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 
       .star-container {
         font-size: 1rem;
+      }
+
+      @media screen and (max-width: 768px) {
+        .star-container {
+          font-size: .7rem;
+        }
       }
     `
   ]

@@ -13,6 +13,7 @@ import { ClientNoteService } from "../services/client-note.service";
           <span>Services</span><i class="bi bi-caret-left-fill d-md-none" [ngClass]="{'enabled': topBottom}"></i>
         </h3>
         <div class="list">
+          <app-loading *ngIf="!features$"></app-loading>
           <app-car-service *ngFor="let feat of features$" [feat]="feat"></app-car-service>
         </div>
       </div>
@@ -21,6 +22,7 @@ import { ClientNoteService } from "../services/client-note.service";
           <span>Commentaires</span><i class="bi bi-caret-left-fill d-md-none" [ngClass]="{'enabled': !topBottom}"></i>
         </h3>
         <div class="list">
+          <app-loading *ngIf="!comments$"></app-loading>
           <app-client-note *ngFor="let comment of comments$" [comment]="comment"></app-client-note>
         </div>
       </div>
@@ -46,6 +48,7 @@ import { ClientNoteService } from "../services/client-note.service";
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        position: relative;
 
         .component-title {
           padding: .5rem .9rem;
@@ -146,11 +149,7 @@ export class HomeComponent implements OnInit {
   }
 
   collapse($el:string) {
-    if ($el === "top") {
-      this.topBottom = true
-    } else {
-      this.topBottom = false
-    }
+    this.topBottom = $el === "top";
   }
 
 

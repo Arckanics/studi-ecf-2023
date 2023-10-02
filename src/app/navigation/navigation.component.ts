@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
         <div class="collapse navbar-collapse justify-content-end" id="navMenu">
           <ul class="navbar-nav flex-row justify-content-between gap-md-3 py-md-4 py-2 gap-2">
             <li *ngFor="let nav of navs" class="nav-item flex-grow-1 w-100">
-              <a routerLink="{{nav.url}}" class="btn d-block" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [ngClass]="{
+              <a routerLink="{{nav.url}}" class="btn d-block text-nowrap" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show" [ngClass]="{
                 'btn-dark': rla.isActive, 'btn-outline-dark': !rla.isActive
             }" routerLinkActive #rla="routerLinkActive" [routerLinkActiveOptions]="{exact:true}">{{nav.name}}</a>
             </li>
