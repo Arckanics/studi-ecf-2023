@@ -21,9 +21,12 @@ import { ClientNoteService } from "../services/client-note.service";
         <h3 class="h4 f-rajdhani component-title" (click)="collapse('bottom')">
           <span>Commentaires</span><i class="bi bi-caret-left-fill d-md-none" [ngClass]="{'enabled': !topBottom}"></i>
         </h3>
-        <div class="list">
+        <div class="list create">
           <app-loading *ngIf="!comments$"></app-loading>
           <app-client-note *ngFor="let comment of comments$" [comment]="comment"></app-client-note>
+          <app-button
+            btnCls="btn btn-secondary position-absolute bottom-0 end-0 m-1 mx-3 shadow"
+            iconCls="bi bi-plus">Ajouter</app-button>
         </div>
       </div>
     </div>
@@ -77,6 +80,9 @@ import { ClientNoteService } from "../services/client-note.service";
           padding: 0 .9rem;
           padding-bottom: 1rem;
           overflow-y: auto;
+          &.create {
+            padding-bottom: 2.5rem;
+          }
         }
       }
 
@@ -115,6 +121,9 @@ import { ClientNoteService } from "../services/client-note.service";
             .list {
               visibility: visible;
               opacity: 1;
+              &.create {
+                padding-bottom: 2.5rem;
+              }
             }
           }
         }
