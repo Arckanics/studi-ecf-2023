@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-header',
   template: `
     <header id="header" class="container-fluid bg-white border-primary flex-shrink-0 shadow-sm">
-      <section class="container row m-auto">
+      <section class="container m-auto">
         <app-navigation></app-navigation>
       </section>
     </header>
