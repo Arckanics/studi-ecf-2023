@@ -16,8 +16,8 @@ import { CommentComponent } from "../form/comment.component";
         right: 0;
         bottom: 0;
         z-index: 50;
-        background-color: rgba(0, 0, 0, 0.25);
-        box-shadow: 0 0 20px 8px #f2f2f2 inset;
+        background-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 1rem 8px #f2f2f2 inset;
       }
     `
   ]
