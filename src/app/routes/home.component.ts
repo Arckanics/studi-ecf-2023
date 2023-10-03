@@ -3,6 +3,7 @@ import { Store } from "@ngrx/store";
 import { setHeading } from "../../store/nav/heading.actions";
 import { HomeFeatureService } from "../services/home-feature.service";
 import { ClientNoteService } from "../services/client-note.service";
+import { SetModalItem, ToggleModal } from "../../store/modal/modal.actions";
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ import { ClientNoteService } from "../services/client-note.service";
         <div class="list create">
           <app-loading *ngIf="!comments$"></app-loading>
           <app-client-note *ngFor="let comment of comments$" [comment]="comment"></app-client-note>
-          <app-button
+          <app-button (click)="openModal()"
             btnCls="btn btn-secondary position-absolute bottom-0 end-0 m-1 mx-3 shadow"
             iconCls="bi bi-plus">Ajouter</app-button>
         </div>
@@ -145,7 +146,7 @@ export class HomeComponent implements OnInit {
   comments$: any = null
   topBottom: boolean = true
   constructor(
-    private store: Store<{ heading: string }>,
+    private store: Store<{ heading: string, modal: any }>,
     private features: HomeFeatureService,
     private comments: ClientNoteService
   ) {
@@ -164,7 +165,10 @@ export class HomeComponent implements OnInit {
       complete: () => {}
     })
   }
-
+  openModal() {
+    this.store.dispatch(new ToggleModal(true))
+    this.store.dispatch(new SetModalItem('comment'))
+  }
   collapse = ($el:string): any => {
     if (window.innerWidth > 768) {
       return false;

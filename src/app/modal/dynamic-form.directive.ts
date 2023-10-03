@@ -1,16 +1,15 @@
-import { Directive, Input, OnInit, Type, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Directive, Input, Type, ViewContainerRef } from '@angular/core';
+import { FormComponents } from "./form-components";
 
 
 @Directive({
   selector: '[formComp]',
 })
-export class DynamicFormDirective implements OnInit {
-  @Input() component!: Type<any>
+export class DynamicFormDirective implements AfterViewInit {
+  @Input() component!: string
   constructor(
     private ref: ViewContainerRef
-  ) {
-
-  }
+  ) {}
 
   clear() {
     this.ref.clear()
@@ -18,11 +17,12 @@ export class DynamicFormDirective implements OnInit {
 
   enableComponent() {
     if (this.component) {
-      this.ref.createComponent(this.component)
+      const comp = new FormComponents().getComponent(this.component)
+      this.ref.createComponent(comp)
     }
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.clear();
     this.enableComponent()
   }

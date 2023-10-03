@@ -17,6 +17,6 @@ export class ContentHeaderComponent {
   heading$: Observable<string>
 
   constructor( private store: Store<{ heading: string }>) {
-    this.heading$ = store.select("heading")
+    this.heading$ = this.store.select("heading")
   }
 }

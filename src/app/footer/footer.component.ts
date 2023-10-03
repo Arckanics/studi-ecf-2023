@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from "@ngrx/store";
+import { SetModalItem, ToggleModal } from "../../store/modal/modal.actions";
 
 @Component({
   selector: 'app-footer',
@@ -12,7 +14,7 @@ import { Component } from '@angular/core';
           <app-button btnCls="btn btn-secondary btn-sm" iconCls="bi bi-info-circle">
             Informations
           </app-button>
-          <app-button btnCls="btn btn-primary btn-sm" iconCls="bi bi-envelope">
+          <app-button btnCls="btn btn-primary btn-sm" iconCls="bi bi-envelope" (click)="contactForm()">
             Nous contacter
           </app-button>
         </div>
@@ -23,4 +25,11 @@ import { Component } from '@angular/core';
   ]
 })
 export class FooterComponent {
+
+  constructor(private store: Store<{modal:any}>) {
+  }
+  contactForm() {
+    this.store.dispatch(new SetModalItem('contact'))
+    this.store.dispatch(new ToggleModal(true))
+  }
 }
