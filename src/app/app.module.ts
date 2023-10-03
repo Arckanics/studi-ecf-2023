@@ -22,6 +22,9 @@ import { LoadingComponent } from './component/ui/loading.component';
 import { CarServiceComponent } from './component/car-service.component';
 import { ClientNoteComponent } from './component/client-note.component';
 import { NoteStarComponent } from './component/ui/note-star.component';
+import { MainModalComponent } from "./modal/main-modal.component";
+import { DynamicFormDirective } from './modal/dynamic-form.directive';
+import { CommentComponent } from "./form/comment.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { NoteStarComponent } from './component/ui/note-star.component';
     LoadingComponent,
     CarServiceComponent,
     ClientNoteComponent,
-    NoteStarComponent
+    CommentComponent,
+    NoteStarComponent,
+    MainModalComponent,
+    DynamicFormDirective,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,7 @@ import { NoteStarComponent } from './component/ui/note-star.component';
     StoreModule.forRoot({ heading: headingReducer }, {}),
     FormsModule,
   ],
-  providers: [],
+  providers: [DynamicFormDirective],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {
