@@ -7,7 +7,7 @@ import { ClientNoteService } from "../services/client-note.service";
 @Component({
   selector: 'app-home',
   template: `
-    <div id="home" class="container-lg m-auto d-flex flex-column justify-content-start flex-md-row pt-2">
+    <div id="home" class="container-lg m-auto d-flex flex-column justify-content-start flex-md-row pt-2 px-0">
       <div id="services" class="flex-md-grow-1 flex-md-shrink-1 home-component" [ngClass]="{'enabled': topBottom}">
         <h3 class="h4 f-rajdhani component-title" (click)="collapse('top')">
           <span>Services</span><i class="bi bi-caret-left-fill d-md-none" [ngClass]="{'enabled': topBottom}"></i>
@@ -54,14 +54,22 @@ import { ClientNoteService } from "../services/client-note.service";
         position: relative;
 
         .component-title {
+          z-index: 20;
           padding: .5rem .9rem;
           margin: 0;
           display: flex;
           justify-content: space-between;
+          box-shadow:
+            0 16px 8px -8px rgba(0, 0, 0, 0.2),
+            0 16px 8px -12px #f2f2f2 inset
+          ;
           flex-shrink: 0;
           user-select: none;
           -moz-user-select: none;
           -webkit-user-select: none;
+          background-image: linear-gradient( to right,
+              transparent, white, white, transparent
+          );
 
           i {
             transition: transform 200ms ease;
@@ -74,14 +82,15 @@ import { ClientNoteService } from "../services/client-note.service";
 
 
         .list {
+          z-index: 19;
           display: flex;
           flex-direction: column;
           gap: .8rem;
-          padding: 0 .9rem;
-          padding-bottom: 1rem;
+          padding: .6rem .7rem;
           overflow-y: auto;
+
           &.create {
-            padding-bottom: 2.5rem;
+            padding-bottom: 3.4rem;
           }
         }
       }
@@ -100,6 +109,7 @@ import { ClientNoteService } from "../services/client-note.service";
             outline: 2px solid rgba(0, 0, 0, 0.2);
             outline-offset: -4px;
             border-radius: .4rem;
+            background-image: none;
           }
 
           .list {
@@ -107,6 +117,7 @@ import { ClientNoteService } from "../services/client-note.service";
             opacity: 0;
             visibility: hidden;
             overflow-x: hidden;
+            margin-right: .3rem;
           }
 
           &.enabled {
@@ -121,9 +132,6 @@ import { ClientNoteService } from "../services/client-note.service";
             .list {
               visibility: visible;
               opacity: 1;
-              &.create {
-                padding-bottom: 2.5rem;
-              }
             }
           }
         }
@@ -157,9 +165,13 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  collapse($el:string) {
-    this.topBottom = $el === "top";
-  }
+  collapse = ($el:string): any => {
+    if (window.innerWidth > 768) {
+      return false;
+    }
+      this.topBottom = $el === "top";
+
+  };
 
 
 }
