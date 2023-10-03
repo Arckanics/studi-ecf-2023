@@ -5,7 +5,9 @@ import { Component, Input } from '@angular/core';
   template: `
       <div class="card bg-white rounded-2 position-relative car-card pb-2 shadow">
         <div class="car-price bg-dark rounded-2 text-white px-2">{{car.price}}€</div>
-        <img [src]="car.mainPicture" class="card-img-top ratio-16x9 w-100 rounded-top-2" [alt]="car.name">
+        <div class="card-img-top ratio-16x9 car-pic rounded-top-2 overflow-hidden">
+          <img [src]="car.mainPicture" [alt]="car.name">
+        </div>
         <div class="card-body p-2 px-3">
           <h5 class="card-title mb-2 car-name">{{car.name}}</h5>
           <div class="card-text text-secondary">
@@ -14,7 +16,7 @@ import { Component, Input } from '@angular/core';
             <p>Kilomètres : {{car.km}}</p>
           </div>
           <hr class="mt-0">
-          <div class="car-under-price">
+          <div class="car-under-price mb-3">
             {{car.price}}€
           </div>
           <button class="btn btn-dark btn-sm m-auto d-block">Détails</button>
@@ -28,13 +30,27 @@ import { Component, Input } from '@angular/core';
         outline: 4px solid transparent;
         outline-offset: 4px;
         transition: outline-color 200ms ease;
+        height: 100%;
 
         &:hover {
           outline-color: rgba(0, 0, 0, 0.4);
         }
 
         .car-name {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .car-pic {
+          display: block;
+          max-height: 218px;
+          max-width: 100%;
+          img {
+            display: block;
+            max-width: 100%;
+            object-fit: cover;
+            margin: auto;
+          }
         }
       }
 
