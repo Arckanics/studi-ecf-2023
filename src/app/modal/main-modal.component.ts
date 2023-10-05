@@ -1,13 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DynamicFormDirective } from "./dynamic-form.directive";
-import { CommentComponent } from "../form/comment.component";
 import { modalState } from "../../store/modal/modal.reducer";
 import { Store } from "@ngrx/store";
+import { ToggleModal } from "../../store/modal/modal.actions";
 @Component({
   selector: 'app-main-modal',
   template: `
     <div id="modal-window">
-      <ng-template formComp [component]="component"></ng-template>
+      <div class="modal d-block position-absolute" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header p-1">
+              <h5 class="modal-title px-2">{{titles[component]}}</h5>
+              <button type="button" class="btn-close m-1" aria-label="Close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body p-2">
+              <ng-template
+                formComp [component]="component"
+                formClass="rounded-2 p-1"
+              ></ng-template>
+            </div>
+            <div class="modal-footer p-1">
+              <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Fermer</button>
+              <button type="button" class="btn btn-primary">Envoyer</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>`,
   styles: [
     `
@@ -34,7 +53,11 @@ import { Store } from "@ngrx/store";
 export class MainModalComponent implements OnInit {
 
   @ViewChild(DynamicFormDirective) formComp!: DynamicFormDirective
-  public component: any = CommentComponent;
+  public component: any = '';
+  public titles: any = {
+    comment: 'Témoignage',
+    contact: 'Nous contacter'
+  }
   constructor(
     public dynamicComp: DynamicFormDirective,
     private store: Store<{modal:any}>
@@ -46,6 +69,10 @@ export class MainModalComponent implements OnInit {
     this.store.select('modal').forEach((prop: modalState) => {
       this.component = prop.item
     })
+  }
+
+  closeModal() {
+    this.store.dispatch(new ToggleModal(false))
   }
 
 }

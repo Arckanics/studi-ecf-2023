@@ -26,6 +26,7 @@ import { CommentComponent } from "./form/comment.component";
 import { modalReducer } from "../store/modal/modal.reducer";
 import { headingReducer } from "../store/nav/heading.reducer";
 import { ContactComponent } from './form/contact.component';
+import { NoteInputComponent } from './component/ui/note-input.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ContactComponent } from './form/contact.component';
     MainModalComponent,
     DynamicFormDirective,
     ContactComponent,
+    NoteInputComponent,
   ],
   imports: [
     BrowserModule,
