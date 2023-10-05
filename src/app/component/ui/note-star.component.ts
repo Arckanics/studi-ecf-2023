@@ -3,12 +3,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 @Component({
   selector: 'app-note-star',
   template: `
-    <div class="star-container d-flex gap-2 px-1 gap-md-3" [ngClass]="{
-     'justify-content-evenly bigger form-control py-2': fullWidth
+    <div class="star-container d-flex gap-2 gap-md-3" [ngClass]="{
+     'bigger form-control py-3 px-0': fullWidth
     }">
-      <i class="bi bi-star-fill" *ngFor="let s of toLoop(stars)"></i>
-      <i class="bi bi-star-half" *ngIf="half"></i>
-      <i class="bi bi-star" *ngFor="let s of toLoop(empty)"></i>
+      <i class="bi bi-star-fill m-auto" *ngFor="let s of toLoop(stars)"></i>
+      <i class="bi bi-star-half m-auto" *ngIf="half"></i>
+      <i class="bi bi-star m-auto" *ngFor="let s of toLoop(empty)"></i>
     </div>
   `,
   styles: [
@@ -24,6 +24,18 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
         font-size: 1rem;
         &.bigger {
           font-size: 1.6rem;
+          transition: color 200ms ease;
+          justify-content: space-around;
+          gap: 0 !important;
+          i {
+            &::before {
+              margin: auto;
+              display: block;
+            }
+          }
+          &:hover {
+            color: #d92332;
+          }
         }
       }
 
