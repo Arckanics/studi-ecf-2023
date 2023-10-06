@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
@@ -27,9 +27,9 @@ import { FormControl, FormGroup } from "@angular/forms";
     `
   ]
 })
-export class CommentComponent {
+export class CommentComponent implements OnInit, OnDestroy {
   @Input() formClass: string = ''
-  @Output() formSubmit = new EventEmitter<FormGroup>()
+  @Output() formUpdate = new EventEmitter<FormGroup>()
   commentForm: any = new FormGroup({
     name: new FormControl(''),
     message: new FormControl(''),
@@ -37,13 +37,18 @@ export class CommentComponent {
   })
 
   submitForm($event:any) {
-    $event.preventDefault()
-    this.formSubmit.emit()
+    if ($event) {
+      $event.preventDefault()
+    }
+    this.formUpdate.emit(this.commentForm.value)
   }
   ngOnInit() {
+    this.commentForm.valueChanges.subscribe(() => {
+      this.submitForm(null)
+    })
   }
 
-  ngOnChanges() {
-    console.log(this.commentForm)
+  ngOnDestroy() {
+    this.commentForm.valueChanges.unsubscribe()
   }
 }

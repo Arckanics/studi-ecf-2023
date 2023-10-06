@@ -18,6 +18,7 @@ import { ToggleModal } from "../../store/modal/modal.actions";
               <ng-template
                 formComp [component]="component"
                 formClass="rounded-2 p-1"
+                (formUpdate)="updateForm($event)"
               >
 
               </ng-template>
@@ -60,6 +61,12 @@ export class MainModalComponent implements OnInit {
     comment: 'Témoignage',
     contact: 'Nous contacter'
   }
+  public urls: any = {
+    comment: 'commentaires',
+    contact: 'contact'
+  }
+  private data: any
+  private url:string = ""
   constructor(
     public dynamicComp: DynamicFormDirective,
     private store: Store<{modal:any}>
@@ -70,6 +77,7 @@ export class MainModalComponent implements OnInit {
   ngOnInit() {
     this.store.select('modal').forEach((prop: modalState) => {
       this.component = prop.item
+      this.url = this.urls[prop.item]
     })
   }
 
@@ -77,4 +85,7 @@ export class MainModalComponent implements OnInit {
     this.store.dispatch(new ToggleModal(false))
   }
 
+  updateForm($event: object) {
+    this.data = {...$event}
+  }
 }
