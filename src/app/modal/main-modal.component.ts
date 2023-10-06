@@ -85,7 +85,7 @@ export class MainModalComponent implements OnInit {
     this.store.dispatch(new ToggleModal(false))
   }
 
-  updateForm($event: object) {
-    this.data = {...$event}
+  updateForm($event: any) {
+    this.data = {...$event.value}
   }
 }
