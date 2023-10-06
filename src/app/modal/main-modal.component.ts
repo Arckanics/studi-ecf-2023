@@ -18,7 +18,9 @@ import { ToggleModal } from "../../store/modal/modal.actions";
               <ng-template
                 formComp [component]="component"
                 formClass="rounded-2 p-1"
-              ></ng-template>
+              >
+
+              </ng-template>
             </div>
             <div class="modal-footer p-1">
               <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Fermer</button>
