@@ -199,7 +199,7 @@
       "text": "Nouse reprenons votre véhicules. Pour tout achat de véhicules neuf, nous nous engagons à reprendre le votre"
     }
   ],
-  "commentaire": [
+  "commentaires": [
     {
       "id": 1,
       "name": "John Doe",
@@ -262,6 +262,24 @@
       "message": "Très déçue de la relation client",
       "note": 1,
       "enabled": true
+    }
+  ],
+  "horaires": [
+    {
+      "id": 1,
+      "day": 0,
+      "begin": "09:00",
+      "end": "12:00"
+    },{
+      "id": 2,
+      "day": 0,
+      "begin": "14:00",
+      "end": "17:00"
+    },{
+      "id": 3,
+      "day": 1,
+      "begin": "09:00",
+      "end": "12:00"
     }
   ]
 }

@@ -8,7 +8,7 @@ import { catchError } from "rxjs";
 })
 export class ClientNoteService extends AbstractService{
 
-  url: string = 'http://localhost:3000/commentaire'
+  url: string = 'http://localhost:3000/commentaires'
   constructor(private http: HttpClient) {super()}
 
   getFrontComments() {
