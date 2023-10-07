@@ -39,6 +39,7 @@ export class DynamicFormDirective implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.clear();
     this.enableComponent()
+
   }
 
   ngAfterViewInit() {

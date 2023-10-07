@@ -11,8 +11,10 @@ import { SetModalItem, ToggleModal } from "../../store/modal/modal.actions";
           <app-button btnCls="btn btn-outline-dark btn-sm" iconCls="bi bi-person-fill">
             Connexion
           </app-button>
-          <app-button btnCls="btn btn-secondary btn-sm" iconCls="bi bi-info-circle">
-            Informations
+          <app-button btnCls="btn btn-secondary btn-sm" iconCls="bi bi-calendar"
+            (click)="hoursWindow()"
+          >
+            Horaires
           </app-button>
           <app-button btnCls="btn btn-primary btn-sm" iconCls="bi bi-envelope" (click)="contactForm()">
             Nous contacter
@@ -29,7 +31,12 @@ export class FooterComponent {
   constructor(private store: Store<{modal:any}>) {
   }
   contactForm() {
-    this.store.dispatch(new SetModalItem('contact'))
+    this.store.dispatch(new SetModalItem({ item: 'contact', static: false }))
+    this.store.dispatch(new ToggleModal(true))
+  }
+
+  hoursWindow() {
+    this.store.dispatch(new SetModalItem({ item: 'hours', static: true }))
     this.store.dispatch(new ToggleModal(true))
   }
 }

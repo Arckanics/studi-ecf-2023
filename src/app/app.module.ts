@@ -17,6 +17,7 @@ import { modalReducer } from "../store/modal/modal.reducer";
 import { headingReducer } from "../store/nav/heading.reducer";
 import { ContactComponent } from './form/contact.component';
 import { ComponentsModule } from "./component/components.module";
+import { StaticCompDirective } from './modal/static-comp.directive';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ComponentsModule } from "./component/components.module";
     MainModalComponent,
     DynamicFormDirective,
     ContactComponent,
+    StaticCompDirective,
   ],
   imports: [
     BrowserModule,

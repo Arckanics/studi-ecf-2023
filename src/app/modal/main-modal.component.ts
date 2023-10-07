@@ -3,6 +3,8 @@ import { DynamicFormDirective } from "./dynamic-form.directive";
 import { modalState } from "../../store/modal/modal.reducer";
 import { Store } from "@ngrx/store";
 import { ToggleModal } from "../../store/modal/modal.actions";
+import { StaticCompDirective } from "./static-comp.directive";
+
 @Component({
   selector: 'app-main-modal',
   template: `
@@ -15,15 +17,20 @@ import { ToggleModal } from "../../store/modal/modal.actions";
               <button type="button" class="btn-close m-1" aria-label="Close" (click)="closeModal()"></button>
             </div>
             <div class="modal-body p-2">
-              <ng-template
-                formComp [component]="component"
-                formClass="rounded-2 p-1"
-                (formUpdate)="updateForm($event)"
+              <ng-template *ngIf="!static"
+                           formComp [component]="component"
+                           formClass="rounded-2 p-1"
+                           (formUpdate)="updateForm($event)"
+              >
+              </ng-template>
+              <ng-template *ngIf="static"
+                           appStaticComp [component]="component"
+                           mainClasses="rounded-2 p-1"
               >
 
               </ng-template>
             </div>
-            <div class="modal-footer p-1">
+            <div class="modal-footer p-1" *ngIf="!static">
               <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Fermer</button>
               <button type="button" class="btn btn-primary">Envoyer</button>
             </div>
@@ -56,20 +63,25 @@ import { ToggleModal } from "../../store/modal/modal.actions";
 export class MainModalComponent implements OnInit {
 
   @ViewChild(DynamicFormDirective) formComp!: DynamicFormDirective
+  @ViewChild(StaticCompDirective) appStaticComp!: StaticCompDirective
   public component: any = '';
   public titles: any = {
     comment: 'Témoignage',
-    contact: 'Nous contacter'
+    contact: 'Nous contacter',
+    hours: 'Horaires'
   }
   public urls: any = {
     comment: 'commentaires',
-    contact: 'contact'
+    contact: 'contact',
+    hours: 'horaires'
   }
+  public static: boolean = false
   private data: any
-  private url:string = ""
+  private url: string = ""
+
   constructor(
     public dynamicComp: DynamicFormDirective,
-    private store: Store<{modal:any}>
+    private store: Store<{ modal: any }>
   ) {
 
   }
@@ -77,6 +89,7 @@ export class MainModalComponent implements OnInit {
   ngOnInit() {
     this.store.select('modal').forEach((prop: modalState) => {
       this.component = prop.item
+      this.static = prop.static
       this.url = this.urls[prop.item]
     })
   }
@@ -86,6 +99,6 @@ export class MainModalComponent implements OnInit {
   }
 
   updateForm($event: any) {
-    this.data = {...$event.value}
+    this.data = { ...$event.value }
   }
 }

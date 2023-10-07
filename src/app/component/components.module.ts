@@ -12,6 +12,8 @@ import { NoteStarComponent } from "./ui/note-star.component";
 import { CommonModule } from "@angular/common";
 import { LongNumberPipe } from "../pipes/long-number.pipe";
 import { ReactiveFormsModule } from "@angular/forms";
+import { HoursComponent } from './hours.component';
+import { HttpClientModule } from "@angular/common/http";
 
 
 
@@ -28,6 +30,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     NoteInputComponent,
     NoteStarComponent,
     LongNumberPipe,
+    HoursComponent,
   ],
   exports: [
     ContentHeaderComponent,
@@ -45,6 +48,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 
   imports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
   ]
 })

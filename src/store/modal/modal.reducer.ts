@@ -2,9 +2,12 @@ import { ModalActionTypes } from "./modal.actions";
 
 export interface modalState {
   open: boolean,
-  item: string
+  item: string,
+  static: boolean
 }
+
 export const initialState: modalState = {
+  static: false,
   open: false,
   item: ''
 }
@@ -17,10 +20,11 @@ export const modalReducer = (state: any = initialState, action: any) => {
         open: action.payload
       }
     case ModalActionTypes.SetModalItem:
-      return {
+      return !state.open ? {
         ...state,
-        item: action.payload
-      }
+        item: action.payload.item,
+        static: action.payload.static
+      } : { ...state }
     default:
       return state
   }

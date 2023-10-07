@@ -6,7 +6,7 @@ import { catchError } from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class ClientNoteService extends AbstractService{
+export class ClientNoteService extends AbstractService {
 
   url: string = 'http://localhost:3000/commentaires'
   constructor(private http: HttpClient) {super()}

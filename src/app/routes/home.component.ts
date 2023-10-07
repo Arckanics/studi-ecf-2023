@@ -26,8 +26,9 @@ import { SetModalItem, ToggleModal } from "../../store/modal/modal.actions";
           <app-loading *ngIf="!comments$"></app-loading>
           <app-client-note *ngFor="let comment of comments$" [comment]="comment"></app-client-note>
           <app-button (click)="openModal()"
-            btnCls="btn btn-secondary position-absolute bottom-0 end-0 m-1 mx-3 shadow"
-            iconCls="bi bi-plus">Ajouter</app-button>
+                      btnCls="btn btn-secondary position-absolute bottom-0 end-0 m-1 mx-3 shadow"
+                      iconCls="bi bi-plus">Ajouter
+          </app-button>
         </div>
       </div>
     </div>
@@ -60,16 +61,14 @@ import { SetModalItem, ToggleModal } from "../../store/modal/modal.actions";
           margin: 0;
           display: flex;
           justify-content: space-between;
-          box-shadow:
-            0 16px 8px -8px rgba(0, 0, 0, 0.2),
-            0 16px 8px -12px #f2f2f2 inset
-          ;
+          box-shadow: 0 16px 8px -8px rgba(0, 0, 0, 0.2),
+          0 16px 8px -12px #f2f2f2 inset;
           flex-shrink: 0;
           user-select: none;
           -moz-user-select: none;
           -webkit-user-select: none;
-          background-image: linear-gradient( to right,
-              transparent, white, white, transparent
+          background-image: linear-gradient(to right,
+            transparent, white, white, transparent
           );
 
           i {
@@ -145,6 +144,7 @@ export class HomeComponent implements OnInit {
   features$: any = null
   comments$: any = null
   topBottom: boolean = true
+
   constructor(
     private store: Store<{ heading: string, modal: any }>,
     private features: HomeFeatureService,
@@ -156,24 +156,28 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.features.getFeatures().subscribe({
       next: (data: any) => this.features$ = data,
-      error: (err:any) => console.log(err),
-      complete: () => {}
+      error: (err: any) => console.log(err),
+      complete: () => {
+      }
     })
     this.comments.getFrontComments().subscribe({
       next: (data: any) => this.comments$ = data,
-      error: (err:any) => console.log(err),
-      complete: () => {}
+      error: (err: any) => console.log(err),
+      complete: () => {
+      }
     })
   }
+
   openModal() {
+    this.store.dispatch(new SetModalItem({ item: 'comment', static: false }))
     this.store.dispatch(new ToggleModal(true))
-    this.store.dispatch(new SetModalItem('comment'))
   }
-  collapse = ($el:string): any => {
+
+  collapse = ($el: string): any => {
     if (window.innerWidth > 768) {
       return false;
     }
-      this.topBottom = $el === "top";
+    this.topBottom = $el === "top";
 
   };
 
