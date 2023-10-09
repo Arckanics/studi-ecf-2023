@@ -11,9 +11,9 @@ import { StaticCompDirective } from "./static-comp.directive";
     <div id="modal-window">
       <div class="modal d-block position-absolute" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
+          <div class="modal-content bg-white">
             <div class="modal-header p-1">
-              <h5 class="modal-title px-2">{{titles[component]}}</h5>
+              <h5 class="modal-title px-2 fw-bold">{{titles[component]}}</h5>
               <button type="button" class="btn-close m-1" aria-label="Close" (click)="closeModal()"></button>
             </div>
             <div class="modal-body p-2">
