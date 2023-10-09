@@ -30,9 +30,9 @@ import { StaticCompDirective } from "./static-comp.directive";
 
               </ng-template>
             </div>
-            <div class="modal-footer p-1" *ngIf="!static">
-              <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Fermer</button>
-              <button type="button" class="btn btn-primary">Envoyer</button>
+            <div class="modal-footer p-1" >
+              <button *ngIf="static" type="button" class="btn btn-outline-dark" (click)="closeModal()">Fermer</button>
+              <button *ngIf="!static" type="button" class="btn btn-primary">{{submitName()}}</button>
             </div>
           </div>
         </div>
@@ -68,12 +68,14 @@ export class MainModalComponent implements OnInit {
   public titles: any = {
     comment: 'Témoignage',
     contact: 'Nous contacter',
-    hours: 'Horaires'
+    hours: 'Horaires',
+    login: 'Connexion'
   }
   public urls: any = {
     comment: 'commentaires',
     contact: 'contact',
-    hours: 'horaires'
+    hours: 'horaires',
+    login: 'login'
   }
   public static: boolean = false
   private data: any
@@ -100,5 +102,14 @@ export class MainModalComponent implements OnInit {
 
   updateForm($event: any) {
     this.data = { ...$event.value }
+  }
+
+  submitName() {
+    switch (this.component) {
+      case 'login':
+        return 'Connecter'
+      default:
+        return 'Envoyer'
+    }
   }
 }

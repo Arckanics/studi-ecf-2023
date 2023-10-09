@@ -48,10 +48,10 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
   styles: [
     `
       .form-control {
-        &.ng-invalid.ng-touched {
+        &.ng-invalid.ng-touched.ng-dirty {
           border-color: rgba(217, 13, 33, 0.5);
         }
-        &.ng-valid.ng-touched {
+        &.ng-valid.ng-touched.ng-dirty {
           border-color: #198754;
         }
       }

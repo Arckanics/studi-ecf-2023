@@ -8,28 +8,30 @@ import { SetModalItem, ToggleModal } from "../../store/modal/modal.actions";
     <footer class="container-fluid shadow-lg border-dark border-top flex-shrink-0">
       <div class="container m-auto">
         <div class="container p-3 px-4 d-flex justify-content-between">
-          <app-button btnCls="btn btn-outline-dark btn-sm" iconCls="bi bi-person-fill">
+          <app-button btnCls="btn btn-outline-dark btn-sm" iconCls="bi bi-person-fill"
+          (click)="loginForm()">
             Connexion
           </app-button>
           <app-button btnCls="btn btn-secondary btn-sm" iconCls="bi bi-calendar"
-            (click)="hoursWindow()"
+                      (click)="hoursWindow()"
           >
             Horaires
           </app-button>
-          <app-button btnCls="btn btn-primary btn-sm" iconCls="bi bi-envelope" (click)="contactForm()">
+          <app-button btnCls="btn btn-primary btn-sm" iconCls="bi bi-envelope"
+                      (click)="contactForm()">
             Nous contacter
           </app-button>
         </div>
       </div>
     </footer>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class FooterComponent {
 
-  constructor(private store: Store<{modal:any}>) {
+  constructor(private store: Store<{ modal: any }>) {
   }
+
   contactForm() {
     this.store.dispatch(new SetModalItem({ item: 'contact', static: false }))
     this.store.dispatch(new ToggleModal(true))
@@ -37,6 +39,11 @@ export class FooterComponent {
 
   hoursWindow() {
     this.store.dispatch(new SetModalItem({ item: 'hours', static: true }))
+    this.store.dispatch(new ToggleModal(true))
+  }
+
+  loginForm() {
+    this.store.dispatch(new SetModalItem({ item: 'login', static: false }))
     this.store.dispatch(new ToggleModal(true))
   }
 }

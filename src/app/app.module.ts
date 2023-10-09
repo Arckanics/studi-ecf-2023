@@ -18,6 +18,7 @@ import { headingReducer } from "../store/nav/heading.reducer";
 import { ContactComponent } from './form/contact.component';
 import { ComponentsModule } from "./component/components.module";
 import { StaticCompDirective } from './modal/static-comp.directive';
+import { LoginComponent } from './form/login.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { StaticCompDirective } from './modal/static-comp.directive';
     DynamicFormDirective,
     ContactComponent,
     StaticCompDirective,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
