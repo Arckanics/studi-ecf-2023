@@ -3,13 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: "front-modules",
+    path: "admin",
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: "front-module",
     loadChildren: () => import('./front/front.module').then(m => m.FrontModule)
   }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
+  imports: [ RouterModule.forRoot(routes,{ enableTracing: true }) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {
