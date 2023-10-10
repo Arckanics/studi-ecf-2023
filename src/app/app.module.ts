@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from "@angular/common/http";
-import { DynamicFormDirective } from './modal/dynamic-form.directive';
 import { modalReducer } from "../store/modal/modal.reducer";
 import { headingReducer } from "../store/nav/heading.reducer";
 import { ComponentsModule } from "./component/components.module";
@@ -22,7 +21,6 @@ import { FrontModule } from "./front/front.module";
     StoreModule.forRoot({ heading: headingReducer, modal: modalReducer }, {}),
     FrontModule,
   ],
-  providers: [ DynamicFormDirective ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

@@ -11,6 +11,7 @@ import { ContactComponent } from "../form/contact.component";
 import { StaticCompDirective } from "../modal/static-comp.directive";
 import { LoginComponent } from "../form/login.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MainModalComponent } from "../modal/main-modal.component";
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ContactComponent,
     StaticCompDirective,
     LoginComponent,
+    MainModalComponent
   ],
   imports: [
     CommonModule,
@@ -31,5 +33,14 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ReactiveFormsModule,
     FormsModule,
   ],
+  exports: [
+    CommonModule,
+    DynamicFormDirective,
+    MainModalComponent
+  ],
+  providers: [
+    DynamicFormDirective,
+    StaticCompDirective
+  ]
 })
 export class FrontModule { }
