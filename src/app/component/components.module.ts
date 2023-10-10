@@ -17,6 +17,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { HeaderComponent } from "../header/header.component";
 import { NavigationComponent } from "../navigation/navigation.component";
 import { AppRoutingModule } from "../app-routing.module";
+import { MainModalComponent } from "../modal/main-modal.component";
+import { FooterComponent } from "../footer/footer.component";
 
 
 
@@ -36,6 +38,8 @@ import { AppRoutingModule } from "../app-routing.module";
     NoteStarComponent,
     LongNumberPipe,
     HoursComponent,
+    MainModalComponent,
+    FooterComponent
   ],
   exports: [
     HeaderComponent,
@@ -51,6 +55,8 @@ import { AppRoutingModule } from "../app-routing.module";
     NoteInputComponent,
     NoteStarComponent,
     LongNumberPipe,
+    MainModalComponent,
+    FooterComponent
   ],
 
   imports: [
