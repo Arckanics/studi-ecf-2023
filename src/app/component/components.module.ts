@@ -14,11 +14,16 @@ import { LongNumberPipe } from "../pipes/long-number.pipe";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HoursComponent } from './hours.component';
 import { HttpClientModule } from "@angular/common/http";
+import { HeaderComponent } from "../header/header.component";
+import { NavigationComponent } from "../navigation/navigation.component";
+import { AppRoutingModule } from "../app-routing.module";
 
 
 
 @NgModule({
   declarations: [
+    HeaderComponent,
+    NavigationComponent,
     ContentHeaderComponent,
     ClientNoteComponent,
     CarServiceComponent,
@@ -33,6 +38,8 @@ import { HttpClientModule } from "@angular/common/http";
     HoursComponent,
   ],
   exports: [
+    HeaderComponent,
+    NavigationComponent,
     ContentHeaderComponent,
     ClientNoteComponent,
     CarServiceComponent,
@@ -50,6 +57,7 @@ import { HttpClientModule } from "@angular/common/http";
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
+    AppRoutingModule
   ]
 })
 export class ComponentsModule { }
