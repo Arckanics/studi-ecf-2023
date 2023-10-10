@@ -281,5 +281,18 @@
       "begin": "09:00",
       "end": "12:00"
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "role": "user",
+      "email": "employee@garage.fr",
+      "password": "pass"
+    },{
+      "id": 2,
+      "role": "admin",
+      "email": "admin@garage.fr",
+      "password": "pass"
+    }
   ]
 }

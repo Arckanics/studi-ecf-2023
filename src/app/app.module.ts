@@ -19,6 +19,7 @@ import { ContactComponent } from './form/contact.component';
 import { ComponentsModule } from "./component/components.module";
 import { StaticCompDirective } from './modal/static-comp.directive';
 import { LoginComponent } from './form/login.component';
+import { AppFrontComponent } from './app-front/app-front.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LoginComponent } from './form/login.component';
     ContactComponent,
     StaticCompDirective,
     LoginComponent,
+    AppFrontComponent,
   ],
   imports: [
     BrowserModule,

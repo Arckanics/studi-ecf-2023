@@ -4,6 +4,7 @@ import { modalState } from "../../store/modal/modal.reducer";
 import { Store } from "@ngrx/store";
 import { ToggleModal } from "../../store/modal/modal.actions";
 import { StaticCompDirective } from "./static-comp.directive";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-main-modal',
@@ -13,7 +14,13 @@ import { StaticCompDirective } from "./static-comp.directive";
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content bg-white">
             <div class="modal-header p-1">
-              <h5 class="modal-title px-2 fw-bold">{{titles[component]}}</h5>
+              <h5 class="modal-title px-2 fw-bold">
+                {{titles[component]}}
+                <span *ngIf="wrongThings" class="d-inline text-danger small">
+                  (Erreur Client)
+                </span>
+              </h5>
+
               <button type="button" class="btn-close m-1" aria-label="Close" (click)="closeModal()"></button>
             </div>
             <div class="modal-body p-2">
@@ -32,7 +39,7 @@ import { StaticCompDirective } from "./static-comp.directive";
             </div>
             <div class="modal-footer p-1" >
               <button *ngIf="static" type="button" class="btn btn-outline-dark" (click)="closeModal()">Fermer</button>
-              <button *ngIf="!static" type="button" class="btn btn-primary">{{submitName()}}</button>
+              <button *ngIf="!static" type="button" class="btn btn-primary" (click)="requestParse()">{{submitName()}}</button>
             </div>
           </div>
         </div>
@@ -75,15 +82,17 @@ export class MainModalComponent implements OnInit {
     comment: 'commentaires',
     contact: 'contact',
     hours: 'horaires',
-    login: 'login'
+    login: 'users'
   }
   public static: boolean = false
   private data: any
   private url: string = ""
+  wrongThings: any;
 
   constructor(
     public dynamicComp: DynamicFormDirective,
-    private store: Store<{ modal: any }>
+    private store: Store<{ modal: any }>,
+    private http: HttpClient
   ) {
 
   }
@@ -101,6 +110,7 @@ export class MainModalComponent implements OnInit {
   }
 
   updateForm($event: any) {
+    this.wrongThings = false
     this.data = { ...$event.value }
   }
 
@@ -111,5 +121,40 @@ export class MainModalComponent implements OnInit {
       default:
         return 'Envoyer'
     }
+  }
+
+  requestParse() {
+    // front dev login requests
+    // not for production
+    const {urls, component, data, http} = this
+    const host = window.location.host.replace(/[0-9]+/g, '3000')
+    const proto = window.location.protocol
+    const assert = (v:any):boolean => {
+      switch (true){
+        case typeof v === "boolean":
+          return true
+        case typeof v.length && v.length > 0:
+          return true
+        case typeof v === "number":
+          return true
+        default:
+          return false
+      }
+    }
+    const formatData = (data:any): Array<string|undefined> =>
+      Object.entries(data).map(([k,v]) =>
+        assert(v) ? `${k}_like=${v}` : undefined)
+        .filter(x => x !== undefined)
+
+
+    const req = {
+      url: `${proto}//${host}/${urls[component]}`,
+      body: `?${ formatData(data).join('&') }`
+    }
+    http.get(req.url+req.body).subscribe((res: any) => {
+      if (res.length == 0) {
+        this.wrongThings = true
+      }
+    })
   }
 }
