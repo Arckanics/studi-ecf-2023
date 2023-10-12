@@ -285,13 +285,13 @@
   "users": [
     {
       "id": 1,
-      "role": "user",
-      "email": "employee@garage.fr",
+      "isAdmin": false,
+      "mail": "employee@garage.fr",
       "password": "pass"
     },{
       "id": 2,
-      "role": "admin",
-      "email": "admin@garage.fr",
+      "isAdmin": true,
+      "mail": "admin@garage.fr",
       "password": "pass"
     }
   ]

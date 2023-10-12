@@ -6,28 +6,30 @@ import { FormControl, FormGroup } from "@angular/forms";
   template: `
     <form (submit)="submitForm($event)" [formGroup]="loginForm" class="p-2">
 
-        <div class="mb-4">
-          <label class="form-label">Type de connexion</label>
-          <div class="btn-group w-100" role="group">
-            <div role="button" class="btn w-50" (click)="conectType(false)" [ngClass]="{
+      <div class="mb-4">
+        <label class="form-label">Type de connexion</label>
+        <div class="btn-group w-100" role="group">
+          <div role="button" class="btn w-50" (click)="conectType(false)" [ngClass]="{
             'btn-dark': !loginForm.value.isAdmin,
             'btn-outline-dark': loginForm.value.isAdmin
-          }">Employé</div>
-            <div role="button" class="btn w-50" (click)="conectType(true)" [ngClass]="{
+          }">Employé
+          </div>
+          <div role="button" class="btn w-50" (click)="conectType(true)" [ngClass]="{
             'btn-dark': loginForm.value.isAdmin,
             'btn-outline-dark': !loginForm.value.isAdmin
-          }">Administrateur</div>
+          }">Administrateur
           </div>
         </div>
-        <div class="mb-4">
-          <label class="form-label" for="email">Email</label>
-          <input
-            type="email" id="email" name="email"
-            class="form-control"
-            formControlName="email" placeholder="john@doe.fr">
-        </div>
+      </div>
       <div class="mb-4">
-        <label class="form-label" for="email">Mot de passe</label>
+        <label class="form-label" for="mail">Email</label>
+        <input
+          type="email" id="mail" name="mail"
+          class="form-control"
+          formControlName="mail" placeholder="john@doe.fr">
+      </div>
+      <div class="mb-4">
+        <label class="form-label" for="password">Mot de passe</label>
         <input
           type="password" id="password" name="password"
           class="form-control"
@@ -43,7 +45,7 @@ export class LoginComponent {
   @Output() formUpdate = new EventEmitter<FormGroup>()
   loginForm: any = new FormGroup({
     isAdmin: new FormControl(false),
-    email: new FormControl(''),
+    mail: new FormControl(''),
     password: new FormControl('')
   })
   submitForm($event: any) {

@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import { ToggleModal } from "../../store/modal/modal.actions";
 import { StaticCompDirective } from "./static-comp.directive";
 import { HttpClient } from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-main-modal',
@@ -92,7 +93,8 @@ export class MainModalComponent implements OnInit {
   constructor(
     public dynamicComp: DynamicFormDirective,
     private store: Store<{ modal: any }>,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
 
   }
@@ -123,7 +125,7 @@ export class MainModalComponent implements OnInit {
     }
   }
 
-  requestParse() {
+  requestParse(): boolean {
     // front dev login requests
     // not for production
     const {urls, component, data, http} = this
@@ -141,6 +143,14 @@ export class MainModalComponent implements OnInit {
           return false
       }
     }
+    if (component == 'login') {
+      if (!data) {
+        return false
+      }
+      if (data.mail.length == 0 || data.password.length == 0) {
+        return false
+      }
+    }
     const formatData = (data:any): Array<string|undefined> =>
       Object.entries(data).map(([k,v]) =>
         assert(v) ? `${k}_like=${v}` : undefined)
@@ -152,9 +162,20 @@ export class MainModalComponent implements OnInit {
       body: `?${ formatData(data).join('&') }`
     }
     http.get(req.url+req.body).subscribe((res: any) => {
-      if (res.length == 0) {
-        this.wrongThings = true
+      switch (true) {
+        case component == 'login':
+        case res.length > 0:
+          const ls = window.localStorage
+          ls.setItem('user_token', 'xxx')
+          ls.setItem('user_type', res.isAdmin ? "admin" : "user")
+          this.router.navigateByUrl("/admin").then(n => {
+            console.log(n)
+          })
+          break
+        case res.length == 0:
+          this.wrongThings = true
       }
     })
+    return true
   }
 }
