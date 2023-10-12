@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-admin',
   template: `
-    <div class="container-fluid overflow-hidden p-0 d-flex flex-column h-100">
+    <div id="app-container" class="container-fluid p-0">
       <header
         class="bg-white navbar border-bottom border-primary p-1 flex-shrink-0"
       >
@@ -28,12 +28,12 @@ import { Component } from '@angular/core';
           </li>
         </ul>
       </header>
-      <section id="content" class="flex-grow-1">
+      <section id="content" class="flex-shrink-1">
         <router-outlet></router-outlet>
       </section>
       <footer
         id="footer"
-        class="bg-white p-2 "
+        class="bg-white p-2 flex-shrink-0"
       >
         <span class="account-type">Role: {{getRole()}}</span>
       </footer>
@@ -43,6 +43,7 @@ import { Component } from '@angular/core';
   styles: [
     `
       :host {
+        overflow: hidden;
         display: block;
         box-sizing: border-box;
         height: 100dvh;
@@ -52,6 +53,22 @@ import { Component } from '@angular/core';
 
       #content {
         position: relative;
+        flex-shrink: 1;
+        overflow: auto;
+      }
+
+      #app-container {
+        overflow: hidden;
+        height: 100dvh;
+        max-height: 100dvh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+
+      }
+
+      #footer {
+        flex-shrink: 0;
       }
 
       .btn {
@@ -87,7 +104,6 @@ export class AdminComponent {
       return type[user];
     }
     this.list = initList()
-    console.log(this)
   }
 
   getRole() {
