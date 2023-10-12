@@ -12,6 +12,9 @@ import { StaticCompDirective } from "../modal/static-comp.directive";
 import { LoginComponent } from "../form/login.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MainModalComponent } from "../modal/main-modal.component";
+import { StoreModule } from "@ngrx/store";
+import { headingReducer } from "../../store/nav/heading.reducer";
+import { modalReducer } from "../../store/modal/modal.reducer";
 
 
 @NgModule({
@@ -31,6 +34,7 @@ import { MainModalComponent } from "../modal/main-modal.component";
     FrontRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({ heading: headingReducer, modal: modalReducer }, {}),
     FormsModule,
   ],
   exports: [

@@ -10,11 +10,11 @@ export type hourType = {
 @Component({
   selector: 'app-hours',
   template: `
-    <div class="position-relative h-cont px-4">
+    <div class="position-relative h-cont px-2">
       <app-loading *ngIf="!hours$"></app-loading>
         <div *ngFor="let hours of hours$; let i = index" class="day row g-2 justify-content-start">
           <ng-container *ngIf="hours">
-            <div class="col-2 flex-shrink-1 fw-bold">{{ dayNames[i] | slice:0:3 }} : </div>
+            <div class="col-2 flex-shrink-1 fw-bold">{{ dayNames[i] | slice:0:3 }}: </div>
             <div *ngFor="let h of hours" class="col-5 text-center">
               {{ h.begin }} - {{ h.end }}
             </div>
