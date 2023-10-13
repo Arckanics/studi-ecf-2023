@@ -28,12 +28,12 @@ import { Component } from '@angular/core';
           </li>
         </ul>
       </header>
-      <section id="content" class="flex-shrink-1">
+      <section id="content" class="flex-shrink-1 z-2">
         <router-outlet></router-outlet>
       </section>
       <footer
         id="footer"
-        class="bg-white p-2 flex-shrink-0"
+        class="bg-white p-2 flex-shrink-0 shadow-lg z-3"
       >
         <span class="account-type">Role: {{getRole()}}</span>
       </footer>
@@ -44,7 +44,8 @@ import { Component } from '@angular/core';
     `
       :host {
         overflow: hidden;
-        display: block;
+        display: flex;
+        flex-direction: column;
         box-sizing: border-box;
         height: 100dvh;
         width: 100vw;
@@ -55,13 +56,14 @@ import { Component } from '@angular/core';
         position: relative;
         flex-shrink: 1;
         overflow: auto;
+        flex-grow: 1;
       }
 
       #app-container {
         overflow: hidden;
-        height: 100dvh;
+        height: 100%;
         max-height: 100dvh;
-        width: 100vw;
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
 
@@ -69,6 +71,7 @@ import { Component } from '@angular/core';
 
       #footer {
         flex-shrink: 0;
+        border-top: 1px solid rgba(217, 35, 50, 0.2);
       }
 
       .btn {
