@@ -14,9 +14,17 @@ export type vehicle = {
 @Component({
   selector: 'app-vehicle',
   template: `
-    <p>
-      vehicle works!
-    </p>
+    <div>
+      <h3 class="fs-6 text-decoration-underline">{{car.name}}</h3>
+      <div class="d-flex gap-2">
+        <img [src]="car.mainPicture" class="img-fluid main-pic d-block" [alt]="car.mainPicture" />
+        <div>
+          <div>Année : {{car.year}}</div>
+          <div>KM : {{car.km}}</div>
+          <div>énergie : {{car.fuel}}</div>
+        </div>
+      </div>
+    </div>
   `,
   styles: [
     `
@@ -29,9 +37,15 @@ export type vehicle = {
         border-radius: .375rem;
         outline: 1px solid #d92332;
       }
+
+      .main-pic {
+        height: 120px;
+        overflow: hidden;
+        border-radius: .4rem;
+      }
     `
   ]
 })
 export class VehicleComponent {
-  @Input() vehicle!: vehicle
+  @Input() car!: vehicle
 }

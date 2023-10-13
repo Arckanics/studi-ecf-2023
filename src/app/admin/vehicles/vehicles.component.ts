@@ -6,7 +6,7 @@ import { DatabaseService } from "../service/database.service";
   selector: 'app-vehicles',
   template: `
     <app-loading *ngIf="!vehicles"></app-loading>
-    <app-vehicle *ngFor="let v of vehicles"></app-vehicle>
+    <app-vehicle *ngFor="let v of vehicles" [car]="v"></app-vehicle>
   `,
   styles: [
     `
