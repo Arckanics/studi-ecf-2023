@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 @Component({
   selector: 'app-comments',
   template: `
+    <app-loading *ngIf="!comments"></app-loading>
     <app-comment
         *ngFor="let c of comments" [comment]="c"
     ></app-comment>

@@ -5,6 +5,7 @@ import { DatabaseService } from "../service/database.service";
 @Component({
   selector: 'app-vehicles',
   template: `
+    <app-loading *ngIf="!vehicles"></app-loading>
     <app-vehicle *ngFor="let v of vehicles"></app-vehicle>
   `,
   styles: [
