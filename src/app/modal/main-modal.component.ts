@@ -162,12 +162,17 @@ export class MainModalComponent implements OnInit {
       body: `?${ formatData(data).join('&') }`
     }
     http.get(req.url+req.body).subscribe((res: any) => {
+      const response = res[0]
       switch (true) {
         case component == 'login':
         case res.length > 0:
           const ls = window.localStorage
+          const isAdmin = response.isAdmin === true ? "admin" : "user"
+
+          ls.removeItem('user_token')
+          ls.removeItem('user_type')
           ls.setItem('user_token', 'xxx')
-          ls.setItem('user_type', res.isAdmin ? "admin" : "user")
+          ls.setItem('user_type', isAdmin )
           this.router.navigateByUrl("/admin").then(n => {
             console.log(n)
           })

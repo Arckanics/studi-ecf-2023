@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-admin',
@@ -33,9 +34,10 @@ import { Component } from '@angular/core';
       </section>
       <footer
         id="footer"
-        class="bg-white p-2 flex-shrink-0 shadow-lg z-3"
+        class="bg-white p-2 flex-shrink-0 shadow-lg z-3 d-flex justify-content-between"
       >
-        <span class="account-type">Role: {{getRole()}}</span>
+        <span class="account-type d-block">Role: {{getRole()}}</span>
+        <button class="btn btn-dark btn-sm d-block" (click)="logOut()">Déconnexion</button>
       </footer>
     </div>
 
@@ -90,7 +92,9 @@ export class AdminComponent {
   list: any
   private ls
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     this.ls = window.localStorage
     const initList = () => {
       const type: any = {
@@ -111,7 +115,12 @@ export class AdminComponent {
 
   getRole() {
     const role = this.ls.getItem('user_type')
-
     return role === "admin" ? "administrateur" : "employé"
+  }
+
+  logOut() {
+    this.ls.removeItem('user_token')
+    this.ls.removeItem('user_type')
+    this.router.navigateByUrl("/")
   }
 }

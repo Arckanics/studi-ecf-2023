@@ -5,6 +5,8 @@ import { HomeComponent } from "./home/home.component";
 import { authGuard } from "./auth.guard";
 import { VehiclesComponent } from "./vehicles/vehicles.component";
 import { CommentsComponent } from "./comments/comments.component";
+import { CarServicesComponent } from "./car-services/car-services.component";
+import { HoursSetupComponent } from "./hours-setup/hours-setup.component";
 
 const routes: Routes = [
   {
@@ -14,6 +16,8 @@ const routes: Routes = [
     children: [
       { path: "vehicles", component: VehiclesComponent },
       { path: "comments", component: CommentsComponent },
+      { path: "services", component: CarServicesComponent },
+      { path: "hours", component: HoursSetupComponent },
       { path: "", component: HomeComponent}
     ]
   }

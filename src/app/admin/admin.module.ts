@@ -8,6 +8,8 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { CommentsComponent } from './comments/comments.component';
 import { ComponentModule } from "./component/component.module";
 import { ComponentsModule } from "../component/components.module";
+import { CarServicesComponent } from './car-services/car-services.component';
+import { HoursSetupComponent } from './hours-setup/hours-setup.component';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import { ComponentsModule } from "../component/components.module";
     AdminComponent,
     VehiclesComponent,
     CommentsComponent,
+    CarServicesComponent,
+    HoursSetupComponent,
   ],
   imports: [
     CommonModule,
