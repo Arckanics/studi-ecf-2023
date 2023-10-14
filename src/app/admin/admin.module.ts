@@ -7,7 +7,7 @@ import { AuthService } from "./service/auth-service.service";
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { CommentsComponent } from './comments/comments.component';
 import { ComponentModule } from "./component/component.module";
-import { LoadingComponent } from "../component/ui/loading.component";
+import { ComponentsModule } from "../component/components.module";
 
 
 @NgModule({
@@ -16,10 +16,10 @@ import { LoadingComponent } from "../component/ui/loading.component";
     AdminComponent,
     VehiclesComponent,
     CommentsComponent,
-    LoadingComponent
   ],
   imports: [
     CommonModule,
+    ComponentsModule,
     ComponentModule,
     AdminRoutingModule,
   ],

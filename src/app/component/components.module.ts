@@ -16,8 +16,8 @@ import { HoursComponent } from './hours.component';
 import { HttpClientModule } from "@angular/common/http";
 import { HeaderComponent } from "../header/header.component";
 import { NavigationComponent } from "../navigation/navigation.component";
-import { AppRoutingModule } from "../app-routing.module";
 import { FooterComponent } from "../footer/footer.component";
+import { RouterModule } from "@angular/router";
 
 
 
@@ -60,7 +60,7 @@ import { FooterComponent } from "../footer/footer.component";
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    RouterModule,
   ]
 })
 export class ComponentsModule { }
