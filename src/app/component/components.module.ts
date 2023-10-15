@@ -53,7 +53,8 @@ import { RouterModule } from "@angular/router";
     NoteInputComponent,
     NoteStarComponent,
     LongNumberPipe,
-    FooterComponent
+    FooterComponent,
+    HoursComponent
   ],
 
   imports: [

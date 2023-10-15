@@ -130,7 +130,7 @@ export type vehicle = {
 
       .feature {
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         gap: .4rem;
         align-items: center;
 
