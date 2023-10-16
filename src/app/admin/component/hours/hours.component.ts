@@ -34,6 +34,7 @@ export type Hour = {
         border-radius: .375rem;
         outline: 1px solid #d92332;
       }
+
     `
   ]
 })

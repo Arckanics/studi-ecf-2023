@@ -294,5 +294,16 @@
       "mail": "admin@garage.fr",
       "password": "pass"
     }
+  ],
+  "tokens": [
+    {
+      "id": 1,
+      "user": 2,
+      "token": "zlvGoFhAyTJd8OA2ZGhgo3mvTYX3bveE"
+    },{
+      "id": 2,
+      "user": 1,
+      "token": "Ae1TbvoL8j1djUypfdmD1W8Q5RKkDfah"
+    }
   ]
 }

@@ -35,14 +35,6 @@ export type CarService = {
         outline: 1px solid #d92332;
         background-color: white;
       }
-
-      .actions {
-        .btn {
-          width: fit-content;
-          height: fit-content;
-
-        }
-      }
     `
   ]
 })

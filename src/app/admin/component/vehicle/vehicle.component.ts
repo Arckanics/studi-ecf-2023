@@ -40,14 +40,14 @@ export type vehicle = {
               <span class="feature-value">{{car.fuel}}</span></div>
           </div>
         </div>
-        <div class="col-md-3 col-9 col-wrap">
+        <div class="col-md-4 col-10 col-wrap">
           <div class="options" *ngIf="car.options.length > 0">
             <div class="row m-0 gap-1">
               <div *ngFor="let opt of car.options" class="car-opt badge bg-warning">{{ opt }}</div>
             </div>
           </div>
         </div>
-        <div class="col-3 col-wrap actions">
+        <div class="col-2 col-wrap actions">
           <div class="d-flex flex-column flex-md-row gap-2 actions px-lg-2">
             <div role="button" class="btn btn-warning d-block"><i class="bi bi-pencil-square"></i></div>
             <div role="button" class="btn btn-dark d-block"><i class="bi bi-trash3"></i></div>
@@ -82,7 +82,8 @@ export type vehicle = {
 
       .car-cards {
         align-content: stretch;
-        & > .col-wrap > * {
+
+        & > .col-wrap:not(.actions) > * {
           box-shadow: 2px 1px 8px 0 rgba(0, 0, 0, 0.1);
           outline: 1px solid rgba(217, 35, 50, 0.2);
           outline-offset: -.5px;
@@ -91,9 +92,14 @@ export type vehicle = {
           height: 100%;
           max-height: 140px;
         }
+
         & > .col-wrap {
           padding: .2rem;
           margin: 0;
+
+          &.actions {
+            padding: calc(.2rem + 1px);
+          }
         }
       }
 
@@ -109,7 +115,7 @@ export type vehicle = {
         border-radius: .4rem;
         display: flex;
         background-color: #a6a6a6;
-        padding: 0!important;
+        padding: 0 !important;
 
         img {
           margin: auto;
@@ -161,9 +167,8 @@ export type vehicle = {
       }
 
       .actions {
-        .btn {
-          height: fit-content;
-        }
+        justify-content: flex-end;
+        align-items: flex-end;
       }
     `
   ]
