@@ -12,7 +12,7 @@ import { AbstractListComponent } from "../abstract-list.component";
         (action)="getAction($event)"
     ></app-comment>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(['create','comments'])">Ajouter</div>
-    <app-modal [data]="dataPut"></app-modal>
+    <app-modal></app-modal>
   `,
   styles: [
     `
@@ -34,10 +34,9 @@ import { AbstractListComponent } from "../abstract-list.component";
 })
 export class CommentsComponent extends AbstractListComponent {
   private db: string = "commentaires"
-  private comments$!: Subscription
   constructor(private bdd: DatabaseService) {
     super()
-    this.comments$ = this.bdd.getData(this.db).subscribe((res: any) => {
+    this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
       this.list = res
     })
   }

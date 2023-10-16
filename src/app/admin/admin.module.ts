@@ -10,6 +10,7 @@ import { ComponentModule } from "./component/component.module";
 import { ComponentsModule } from "../component/components.module";
 import { CarServicesComponent } from './car-services/car-services.component';
 import { HoursSetupComponent } from './hours-setup/hours-setup.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { HoursSetupComponent } from './hours-setup/hours-setup.component';
     ComponentsModule,
     ComponentModule,
     AdminRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [
     AuthService

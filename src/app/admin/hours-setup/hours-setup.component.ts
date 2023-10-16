@@ -12,7 +12,7 @@ import { AbstractListComponent } from "../abstract-list.component";
       (action)="getAction($event)"
     ></admin-hours>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(['create','horaires'])">Ajouter</div>
-    <app-modal [data]="dataPut"></app-modal>
+    <app-modal></app-modal>
   `,
   styles: [
     `
@@ -34,7 +34,6 @@ import { AbstractListComponent } from "../abstract-list.component";
 })
 export class HoursSetupComponent extends AbstractListComponent{
   private db:string = "horaires"
-  private sub: Subscription
   constructor(private bdd: DatabaseService) {
     super()
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {

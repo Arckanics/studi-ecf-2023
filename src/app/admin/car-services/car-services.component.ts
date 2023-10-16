@@ -9,7 +9,7 @@ import { AbstractListComponent } from "../abstract-list.component";
     <app-loading *ngIf="!list"></app-loading>
     <car-service *ngFor="let s of list" [service]="s" (action)="getAction($event)"></car-service>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(['create','services'])">Ajouter</div>
-    <app-modal [data]="dataPut"></app-modal>
+    <app-modal></app-modal>
   `,
   styles: [
     `
@@ -32,7 +32,6 @@ import { AbstractListComponent } from "../abstract-list.component";
 export class CarServicesComponent extends AbstractListComponent {
 
   private db:string = "services"
-  private sub: Subscription
   constructor(private bdd: DatabaseService) {
     super()
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {

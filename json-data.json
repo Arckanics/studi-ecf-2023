@@ -6,7 +6,7 @@
       "km": 205000,
       "price": 5000,
       "name": "Laguna III modèle sport 156CV noir",
-      "fuel": "Essence",
+      "fuel": "essence",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "GPS",
@@ -26,7 +26,7 @@
       "km": 180000,
       "price": 6000,
       "name": "Clio IV modèle élégance 90CV blanc",
-      "fuel": "Diesel",
+      "fuel": "diesel",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Climatisation",
@@ -44,7 +44,7 @@
       "km": 120000,
       "price": 8500,
       "name": "Golf VII modèle GTI 230CV rouge",
-      "fuel": "Essence",
+      "fuel": "essence",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Toit ouvrant panoramique",
@@ -62,7 +62,7 @@
       "km": 150000,
       "price": 5500,
       "name": "Peugeot 308 modèle Allure 120CV bleu",
-      "fuel": "Diesel",
+      "fuel": "diesel",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Climatisation automatique",
@@ -80,7 +80,7 @@
       "km": 30000,
       "price": 12000,
       "name": "Toyota Corolla modèle Hybride 180CV gris",
-      "fuel": "Hybride",
+      "fuel": "hybride",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Cruise control adaptatif",
@@ -98,7 +98,7 @@
       "km": 170000,
       "price": 4500,
       "name": "Renault Megane IV modèle Expression 110CV noir",
-      "fuel": "Diesel",
+      "fuel": "diesel",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Régulateur de vitesse",
@@ -116,7 +116,7 @@
       "km": 40000,
       "price": 11000,
       "name": "Ford Focus modèle Titanium 125CV blanc",
-      "fuel": "Essence",
+      "fuel": "essence",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Toit panoramique",
@@ -134,7 +134,7 @@
       "km": 20000,
       "price": 15000,
       "name": "BMW 3 Series modèle M340i 374CV rouge",
-      "fuel": "Essence",
+      "fuel": "essence",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Cuir Nappa",
@@ -152,7 +152,7 @@
       "km": 80000,
       "price": 9500,
       "name": "Volkswagen Passat modèle Highline 150CV gris",
-      "fuel": "Diesel",
+      "fuel": "diesel",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Toit ouvrant panoramique",
@@ -170,7 +170,7 @@
       "km": 90000,
       "price": 7500,
       "name": "Audi A4 modèle S Line 190CV bleu",
-      "fuel": "Diesel",
+      "fuel": "diesel",
       "mainPicture": "https://placehold.co/600x400",
       "options": [
         "Climatisation automatique",
