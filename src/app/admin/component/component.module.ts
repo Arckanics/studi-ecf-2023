@@ -4,6 +4,7 @@ import { CommentComponent } from './comment/comment.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { CarServiceComponent } from './car-service/car-service.component';
 import { HoursComponent } from './hours/hours.component';
+import { ModalComponent } from './modal.component';
 
 
 
@@ -12,7 +13,8 @@ import { HoursComponent } from './hours/hours.component';
     CommentComponent,
     VehicleComponent,
     CarServiceComponent,
-    HoursComponent
+    HoursComponent,
+    ModalComponent
   ],
   exports: [
     CommentComponent,
