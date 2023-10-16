@@ -6,9 +6,10 @@ import { AbstractListComponent } from "../abstract-list.component";
 @Component({
   selector: 'app-vehicles',
   template: `
-    <app-loading *ngIf="!vehicles"></app-loading>
-    <app-vehicle *ngFor="let v of vehicles" [car]="v" (action)="getAction($event)"></app-vehicle>
-    <div role="button" class="btn btn-secondary add-btn">Ajouter</div>
+    <app-loading *ngIf="!list"></app-loading>
+    <app-vehicle *ngFor="let v of list" [car]="v" (action)="getAction($event)"></app-vehicle>
+    <div role="button" class="btn btn-secondary add-btn" (click)="getAction(['create','vehicle'])">Ajouter</div>
+    <app-modal [data]="dataPut"></app-modal>
   `,
   styles: [
     `
@@ -29,14 +30,14 @@ import { AbstractListComponent } from "../abstract-list.component";
     `
   ]
 })
-export class VehiclesComponent extends AbstractListComponent{
+export class VehiclesComponent extends AbstractListComponent {
   private db: string = "cars"
-  private vehicles$!: Subscription
-  vehicles: any
+  private sub!: Subscription
+
   constructor(private bdd: DatabaseService) {
     super()
-    this.vehicles$ = this.bdd.getData(this.db).subscribe((res) => {
-      this.vehicles = res
+    this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
+      this.list = res
     })
   }
 

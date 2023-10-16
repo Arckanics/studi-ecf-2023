@@ -1,11 +1,20 @@
-import { Directive } from "@angular/core";
-
+import { Directive, OnInit } from "@angular/core";
 
 @Directive()
-export class AbstractListComponent {
+export class AbstractListComponent implements OnInit {
 
-  openModal:boolean = false
+  public act: any
+  dataPut: any
+  list!: any[]
   getAction(act:any) {
-    console.log(act)
+    if (act.dataType == "edit" || "create") {
+      // @ts-ignore
+      new bootstrap.Modal('#admin-modal').show()
+      this.dataPut = this.list.filter(e => e.id == act.id)
+    }
+  }
+
+  ngOnInit(): void {
+
   }
 }

@@ -50,7 +50,7 @@ export type vehicle = {
         </div>
         <div class="col-2 col-wrap actions">
           <div class="d-flex flex-column flex-md-row gap-2 actions px-lg-2">
-            <div role="button" class="btn btn-warning d-block" (click)="putAction(['edit','vehicle',car.id])"><i class="bi bi-pencil-square"></i></div>
+            <div role="button" class="btn btn-warning d-block" (click)="putAction(['edit','vehicle',car.id])" data-bs-toggle="modal" data-bs-target="#admin-modal"><i class="bi bi-pencil-square"></i></div>
             <div role="button" class="btn btn-dark d-block" (click)="putAction(['delete','vehicle',car.id])"><i class="bi bi-trash3"></i></div>
           </div>
         </div>

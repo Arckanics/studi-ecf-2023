@@ -73,6 +73,7 @@ import { Router } from "@angular/router";
 
       #footer {
         flex-shrink: 0;
+        position: relative;
         border-top: 1px solid rgba(217, 35, 50, 0.2);
       }
 

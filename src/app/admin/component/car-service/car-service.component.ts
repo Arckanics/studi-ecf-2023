@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AbstractComponent } from "../../abstract.component";
 
 export type CarService = {
   id: number,
@@ -21,8 +22,8 @@ export type CarService = {
       </div>
       <div class="col-2 actions">
         <div class="d-flex flex-column flex-md-row justify-content-end align-items-end gap-2 actions">
-          <div role="button" class="btn btn-warning d-block"><i class="bi bi-pencil-square"></i></div>
-          <div role="button" class="btn btn-dark d-block"><i class="bi bi-trash3"></i></div>
+          <div role="button" class="btn btn-warning d-block" (click)="putAction(['edit','services',service.id])" ><i class="bi bi-pencil-square"></i></div>
+          <div role="button" class="btn btn-dark d-block" (click)="putAction(['delete','services',service.id])" ><i class="bi bi-trash3"></i></div>
         </div>
       </div>
     </div>
@@ -38,6 +39,6 @@ export type CarService = {
     `
   ]
 })
-export class CarServiceComponent {
+export class CarServiceComponent extends AbstractComponent {
   @Input() service!:CarService
 }

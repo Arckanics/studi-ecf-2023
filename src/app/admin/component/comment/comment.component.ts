@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { AbstractComponent } from "../../abstract.component";
 
 @Component({
   selector: 'app-comment',
@@ -18,8 +19,8 @@ import { Component, Input } from '@angular/core';
       <div>Message: <span>{{comment.message}}</span></div>
     </div>
     <div class="d-flex flex-column flex-lg-row gap-2 actions px-lg-2">
-      <div role="button" class="btn btn-warning d-block"><i class="bi bi-pencil-square"></i></div>
-      <div role="button" class="btn btn-dark d-block"><i class="bi bi-trash3"></i></div>
+      <div role="button" class="btn btn-warning d-block" (click)="putAction(['edit','vehicle',comment.id])"><i class="bi bi-pencil-square"></i></div>
+      <div role="button" class="btn btn-dark d-block" (click)="putAction(['delete','vehicle',comment.id])"><i class="bi bi-trash3"></i></div>
     </div>
   `,
   styles: [`
@@ -66,7 +67,7 @@ import { Component, Input } from '@angular/core';
 
   `]
 })
-export class CommentComponent {
+export class CommentComponent extends AbstractComponent {
   @Input() comment!: {
     id: number,
     name: string,

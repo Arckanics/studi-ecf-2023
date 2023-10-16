@@ -18,12 +18,8 @@ import { Component, ViewEncapsulation } from '@angular/core';
       font-family: Rajdhani, sans-serif;
     }
 
-    .actions {
-      .btn {
-        width: fit-content;
-        height: fit-content;
-        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-      }
+    #admin-modal {
+      z-index: 100;
     }
   ` ],
   encapsulation: ViewEncapsulation.None

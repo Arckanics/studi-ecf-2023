@@ -20,7 +20,8 @@ import { ModalComponent } from './modal.component';
     CommentComponent,
     VehicleComponent,
     CarServiceComponent,
-    HoursComponent
+    HoursComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule
