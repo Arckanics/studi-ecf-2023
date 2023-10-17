@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-modal',
   template: `
-      <div id="admin-modal" class="modal" data-bs-backdrop="false">
-        <div class="modal-dialog">
+      <div id="admin-modal" class="modal p-0" data-bs-backdrop="false">
+        <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">{{title}}</h5>
@@ -25,10 +25,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     `
       #admin-modal {
         position: fixed;
-        top: 4rem;
+        top: 3.9rem;
         right: 0;
         left: 0;
-        bottom: 3rem;
+        max-height: calc(100dvh - 7.4rem);
         background-color: rgba(0, 0, 0, 0.2);
       }
     `
