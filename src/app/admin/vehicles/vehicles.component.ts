@@ -9,7 +9,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
     <app-loading *ngIf="!list"></app-loading>
     <app-vehicle *ngFor="let v of list" [car]="v" (action)="getAction($event)"></app-vehicle>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(['create','vehicle'])">Ajouter</div>
-    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule">
+    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule" (close)="resetForm()">
       <form [formGroup]="formSet" (submit)="prevSubmit($event)" *ngIf="event !== 'delete'">
         <div class="mb-3">
           <div class="input-group">
@@ -46,7 +46,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
         <div class="mb-3" formArrayName="options">
           <label class="form-label">Options</label>
           <div class="input-group mb-1" *ngFor="let opt of options.controls; let i=index">
-            <div role="button" class="btn btn-secondary" (click)="resetOpt(i)" *ngIf="!areEquals(i)"><i
+            <div role="button" class="btn btn-secondary" (click)="resetOpt(i)" *ngIf="!areOptEquals(i)"><i
               class="bi bi-arrow-counterclockwise"></i></div>
             <input
               type="text" class="form-control car-opt"
@@ -56,6 +56,42 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
           <div class="input-group mb-1">
             <div role="button" class="btn btn-outline-success w-100" (click)="addOpt()"><i class="bi bi-plus"></i></div>
           </div>
+        </div>
+        <div class="mb-3" formArrayName="galerie">
+          <label class="form-label">Photos</label>
+          <div class="row w-auto g-2">
+            <div class="col-6 p-1 galerie-input" *ngFor="let img of galerie.controls; let i=index">
+              <div class="inner-img input-group overflow-hidden">
+                <div class="img-inputs p-0">
+                  <div class="btn btn-secondary">
+                    <input type="checkbox" class="form-check-input" [checked]="isMainPic(img)"
+                           (click)="setMainPicture(i)">
+                  </div>
+                  <input type="file" class="d-none" (change)="setImg($event, i)" id="img-{{i}}"
+                         [accept]="acceptFiles">
+
+                  <div role="button" class="btn btn-outline-danger" (click)="galerie.removeAt(i)"><i class="bi bi-trash"></i></div>
+                </div>
+                <label class="img-input-wrap position-relative" for="img-{{i}}">
+                  <img *ngIf="getTypeOf(img.value) == 'string'" [src]="URLFiles[i] || img.value" [alt]="URLFiles[i] || img.value"/>
+                  <img *ngIf="getTypeOf(img.value) !== 'string'" [src]="URLFiles[i]" [alt]="URLFiles[i]"/>
+                  <span class="img-overlay">
+                    <span class="btn btn-dark">
+                      <i class="bi bi-image" ></i>
+                      <span class="fs-6 small"> &lt;Img/&gt;</span>
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="col-6 p-1 galerie-input">
+                <div role="button" class="btn btn-outline-success w-100 add-img btn-lg" (click)="addImg()">
+                  <i class="bi bi-plus-lg"></i>
+                </div>
+            </div>
+
+          </div>
+
         </div>
       </form>
     </app-modal>
@@ -100,6 +136,110 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
           text-align: center;
         }
       }
+
+      .galerie-input {
+        height: 128px;
+        .img-inputs {
+          display: flex;
+          height: 128px;
+          flex-shrink: 0;
+          flex-direction: column;
+          width: fit-content;
+          justify-content: stretch;
+
+          i {
+            display: block;
+            margin: auto;
+          }
+
+          .btn {
+            width: fit-content;
+            flex-grow: 0;
+            flex-shrink: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            &:first-child {
+              border-radius: .375rem 0 0 0;
+            }
+
+            &:last-child {
+              border-radius: 0 0 0 .375rem;
+            }
+          }
+        }
+
+        .inner-img {
+          flex-wrap: nowrap;
+          outline: 1px solid gray;
+        }
+
+        .img-input-wrap {
+          flex-shrink: 1;
+          max-height: 128px;
+          width: 100%;
+          position: relative;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          overflow: hidden;
+
+          img {
+            display: block;
+            max-width: 100%;
+            margin: auto;
+            box-shadow: 0 2px 12px 4px rgba(0, 0, 0, 0.2);
+          }
+
+          .img-overlay {
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            transition: 300ms ease;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .btn {
+              transition-delay: 0ms;
+              transition: 150ms ease;
+              opacity: 0;
+              visibility: hidden;
+              transform: translateY(200%);
+            }
+          }
+
+          &:hover {
+            .img-overlay {
+              visibility: visible;
+              opacity: 1;
+
+              .btn {
+                transition-delay: 100ms;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0%);
+              }
+            }
+          }
+        }
+
+      }
+
+      .add-img {
+        height: 128px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     `
   ]
 })
@@ -112,29 +252,18 @@ export class VehiclesComponent extends AbstractListComponent {
     { name: 'Hybride', value: 'hybride' },
   ]
   private optVals!: string[]
+  acceptFiles: string = "image/png,image/jpeg,image/jpg"
+  URLFiles: string[] = []
 
   constructor(private bdd: DatabaseService) {
     super()
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
       this.list = res
     })
-
-    this.formSet = new FormGroup({
-      id: new FormControl(),
-      year: new FormControl(new Date().getFullYear()),
-      km: new FormControl(0),
-      price: new FormControl(0),
-      name: new FormControl(''),
-      fuel: new FormControl(this.energies[0]),
-      mainPicture: new FormControl(''),
-      options: new FormArray([]),
-      galerie: new FormArray([])
-    })
-    // this.formSub = this.formSet.valueChanges.subscribe(ev => {})
-
+    this.resetForm()
   }
 
-  areEquals(i: number): boolean {
+  areOptEquals(i: number): boolean {
     const { init, current } = this.exportOptValues(i)
     switch (true) {
       case init.length == 0:
@@ -144,6 +273,16 @@ export class VehiclesComponent extends AbstractListComponent {
       default:
         return false
     }
+  }
+
+  getImgName(field: any) {
+    return this.getTypeOf(field.value) === "string" ? field.value : field.value.name
+  }
+
+  isMainPic(src: any) {
+    const current = this.formSet.controls['mainPicture'].value
+    const value = this.getImgName(src)
+    return current == value
   }
 
   exportOptValues(i: number) {
@@ -163,10 +302,12 @@ export class VehiclesComponent extends AbstractListComponent {
     return this.formSet.get('options') as FormArray
   }
 
+  get galerie(): FormArray {
+    return this.formSet.get('galerie') as FormArray
+  }
 
-  optChange($event: any, index: number) {
-    const value = $event.target.value
-    const initialValue = this.options.get(index.toString())
+  override ngOnInit() {
+    super.ngOnInit();
   }
 
   resetOpt(i: number) {
@@ -183,4 +324,38 @@ export class VehiclesComponent extends AbstractListComponent {
     this.optVals.push('')
     this.options.push(new FormControl(''))
   }
+
+  setImg($event: any, i: number) {
+    const file = $event.target.files[0]
+    const control = this.galerie.controls[i]
+    this.URLFiles[i] = this.fileToUrl(file)
+    control.setValue(file)
+  }
+
+  addImg() {
+    this.galerie.push(new FormControl(''))
+  }
+
+
+  resetForm() {
+    this.formSet = new FormGroup({
+      id: new FormControl(),
+      year: new FormControl(new Date().getFullYear()),
+      km: new FormControl(0),
+      price: new FormControl(0),
+      name: new FormControl(''),
+      fuel: new FormControl(this.energies[0]),
+      mainPicture: new FormControl(''),
+      options: new FormArray([]),
+      galerie: new FormArray([])
+    })
+    // this.formSub = this.formSet.valueChanges.subscribe(ev => {
+    //   console.log('update')})
+  }
+
+  setMainPicture(i: number) {
+    const img = this.getImgName(this.galerie.controls[i])
+    this.formSet.controls['mainPicture'].setValue(img)
+  }
+
 }

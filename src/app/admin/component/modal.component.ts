@@ -8,13 +8,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">{{title}}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close.emit('close')"></button>
             </div>
             <div class="modal-body">
               <ng-content></ng-content>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close.emit('close')">Annuler</button>
               <button type="button" class="btn btn-primary" (click)="send()" >Appliquer</button>
             </div>
           </div>
@@ -38,8 +38,10 @@ export class ModalComponent {
   @Input() title!: string
   @Input() data!: any
   @Output() xhrSend = new EventEmitter()
+  @Output() close = new EventEmitter()
 
   send (){
     this.xhrSend.emit('send')
   }
+
 }

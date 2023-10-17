@@ -1,5 +1,5 @@
 import { Directive, OnDestroy, OnInit } from "@angular/core";
-import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
 
 @Directive()
@@ -61,5 +61,13 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     if (this.formSub) {
       this.formSub.unsubscribe()
     }
+  }
+
+  fileToUrl(file:any) {
+    return URL.createObjectURL(file)
+  }
+
+  getTypeOf(v:any) {
+    return typeof v
   }
 }
