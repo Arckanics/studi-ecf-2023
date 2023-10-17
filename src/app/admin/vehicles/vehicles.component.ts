@@ -8,7 +8,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
   template: `
     <app-loading *ngIf="!list"></app-loading>
     <app-vehicle *ngFor="let v of list" [car]="v" (action)="getAction($event)"></app-vehicle>
-    <div role="button" class="btn btn-secondary add-btn" (click)="getAction(['create','vehicle'])">Ajouter</div>
+    <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
     <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule" (close)="resetForm()">
       <form [formGroup]="formSet" (submit)="prevSubmit($event)" *ngIf="event !== 'delete'">
         <div class="mb-3">
@@ -251,6 +251,10 @@ export class VehiclesComponent extends AbstractListComponent {
     { name: 'Electrique', value: 'electric' },
     { name: 'Hybride', value: 'hybride' },
   ]
+  createAction = {
+    action: "create",
+    dataType: "vehicle"
+  }
   private optVals!: string[]
   acceptFiles: string = "image/png,image/jpeg,image/jpg"
   URLFiles: string[] = []
@@ -261,6 +265,14 @@ export class VehiclesComponent extends AbstractListComponent {
       this.list = res
     })
     this.resetForm()
+  }
+
+  override getAction(act: any): any | boolean {
+    if (act.action == 'create') {
+      this.optVals = []
+      this.URLFiles = []
+    }
+    return super.getAction(act);
   }
 
   areOptEquals(i: number): boolean {
@@ -338,6 +350,7 @@ export class VehiclesComponent extends AbstractListComponent {
 
 
   resetForm() {
+
     this.formSet = new FormGroup({
       id: new FormControl(),
       year: new FormControl(new Date().getFullYear()),

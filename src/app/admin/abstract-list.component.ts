@@ -16,7 +16,7 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   getAction(act:any) {
 
     this.event = act.action
-
+    console.log(this.event)
     // @ts-ignore
     new bootstrap.Modal('#admin-modal').show()
 
