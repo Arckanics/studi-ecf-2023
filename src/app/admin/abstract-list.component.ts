@@ -13,6 +13,13 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   protected patchedElement!: number
   formSet!: FormGroup
   event: string = ''
+  createAction = {
+    action: "create",
+    dataType: "vehicle"
+  }
+  fillLoop(qty:number) {
+    return new Array(qty).fill(0).map((v,i) => i+1)
+  }
   getAction(act:any) {
 
     this.event = act.action
@@ -23,6 +30,7 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     const pathData = () => {
       const data = this.list.find(e => e.id == act.id)
       Object.entries(data).map(([k,v]) => {
+        console.log(k,v)
         const control: any = this.formSet.controls[k]
         if (Array.isArray(v)) {
           v.map(value => {
