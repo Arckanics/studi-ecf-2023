@@ -46,14 +46,15 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
         <div class="mb-3" formArrayName="options">
           <label class="form-label">Options</label>
           <div class="input-group mb-1" *ngFor="let opt of options.controls; let i=index">
-            <div role="button" class="btn btn-secondary" (click)="resetOpt(i)" *ngIf="!areEquals(i)"><i class="bi bi-arrow-counterclockwise"></i></div>
+            <div role="button" class="btn btn-secondary" (click)="resetOpt(i)" *ngIf="!areEquals(i)"><i
+              class="bi bi-arrow-counterclockwise"></i></div>
             <input
               type="text" class="form-control car-opt"
               formControlName="{{i}}">
-<!--              (change)="optChange($event, i)"-->
-<!--              (input)="optChange($event, i)" >-->
             <div role="button" class="btn btn-outline-danger" (click)="deleteOpt(i)"><i class="bi bi-trash"></i></div>
-
+          </div>
+          <div class="input-group mb-1">
+            <div role="button" class="btn btn-outline-success w-100" (click)="addOpt()"><i class="bi bi-plus"></i></div>
           </div>
         </div>
       </form>
@@ -84,12 +85,12 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
         resize: none;
       }
 
-      .form-control {
+      .form-control, .form-select {
         background-color: transparent;
       }
 
       .input-group {
-        box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px 2px rgba(0, 0, 0, 0.1);
         border-radius: .375rem;
         background-color: #fafafa;
 
@@ -110,6 +111,7 @@ export class VehiclesComponent extends AbstractListComponent {
     { name: 'Electrique', value: 'electric' },
     { name: 'Hybride', value: 'hybride' },
   ]
+  private optVals!: string[]
 
   constructor(private bdd: DatabaseService) {
     super()
@@ -128,21 +130,31 @@ export class VehiclesComponent extends AbstractListComponent {
       options: new FormArray([]),
       galerie: new FormArray([])
     })
-    this.formSub = this.formSet.valueChanges.subscribe(ev => {
-
-    })
+    // this.formSub = this.formSet.valueChanges.subscribe(ev => {})
 
   }
-  areEquals(i:number): boolean {
-    const {init,current} = this.exportOptValues(i)
-    return (init == current?.value)
+
+  areEquals(i: number): boolean {
+    const { init, current } = this.exportOptValues(i)
+    switch (true) {
+      case init.length == 0:
+        return true
+      case init == current?.value:
+        return true
+      default:
+        return false
+    }
   }
 
-  exportOptValues(i:number) {
+  exportOptValues(i: number) {
     const field = this.options.get(i.toString())
-    const initField = this.list.find(e => e.id == this.patchedElement).options[i]
+    if (!this.optVals) {
+      const initField = this.list.find(e => e.id == this.patchedElement).options
+      this.optVals = [ ...initField ]
+    }
+
     return {
-      init: initField,
+      init: this.optVals[i],
       current: field
     }
   }
@@ -158,11 +170,17 @@ export class VehiclesComponent extends AbstractListComponent {
   }
 
   resetOpt(i: number) {
-    const {init,current} = this.exportOptValues(i)
+    const { init, current } = this.exportOptValues(i)
     current?.setValue(init)
   }
 
   deleteOpt(i: number) {
     this.options.removeAt(i)
+    this.optVals.splice(i, 1)
+  }
+
+  addOpt() {
+    this.optVals.push('')
+    this.options.push(new FormControl(''))
   }
 }
