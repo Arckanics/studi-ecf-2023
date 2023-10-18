@@ -12,7 +12,7 @@ import { FormControl, FormGroup } from "@angular/forms";
         (action)="getAction($event)"
     ></app-comment>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal>
+    <app-modal title="Témoignage">
       <form [formGroup]="formSet" class="admin-form">
         <div class="input-group mb-3">
             <label for="name" class="input-group-text input-label">Nom</label>

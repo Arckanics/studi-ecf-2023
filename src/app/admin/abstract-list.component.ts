@@ -30,7 +30,6 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     const pathData = () => {
       const data = this.list.find(e => e.id == act.id)
       Object.entries(data).map(([k,v]) => {
-        console.log(k,v)
         const control: any = this.formSet.controls[k]
         if (Array.isArray(v)) {
           v.map(value => {
