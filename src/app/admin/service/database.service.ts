@@ -13,4 +13,8 @@ export class DatabaseService {
   getData(db:string) {
     return this.http.get(`${this.BDDLink}/${db}`)
   }
+
+  fullRequest(db:string) {
+    return this.http.get(`${this.BDDLink}/${db}`, {observe:"response"})
+  }
 }
