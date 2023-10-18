@@ -15,7 +15,6 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   event: string = ''
   createAction = {
     action: "create",
-    dataType: "vehicle"
   }
   fillLoop(qty:number) {
     return new Array(qty).fill(0).map((v,i) => i+1)
@@ -23,7 +22,6 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   getAction(act:any) {
 
     this.event = act.action
-    console.log(this.event)
     // @ts-ignore
     new bootstrap.Modal('#admin-modal').show()
 
