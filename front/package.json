@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-to-server": "ng build --output-path ../server/public/static",
+    "build-to-server": "ng build --output-path ../server/public",
     "watch": "ng build --watch --configuration development",
     "json-serv": "json-server -w -d 500 json-data.json",
     "test": "ng test"
