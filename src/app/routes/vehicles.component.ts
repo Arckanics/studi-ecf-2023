@@ -66,22 +66,22 @@ import { CarService } from "../services/car.service";
   ]
 })
 export class VehiclesComponent implements OnInit {
-  public filters = [{
+  public filters = [ {
     name: 'Kilomètres',
-    minMaxStep: {min:0,max:340000,step:1000},
-    values: {min:50000,max:50000},
+    minMaxStep: { min: 0, max: 340000, step: 1000 },
+    values: { min: 50000, max: 50000 },
     id: 'km',
     unit: 'Km'
-  },{
+  }, {
     name: 'Année',
-    minMaxStep: {min:2010,max:2021,step:1},
-    values: {min:2,max:2019},
+    minMaxStep: { min: 2010, max: 2021, step: 1 },
+    values: { min: 2, max: 2019 },
     id: 'year',
     unit: ''
-  },{
+  }, {
     name: 'Prix',
-    minMaxStep: {min:1000,max:50000,step:100},
-    values: {min:24000,max:35000},
+    minMaxStep: { min: 1000, max: 50000, step: 100 },
+    values: { min: 24000, max: 35000 },
     id: 'price',
     unit: '€'
   }
@@ -91,7 +91,7 @@ export class VehiclesComponent implements OnInit {
   public carsData$: any = null
 
   constructor(
-    private store: Store<{heading:string}>,
+    private store: Store<{ heading: string }>,
     private carService: CarService
   ) {
     this.store.dispatch(new setHeading('Nos véhicules'))
@@ -113,11 +113,12 @@ export class VehiclesComponent implements OnInit {
       error: (e) => console.log(e),
     })
   }
-  private setupFilters(data:any) {
+
+  private setupFilters(data: any) {
     const filters = this.filters
-    for (let [k, value] of Object.entries(filters)) {
+    for (let [ k, value ] of Object.entries(filters)) {
       const feature = value.id
-      let sorting = data.sort((a:any,b:any) => {
+      let sorting = data.sort((a: any, b: any) => {
         if (a[feature] < b[feature]) {
           return -1
         }
@@ -126,7 +127,7 @@ export class VehiclesComponent implements OnInit {
         }
         return 0
       })
-      const minMax = {min:sorting[0][feature],max:sorting[sorting.length-1][feature]}
+      const minMax = { min: sorting[0][feature], max: sorting[sorting.length - 1][feature] }
       value.minMaxStep = {
         ...value.minMaxStep,
         ...minMax
@@ -139,21 +140,21 @@ export class VehiclesComponent implements OnInit {
     }
   }
 
-  private getFilter(id:string) {
+  private getFilter(id: string) {
     return this.filters.find(f => f.id === id)
   }
 
   private applyFilters() {
-    let res = [...this.carsData$]
-      for (let value of Object.values(this.filters)) {
-        res = res.filter((car) => {
-          return !(car[value.id] < value.values.min || car[value.id] > value.values.max);
-        })
-      }
-    this.cars$ = [...res]
+    let res = [ ...this.carsData$ ]
+    for (let value of Object.values(this.filters)) {
+      res = res.filter((car) => {
+        return !(car[value.id] < value.values.min || car[value.id] > value.values.max);
+      })
+    }
+    this.cars$ = [ ...res ]
   }
 
-  updateFilter($event:any) {
+  updateFilter($event: any) {
     let filter = this.getFilter($event.id)
     if (filter) {
       filter = {

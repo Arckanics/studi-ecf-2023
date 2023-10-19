@@ -51,29 +51,31 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
   ]
 })
 export class NoteStarComponent implements OnInit, OnChanges {
-  @Input() note!:number
-  @Input() max:number = 10
-  @Input() fullWidth:boolean = false
+  @Input() note!: number
+  @Input() max: number = 10
+  @Input() fullWidth: boolean = false
 
-  public half:boolean = false
-  public stars:number = 0
-  public empty:number = 0
-  private onCoe:number = this.max / 5
-  private isEven(n:number) {
+  public half: boolean = false
+  public stars: number = 0
+  public empty: number = 0
+  private onCoe: number = this.max / 5
+
+  private isEven(n: number) {
     return Math.round(n) % 2 === 0
   }
 
-  toLoop(n:number) {
+  toLoop(n: number) {
     return Array(n).fill(0)
   }
+
   setStars() {
     const isEven = this.isEven(this.note)
     const note = this.note
     const coe = this.onCoe
 
     this.half = !isEven
-    this.stars = Math.floor(note/coe)
-    this.empty = Math.floor(5-note/coe)
+    this.stars = Math.floor(note / coe)
+    this.empty = Math.floor(5 - note / coe)
   }
 
   ngOnChanges(changes: SimpleChanges): void {

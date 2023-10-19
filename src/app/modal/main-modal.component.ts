@@ -128,11 +128,11 @@ export class MainModalComponent implements OnInit {
   requestParse(): boolean {
     // front dev login requests
     // not for production
-    const {urls, component, data, http} = this
+    const { urls, component, data, http } = this
     const host = window.location.host.replace(/[0-9]+/g, '3000')
     const proto = window.location.protocol
-    const assert = (v:any):boolean => {
-      switch (true){
+    const assert = (v: any): boolean => {
+      switch (true) {
         case typeof v === "boolean":
           return true
         case typeof v.length && v.length > 0:
@@ -151,17 +151,17 @@ export class MainModalComponent implements OnInit {
         return false
       }
     }
-    const formatData = (data:any): Array<string|undefined> =>
-      Object.entries(data).map(([k,v]) =>
+    const formatData = (data: any): Array<string | undefined> =>
+      Object.entries(data).map(([ k, v ]) =>
         assert(v) ? `${k}_like=${v}` : undefined)
         .filter(x => x !== undefined)
 
 
     const req = {
       url: `${proto}//${host}/${urls[component]}`,
-      body: `?${ formatData(data).join('&') }`
+      body: `?${formatData(data).join('&')}`
     }
-    http.get(req.url+req.body).subscribe((res: any) => {
+    http.get(req.url + req.body).subscribe((res: any) => {
       const response = res[0]
       switch (true) {
         case component == 'login':
@@ -172,7 +172,7 @@ export class MainModalComponent implements OnInit {
           ls.removeItem('user_token')
           ls.removeItem('user_type')
           ls.setItem('user_token', 'xxx')
-          ls.setItem('user_type', isAdmin )
+          ls.setItem('user_type', isAdmin)
           this.router.navigateByUrl("/admin").then(n => {
             console.log(n)
           })

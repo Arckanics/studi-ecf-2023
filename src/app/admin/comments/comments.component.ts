@@ -56,6 +56,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 })
 export class CommentsComponent extends AbstractListComponent {
   private db: string = "commentaires"
+
   constructor(private bdd: DatabaseService) {
     super()
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {

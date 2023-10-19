@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { interval,  Subscription } from "rxjs";
+import { interval, Subscription } from "rxjs";
 import { DatabaseService } from "../service/database.service";
 
 @Component({
@@ -173,8 +173,8 @@ export class HomeComponent implements OnDestroy {
       this.currDate = new Date()
     })
 
-    this.bdds.map((v: any,i) =>
-      this.bdds[i] = this.bdd.fullRequest(v+'?_page=1').subscribe((e) => {
+    this.bdds.map((v: any, i) =>
+      this.bdds[i] = this.bdd.fullRequest(v + '?_page=1').subscribe((e) => {
         // @ts-ignore
         this.counters[`${v}`] = Number(e.headers.get('X-Total-Count'))
         if (this.bdds[i] instanceof Subscription) {
@@ -211,7 +211,7 @@ export class HomeComponent implements OnDestroy {
 
   get entityLength() {
     let total = 0
-    Object.entries(this.counters).map(([k,v]) => {
+    Object.entries(this.counters).map(([ k, v ]) => {
       total += v
     })
     return total

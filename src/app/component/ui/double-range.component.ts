@@ -102,7 +102,8 @@ export class DoubleRangeComponent implements OnInit, OnChanges {
     start: 0,
     end: 0
   }
-  inputSet(item:string) {
+
+  inputSet(item: string) {
     const { minVal, maxVal } = this
     const Limits = (one: any, thumb: string) => {
       const max = maxVal.getRawValue() || 0
@@ -156,7 +157,7 @@ export class DoubleRangeComponent implements OnInit, OnChanges {
     this.updateValues()
   }
 
-  ngOnChanges(changes:SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {
     this.updateValues()
   }
 }

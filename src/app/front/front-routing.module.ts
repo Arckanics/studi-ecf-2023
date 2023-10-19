@@ -6,16 +6,17 @@ import { FrontComponent } from "./front.component";
 
 const routes: Routes = [
   {
-    path:"",component:FrontComponent,
+    path: "", component: FrontComponent,
     children: [
-      {path:"vehicles",component:VehiclesComponent},
-      {path:"",component:HomeComponent},
+      { path: "vehicles", component: VehiclesComponent },
+      { path: "", component: HomeComponent },
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
-export class FrontRoutingModule { }
+export class FrontRoutingModule {
+}

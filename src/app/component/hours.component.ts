@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { HoursService } from "./service/hours.service";
 
 export type hourType = {
-  id:number,
-  day:number,
-  begin:string,
-  end:string,
+  id: number,
+  day: number,
+  begin: string,
+  end: string,
 }
+
 @Component({
   selector: 'app-hours',
   template: `
@@ -32,8 +33,8 @@ export type hourType = {
 })
 export class HoursComponent implements OnInit {
 
-  mainClasses!:string
-  hours$:any = null
+  mainClasses!: string
+  hours$: any = null
   dayNames = [
     'Lundi',
     'Mardi',
@@ -43,41 +44,43 @@ export class HoursComponent implements OnInit {
     'Samedi',
     'Dimanche'
   ]
+
   constructor(
     private hours: HoursService
   ) {
   }
 
-  dataPrepare (data: hourType[]) {
-    const sortHour = (a:string,b:string) => {
-      if (a<b) {
+  dataPrepare(data: hourType[]) {
+    const sortHour = (a: string, b: string) => {
+      if (a < b) {
         return -1
       }
-      if (a>b) {
+      if (a > b) {
         return 1
       }
       return 0
     }
     const res = []
-    for (let i=0; i<7;i++) {
+    for (let i = 0; i < 7; i++) {
       let filter = data.filter(h => h.day === i)
       if (filter.length > 0) {
-        res.push(filter.sort((a,b) => {
-          return sortHour(a.begin,b.begin)
+        res.push(filter.sort((a, b) => {
+          return sortHour(a.begin, b.begin)
         }))
       } else {
         res.push(null)
       }
     }
-    this.hours$ = [...res]
+    this.hours$ = [ ...res ]
   }
 
   ngOnInit() {
     this.hours.getHours().subscribe({
       next: (data: any) => this.dataPrepare(data),
       error: (err: any) => console.log(err),
-      complete: () => {}
-      })
+      complete: () => {
+      }
+    })
   }
 
 }

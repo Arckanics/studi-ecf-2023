@@ -37,8 +37,7 @@ import { FormControl, FormGroup } from "@angular/forms";
       </div>
     </form>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class LoginComponent {
   @Input() formClass: string = ''
@@ -48,6 +47,7 @@ export class LoginComponent {
     mail: new FormControl(''),
     password: new FormControl('')
   })
+
   submitForm($event: any) {
     if ($event) {
       $event.preventDefault()
@@ -64,6 +64,7 @@ export class LoginComponent {
   ngOnDestroy() {
     this.loginForm.valueChanges.unsubscribe()
   }
+
   conectType(isAdmin: boolean) {
     this.loginForm.controls.isAdmin.setValue(isAdmin)
   }

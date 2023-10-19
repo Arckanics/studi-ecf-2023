@@ -36,12 +36,13 @@ export class CommentComponent implements OnInit, OnDestroy {
     note: new FormControl(5)
   })
 
-  submitForm($event:any) {
+  submitForm($event: any) {
     if ($event) {
       $event.preventDefault()
     }
     this.formUpdate.emit(this.commentForm)
   }
+
   ngOnInit() {
     this.commentForm.valueChanges.subscribe(() => {
       this.submitForm(null)

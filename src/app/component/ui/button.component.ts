@@ -10,8 +10,7 @@ import { Component, Input } from '@angular/core';
       <i class="{{iconCls}}"></i>
     </button>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class ButtonComponent {
   xsHidden: string = "d-none d-md-block"

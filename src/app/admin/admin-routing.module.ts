@@ -12,19 +12,20 @@ const routes: Routes = [
   {
     path: "",
     component: AdminComponent,
-    canActivate: [authGuard],
+    canActivate: [ authGuard ],
     children: [
       { path: "vehicles", component: VehiclesComponent },
       { path: "comments", component: CommentsComponent },
       { path: "services", component: CarServicesComponent },
       { path: "hours", component: HoursSetupComponent },
-      { path: "", component: HomeComponent}
+      { path: "", component: HomeComponent }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {
+}

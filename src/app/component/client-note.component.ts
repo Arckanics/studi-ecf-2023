@@ -31,8 +31,8 @@ export class ClientNoteComponent {
   @Input() comment: any
 
   stars: number = 0
-  half:boolean = false
-  empty:number = 0
+  half: boolean = false
+  empty: number = 0
 
   constructor() {
 

@@ -19,9 +19,11 @@ export class DynamicFormDirective implements OnInit, AfterViewInit, OnDestroy {
   @Input() formClass!: string
   @Output() formUpdate = new EventEmitter<object>()
   private comp: any
+
   constructor(
     private ref: ViewContainerRef
-  ) {}
+  ) {
+  }
 
 
   clear() {
@@ -36,6 +38,7 @@ export class DynamicFormDirective implements OnInit, AfterViewInit, OnDestroy {
       ref.setInput('formClass', this.formClass)
     }
   }
+
   ngOnInit(): void {
     this.clear();
     this.enableComponent()
@@ -45,8 +48,9 @@ export class DynamicFormDirective implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const component = this.comp
     const form = component.instance.formUpdate
-    form.subscribe((f:any) => this.formUpdate.emit(f))
+    form.subscribe((f: any) => this.formUpdate.emit(f))
   }
+
   ngOnDestroy(): void {
     this.comp.instance.formUpdate.unsubscribe()
   }

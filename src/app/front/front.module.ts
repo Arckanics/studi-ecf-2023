@@ -47,4 +47,5 @@ import { modalReducer } from "../../store/modal/modal.reducer";
     StaticCompDirective
   ]
 })
-export class FrontModule { }
+export class FrontModule {
+}

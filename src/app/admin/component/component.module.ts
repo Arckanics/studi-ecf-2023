@@ -7,7 +7,6 @@ import { HoursComponent } from './hours/hours.component';
 import { ModalComponent } from './modal.component';
 
 
-
 @NgModule({
   declarations: [
     CommentComponent,
@@ -27,4 +26,5 @@ import { ModalComponent } from './modal.component';
     CommonModule
   ]
 })
-export class ComponentModule { }
+export class ComponentModule {
+}

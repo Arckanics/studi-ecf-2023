@@ -6,6 +6,7 @@ export type CarService = {
   title: string,
   text: string
 }
+
 @Component({
   selector: 'car-service',
   template: `
@@ -40,5 +41,5 @@ export type CarService = {
   ]
 })
 export class CarServiceComponent extends AbstractComponent {
-  @Input() service!:CarService
+  @Input() service!: CarService
 }

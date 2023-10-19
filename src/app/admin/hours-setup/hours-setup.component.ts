@@ -118,20 +118,20 @@ export class HoursSetupComponent extends AbstractListComponent {
     $event.stopPropagation()
     const control = isBegin ? this.formSet.controls['begin'] : this.formSet.controls['end']
     const initTime = control.value.split(/:/).map((v: any) => Number(v))
-    const value = $event.target.value.padStart(2,'0')
+    const value = $event.target.value.padStart(2, '0')
     const intTime = { hour: initTime[0].toString(), min: initTime[1].toString() }
     const setTime = () => {
       if (isHour) {
-        return `${value}:${intTime.min.padStart(2,'0')}`
+        return `${value}:${intTime.min.padStart(2, '0')}`
       }
-      return `${intTime.hour.padStart(2,'0')}:${value}`
+      return `${intTime.hour.padStart(2, '0')}:${value}`
     }
 
-    control.setValue(setTime(), {emitEvent:false})
+    control.setValue(setTime(), { emitEvent: false })
     // control.setValue(setTime())
   }
 
-  exportTimeValues(begin:any,end:any) {
+  exportTimeValues(begin: any, end: any) {
     const bOutput = begin.split(/:/).map((v: any) => Number(v))
     const eOutput = end.split(/:/).map((v: any) => Number(v))
     return {
@@ -145,6 +145,7 @@ export class HoursSetupComponent extends AbstractListComponent {
       }
     }
   }
+
   resetForm() {
     if (this.formSub) {
       this.formSub.unsubscribe()
@@ -158,8 +159,8 @@ export class HoursSetupComponent extends AbstractListComponent {
     })
 
     this.formSub = this.formSet.valueChanges.subscribe((e) => {
-      const {begin,end} = this.exportTimeValues(e.begin,e.end)
-      const {inputBh,inputBm,inputEh,inputEm} = this
+      const { begin, end } = this.exportTimeValues(e.begin, e.end)
+      const { inputBh, inputBm, inputEh, inputEm } = this
       inputBh.nativeElement.value = begin.hour
       inputBm.nativeElement.value = begin.min
       inputEh.nativeElement.value = end.hour

@@ -23,7 +23,7 @@ import { AbstractComponent } from "../../abstract.component";
       <div role="button" class="btn btn-dark d-block" (click)="putAction(['delete','vehicle',comment.id])"><i class="bi bi-trash3"></i></div>
     </div>
   `,
-  styles: [`
+  styles: [ `
     :host {
       display: flex;
       justify-content: space-between;
@@ -65,7 +65,7 @@ import { AbstractComponent } from "../../abstract.component";
       }
     }
 
-  `]
+  ` ]
 })
 export class CommentComponent extends AbstractComponent {
   @Input() comment!: {

@@ -36,10 +36,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   ]
 })
 export class FilterComponent {
-  @Input() filter!:{
+  @Input() filter!: {
     name: string,
-    minMaxStep: {min:number,max:number,step:number},
-    values: {min:number,max:number},
+    minMaxStep: { min: number, max: number, step: number },
+    values: { min: number, max: number },
     id: string,
     unit: string
   };
@@ -52,7 +52,7 @@ export class FilterComponent {
   resetFilter() {
     let filter = this.filter
     if (filter) {
-      const {min,max} = filter.minMaxStep
+      const { min, max } = filter.minMaxStep
       filter.values = {
         min: min,
         max: max

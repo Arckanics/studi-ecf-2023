@@ -20,7 +20,6 @@ import { FooterComponent } from "../footer/footer.component";
 import { RouterModule } from "@angular/router";
 
 
-
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -64,4 +63,5 @@ import { RouterModule } from "@angular/router";
     RouterModule,
   ]
 })
-export class ComponentsModule { }
+export class ComponentsModule {
+}

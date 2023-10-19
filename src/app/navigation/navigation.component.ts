@@ -25,13 +25,12 @@ import { Component } from '@angular/core';
     </nav>
 
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class NavigationComponent {
 
-  public navs: { url:string, name:string }[] = [
-    {url: "/", name: "Accueil"},
-    {url: "/vehicles", name: "Nos véhicules"},
+  public navs: { url: string, name: string }[] = [
+    { url: "/", name: "Accueil" },
+    { url: "/vehicles", name: "Nos véhicules" },
   ]
 }

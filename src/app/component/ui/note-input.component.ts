@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, } from '@angular/core';
 
 @Component({
   selector: 'app-note-input',
@@ -48,10 +43,11 @@ export class NoteInputComponent {
   constructor() {
   }
 
-  mouseEnter($event: any, n:number) {
+  mouseEnter($event: any, n: number) {
     $event.preventDefault()
     this.tmpNote = n
   }
+
   mouseOut($event: any) {
     $event.preventDefault()
     this.tmpNote = undefined

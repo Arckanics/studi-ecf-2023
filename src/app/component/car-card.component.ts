@@ -79,7 +79,7 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class CarCardComponent {
-  @Input() car!:any
+  @Input() car!: any
 
 
 }

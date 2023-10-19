@@ -10,13 +10,12 @@ import { Store } from "@ngrx/store";
       <hr class="hr m-0 border border-dark opacity-75">
     </div>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class ContentHeaderComponent {
   heading$: Observable<string>
 
-  constructor( private store: Store<{ heading: string }>) {
+  constructor(private store: Store<{ heading: string }>) {
     this.heading$ = this.store.select("heading")
   }
 }

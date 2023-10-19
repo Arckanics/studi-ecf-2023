@@ -1,9 +1,4 @@
-import {
-  Directive,
-  Input,
-  OnInit,
-  ViewContainerRef
-} from '@angular/core';
+import { Directive, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { StaticComponents } from "./static-components";
 
 @Directive({
@@ -13,9 +8,12 @@ export class StaticCompDirective implements OnInit {
   @Input() component!: string
   @Input() mainClasses!: string
   private comp: any
+
   constructor(
     private ref: ViewContainerRef
-  ) {}
+  ) {
+  }
+
   clear() {
     this.ref.clear()
   }
@@ -29,6 +27,7 @@ export class StaticCompDirective implements OnInit {
       }
     }
   }
+
   ngOnInit(): void {
     this.clear();
     this.enableComponent()

@@ -16,10 +16,12 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   createAction = {
     action: "create",
   }
-  fillLoop(qty:number) {
-    return new Array(qty).fill(0).map((v,i) => i+1)
+
+  fillLoop(qty: number) {
+    return new Array(qty).fill(0).map((v, i) => i + 1)
   }
-  getAction(act:any) {
+
+  getAction(act: any) {
 
     this.event = act.action
     // @ts-ignore
@@ -27,7 +29,7 @@ export class AbstractListComponent implements OnInit, OnDestroy {
 
     const pathData = () => {
       const data = this.list.find(e => e.id == act.id)
-      Object.entries(data).map(([k,v]) => {
+      Object.entries(data).map(([ k, v ]) => {
         const control: any = this.formSet.controls[k]
         if (Array.isArray(v)) {
           v.map(value => {
@@ -49,7 +51,7 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     }
   }
 
-  prevSubmit($event:any) {
+  prevSubmit($event: any) {
     if ($event && typeof $event !== "string") {
       $event.preventDefault()
     }
@@ -68,11 +70,11 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     }
   }
 
-  fileToUrl(file:any) {
+  fileToUrl(file: any) {
     return URL.createObjectURL(file)
   }
 
-  getTypeOf(v:any) {
+  getTypeOf(v: any) {
     return typeof v
   }
 }
