@@ -47,6 +47,6 @@ CREATE table `users`
     id       INT UNIQUE AUTO_INCREMENT NOT NULL,
     isAdmin  TINYINT(1)                NOT NULL,
     account  VARCHAR(50) UNIQUE        NOT NULL,
-    password VARCHAR(50)               NOT NULL,
+    password VARCHAR(128)               NOT NULL,
     primary key (id)
   )
