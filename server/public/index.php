@@ -21,7 +21,11 @@ function dataResponse ($class)
 
 function provideSession(){
   $session = new SessionManager();
-  echo "session";
+  if (!isset($status['Auth-user'])) {
+    echo $session->create();
+  } else {
+    echo $session->getSession($status['Auth-user']);
+  }
 }
 
 if (!isset($status['XML-Http-Request'])) {
