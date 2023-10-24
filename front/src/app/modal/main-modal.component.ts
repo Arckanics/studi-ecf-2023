@@ -129,8 +129,11 @@ export class MainModalComponent implements OnInit {
     // front dev login requests
     // not for production
     const { urls, component, data, http } = this
-    const host = window.location.host.replace(/[0-9]+/g, '3000')
+    const host = window.location.host
     const proto = window.location.protocol
+    const headers = {"XML-Http-Request": "true"}
+
+
     const assert = (v: any): boolean => {
       switch (true) {
         case typeof v === "boolean":
@@ -161,7 +164,8 @@ export class MainModalComponent implements OnInit {
       url: `${proto}//${host}/${urls[component]}`,
       body: `?${formatData(data).join('&')}`
     }
-    http.get(req.url + req.body).subscribe((res: any) => {
+    console.log(headers, null);
+    http.get(req.url + req.body, { headers }).subscribe((res: any) => {
       const response = res[0]
       switch (true) {
         case component == 'login':
