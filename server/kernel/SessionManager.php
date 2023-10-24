@@ -1,6 +1,8 @@
 <?php
 
-namespace Sessions;
+namespace kernel;
+
+use kernel\PdoConnect;
 
 class SessionManager {
   private $token = "";
@@ -17,6 +19,7 @@ class SessionManager {
       }
       return opendir($dir);
     }
+    $pdo = PdoConnect::getInstance();
     $this->sessDock = openSessionDock();
     var_dump($this->sessDock);
   }

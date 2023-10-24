@@ -2,7 +2,7 @@
 
 namespace public;
 use Controllers\CommentsController;
-use Sessions\SessionManager;
+use kernel\SessionManager;
 
 require_once "../kernel/autoloader.php";
 
