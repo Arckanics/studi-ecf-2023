@@ -2,6 +2,7 @@
 
 namespace public;
 use Controllers\CommentsController;
+use Controllers\ServicesController;
 use kernel\SessionManager;
 
 require_once "../kernel/autoloader.php";
@@ -13,10 +14,9 @@ function staticReturn(): void {
   echo file_get_contents(__DIR__ . '/main.html');
 }
 
-function dataResponse ($class)
+function dataResponse ($class, $method)
 {
-  global $method;
-  echo $class->$method();
+  echo json_encode($class->$method());
 }
 
 function provideSession(){
@@ -44,8 +44,10 @@ if (!isset($status['XML-Http-Request'])) {
     $uri = $path[0];
   }
   switch (true) {
-    case $uri === "/comment":
-      return dataResponse(new CommentsController());
+    case $uri === "/comments":
+      return dataResponse(new CommentsController(), $method);
+    case $uri === "/services":
+      return dataResponse(new ServicesController(), $method);
     case $uri === "/users":
       return provideSession();
     default:
