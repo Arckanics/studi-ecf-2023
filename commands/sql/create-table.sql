@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS alexis_ecf_bdd_hiver_2023;
-
-use alexis_ecf_bdd_hiver_2023;
-
 CREATE table `hours`
   (
     id    INT UNIQUE AUTO_INCREMENT NOT NULL,
@@ -28,6 +24,7 @@ CREATE table `cars`
 CREATE table `comments`
   (
     id      INT UNIQUE AUTO_INCREMENT NOT NULL,
+    name    VARCHAR(30)               NOT NULL,
     message TEXT                      NOT NULL,
     note    INT                       NOT NULL,
     enable  TINYINT(1)                NOT NULL,
@@ -47,6 +44,6 @@ CREATE table `users`
     id       INT UNIQUE AUTO_INCREMENT NOT NULL,
     isAdmin  TINYINT(1)                NOT NULL,
     account  VARCHAR(50) UNIQUE        NOT NULL,
-    password VARCHAR(128)               NOT NULL,
+    password VARCHAR(128)              NOT NULL,
     primary key (id)
   )
