@@ -27,8 +27,8 @@ values (null, 'Service de réparation', 'Nous offrons un service de réparation 
         'Nos techniciens utilisent des outils de diagnostic de pointe pour résoudre les problèmes de votre voiture.');
 
 insert into cars (id, name, price, year, fuel, km, mainPicture, gallery, options)
-values (1, 'Toyota Corolla', 15000, 2019, 'Essence', 45000, 'toyota-corolla.jpg', '["image1.jpg", "image2.jpg", "image3.jpg"]', '["GPS", "ABS", "Sièges chauffants"]'),
-       (2, 'Honda Civic', 14000, 2018, 'Essence', 38000, 'honda-civic.jpg', '["image4.jpg", "image5.jpg", "image6.jpg"]', '["GPS", "ABS", "Caméra de recul"]'),
+values (1, 'Toyota Corolla', 15000, 2019, 'Essence', 45000, 'toyota-corolla.png', '["image1.jpg", "image2.jpg", "image3.jpg"]', '["GPS", "ABS", "Sièges chauffants"]'),
+       (2, 'Honda Civic', 14000, 2018, 'Essence', 38000, 'honda-civic.webp', '["image4.jpg", "image5.jpg", "image6.jpg"]', '["GPS", "ABS", "Caméra de recul"]'),
        (3, 'Ford Focus', 16000, 2020, 'Essence', 32000, 'ford-focus.jpg', '["image7.jpg", "image8.jpg", "image9.jpg"]', '["GPS", "ABS", "Bluetooth"]'),
-       (4, 'Volkswagen Golf', 15500, 2019, 'Essence', 40000, 'volkswagen-golf.jpg', '["image10.jpg", "image11.jpg", "image12.jpg"]', '["GPS", "ABS", "Climatisation"]'),
+       (4, 'Volkswagen Golf', 15500, 2019, 'Essence', 40000, 'volkswagen-golf.png', '["image10.jpg", "image11.jpg", "image12.jpg"]', '["GPS", "ABS", "Climatisation"]'),
        (5, 'Nissan Altima', 14500, 2018, 'Essence', 42000, 'nissan-altima.jpg', '["image13.jpg", "image14.jpg", "image15.jpg"]', '["GPS", "ABS", "Régulateur de vitesse"]');

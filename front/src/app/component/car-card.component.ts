@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
       <div class="card bg-white rounded-2 position-relative car-card pb-2 shadow">
         <div class="car-price bg-dark rounded-2 text-white px-2">{{car.price}}€</div>
         <div class="card-img-top ratio-16x9 car-pic rounded-top-2 overflow-hidden">
-          <img [src]="car.mainPicture" [alt]="car.name">
+          <img [src]="'/img/'+car.mainPicture" [alt]="car.name">
         </div>
         <div class="card-body p-2 px-3">
           <h5 class="card-title mb-2 car-name">{{car.name}}</h5>
