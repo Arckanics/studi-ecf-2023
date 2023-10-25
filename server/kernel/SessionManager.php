@@ -61,9 +61,14 @@ class SessionManager extends globalMethod
     return json_encode($response, JSON_THROW_ON_ERROR);
   }
 
+
   public function connect(): false|array|string
   {
     $data = [...$_POST];
+    if (count($data) === 0) {
+      $post_body = json_decode(file_get_contents('php://input'), true);
+      $data = $post_body;
+    }
     $this->token = bin2hex(random_bytes(16));
     $user = $this->entity->findUser($data);
     if (is_array($user)) {

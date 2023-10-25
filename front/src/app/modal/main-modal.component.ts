@@ -131,7 +131,7 @@ export class MainModalComponent implements OnInit {
     const { urls, component, data, http } = this
     const host = window.location.host
     const proto = window.location.protocol
-    const headers = {"XML-Http-Request": "true"}
+    let headers: {[index:string]: string} = {"XML-Http-Request": "true"}
 
 
     const assert = (v: any): boolean => {
@@ -150,8 +150,12 @@ export class MainModalComponent implements OnInit {
       if (!data) {
         return false
       }
-      if (data.mail.length == 0 || data.password.length == 0) {
+      if (data.account.length == 0 || data.password.length == 0) {
         return false
+      }
+      headers = {
+        ...headers,
+        'Content-Type': 'application/json'
       }
     }
     const formatData = (data: any): Array<string | undefined> =>
@@ -164,8 +168,8 @@ export class MainModalComponent implements OnInit {
       url: `${proto}//${host}/${urls[component]}`,
       body: `?${formatData(data).join('&')}`
     }
-    console.log(headers, null);
-    http.get(req.url + req.body, { headers }).subscribe((res: any) => {
+
+    const result = (res: any) => {
       const response = res[0]
       switch (true) {
         case component == 'login':
@@ -184,7 +188,8 @@ export class MainModalComponent implements OnInit {
         case res.length == 0:
           this.wrongThings = true
       }
-    })
+    }
+    http.post(req.url, data, { headers }).subscribe(result)
     return true
   }
 }

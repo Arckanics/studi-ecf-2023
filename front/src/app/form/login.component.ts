@@ -22,11 +22,11 @@ import { FormControl, FormGroup } from "@angular/forms";
         </div>
       </div>
       <div class="mb-4">
-        <label class="form-label" for="mail">Email</label>
+        <label class="form-label" for="account">Email</label>
         <input
-          type="email" id="mail" name="mail"
+          type="email" id="account" name="account"
           class="form-control"
-          formControlName="mail" placeholder="john@doe.fr">
+          formControlName="account" placeholder="john@doe.fr">
       </div>
       <div class="mb-4">
         <label class="form-label" for="password">Mot de passe</label>
@@ -44,7 +44,7 @@ export class LoginComponent {
   @Output() formUpdate = new EventEmitter<FormGroup>()
   loginForm: any = new FormGroup({
     isAdmin: new FormControl(false),
-    mail: new FormControl(''),
+    account: new FormControl(''),
     password: new FormControl('')
   })
 
