@@ -3,11 +3,16 @@
 namespace kernel;
 
 require_once "../_config.php";
-class PdoConnect {
+
+class PdoConnect extends globalMethod
+{
 
   private static $instance = null;
   private $pdo = null;
-  private function __construct() {
+
+
+  private function __construct()
+  {
     $server = $_ENV['APP_SERVER'];
     $bdd = $_ENV['APP_BDD'];
     $port = $_ENV['APP_PORT'];
@@ -39,5 +44,32 @@ class PdoConnect {
       self::$instance = new self();
     }
     return self::$instance;
+  }
+
+  public function getAll($table)
+  {
+    $query = $this->pdo->prepare("
+      select * from $table
+    ");
+    $query->execute();
+    return $query->fetchAll(\PDO::FETCH_ASSOC);
+  }
+
+  public function findOne($table, $filters)
+  {
+    $select = "select * from $table";
+    $list = [$select . " where "];
+    $param = [];
+    foreach ($filters as $key => $val) {
+      $val = $this->isStrBool($val) ? $this->boolStrToInt($val) : $val;
+      $filters[$key] = $val;
+      $param[] = "$key = :$key";
+    }
+    $sql = implode(" ", $list) . implode(" and ", $param);
+    $query = $this->pdo->prepare($sql);
+    $query->execute($filters);
+    $stmt = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+    return count($stmt) === 0 ? $stmt : $stmt[0];
   }
 }
