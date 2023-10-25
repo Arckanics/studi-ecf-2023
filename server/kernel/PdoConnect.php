@@ -46,6 +46,9 @@ class PdoConnect extends globalMethod
     return self::$instance;
   }
 
+  public function query($sql) {
+    return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+  }
   public function getAll($table)
   {
     $query = $this->pdo->prepare("
