@@ -39,6 +39,17 @@ CREATE table `services`
     primary key (id)
   );
 
+CREATE table `messages`
+  (
+    id        INT UNIQUE AUTO_INCREMENT NOT NULL,
+    name      VARCHAR(50)               NOT NULL,
+    firstname VARCHAR(50)               NOT NULL,
+    address   VARCHAR(120)              NOT NULL,
+    mail      VARCHAR(50)               NOT NULL,
+    phone     VARCHAR(10)               NOT NULL,
+    primary key (id)
+  );
+
 CREATE table `users`
   (
     id       INT UNIQUE AUTO_INCREMENT NOT NULL,
