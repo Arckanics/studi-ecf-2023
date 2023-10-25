@@ -1,6 +1,7 @@
 <?php
 
 namespace public;
+use Controllers\CarsController;
 use Controllers\CommentsController;
 use Controllers\HoursController;
 use Controllers\ServicesController;
@@ -51,6 +52,8 @@ if (!isset($status['XML-Http-Request'])) {
       return dataResponse(new ServicesController(), $method);
     case $uri === "/hours":
       return dataResponse(new HoursController(), $method);
+    case $uri === "/cars":
+      return dataResponse(new CarsController(), $method);
     case $uri === "/users":
       return provideSession();
     default:
