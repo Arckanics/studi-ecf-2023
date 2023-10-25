@@ -42,3 +42,16 @@
 .DS_Store
 Thumbs.db
 /.editorconfig
+/server/public/3rdpartylicenses.txt
+/server/kernel/SessDock/64ad2b095bb6ed599b383906961b927a.json
+/server/public/515.js
+/server/public/bootstrap-icons.woff
+/server/public/bootstrap-icons.woff2
+/server/public/favicon.ico
+/server/public/assets/logo.png
+/server/public/main.html
+/server/public/main.js
+/server/public/polyfills.js
+/server/public/runtime.js
+/server/public/scripts.js
+/server/public/styles.css
