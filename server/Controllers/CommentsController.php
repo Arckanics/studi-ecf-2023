@@ -1,13 +1,21 @@
 <?php
 
 namespace Controllers;
+use entity\CommentEntity;
 use kernel\AbstractController;
 
 class CommentsController extends AbstractController {
 
+  private $entity = null;
+
+  public function __construct()
+  {
+    $this->entity = new CommentEntity();
+  }
+
   public function get()
   {
-    return "you will get Comments";
+    return $this->entity->getAll();
   }
 
   public function put()
