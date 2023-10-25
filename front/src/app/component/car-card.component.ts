@@ -43,11 +43,12 @@ import { Component, Input } from '@angular/core';
         }
         .car-pic {
           display: block;
+          min-height: 210px;
           max-height: 218px;
           max-width: 100%;
           img {
             display: block;
-            max-width: 100%;
+            max-height: 100%;
             object-fit: cover;
             margin: auto;
           }
