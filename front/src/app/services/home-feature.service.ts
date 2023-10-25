@@ -8,7 +8,7 @@ import { catchError } from "rxjs";
 })
 export class HomeFeatureService extends AbstractService {
 
-  url = "http://localhost:3000/services"
+  url = "/services"
 
   constructor(
     private http: HttpClient
@@ -17,7 +17,11 @@ export class HomeFeatureService extends AbstractService {
   }
 
   getFeatures() {
-    return this.http.get(this.url).pipe(
+    return this.http.get(this.url, {
+      headers: {
+        "XML-Http-Request" : "true"
+      }
+    }).pipe(
       catchError(this.handleError('getFeatures', []))
     )
   }

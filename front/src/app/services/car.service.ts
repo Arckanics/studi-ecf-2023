@@ -8,7 +8,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class CarService extends AbstractService {
 
-  url = "http://localhost:3000/cars"
+  url = "cars"
 
   constructor(
     private http: HttpClient
@@ -17,7 +17,11 @@ export class CarService extends AbstractService {
   }
 
   getCars() {
-    return this.http.get(this.url).pipe(
+    return this.http.get(this.url, {
+      headers: {
+        "XML-Http-Request" : "true"
+      }
+    }).pipe(
       catchError(this.handleError('getCars', []))
     )
   }

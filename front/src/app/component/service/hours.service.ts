@@ -8,7 +8,7 @@ import { catchError } from "rxjs";
 })
 export class HoursService extends AbstractService {
 
-  url: string = 'http://localhost:3000/horaires'
+  url: string = '/hours'
 
   constructor(
     private http: HttpClient
@@ -17,7 +17,11 @@ export class HoursService extends AbstractService {
   }
 
   getHours() {
-    return this.http.get(this.url).pipe(
+    return this.http.get(this.url, {
+      headers: {
+        "XML-Http-Request" : "true"
+      }
+    }).pipe(
       catchError(this.handleError('getHours', []))
     )
   }
