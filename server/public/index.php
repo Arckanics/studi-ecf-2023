@@ -2,6 +2,7 @@
 
 namespace public;
 use Controllers\CommentsController;
+use Controllers\HoursController;
 use Controllers\ServicesController;
 use kernel\SessionManager;
 
@@ -48,6 +49,8 @@ if (!isset($status['XML-Http-Request'])) {
       return dataResponse(new CommentsController(), $method);
     case $uri === "/services":
       return dataResponse(new ServicesController(), $method);
+    case $uri === "/hours":
+      return dataResponse(new HoursController(), $method);
     case $uri === "/users":
       return provideSession();
     default:
