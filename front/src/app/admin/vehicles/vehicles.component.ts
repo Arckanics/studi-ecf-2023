@@ -110,7 +110,6 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
   ]
 })
 export class VehiclesComponent extends AbstractListComponent {
-  private db: string = "cars"
   public energies = [
     { name: 'Essence', value: 'essence' },
     { name: 'Diésel', value: 'diesel' },
@@ -123,9 +122,9 @@ export class VehiclesComponent extends AbstractListComponent {
 
   constructor(private bdd: DatabaseService) {
     super()
+    this.db = "cars"
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
       let result = [...res];
-      console.log(result);
       result = result.map((v) => {
         v.gallery = JSON.parse(v.gallery)
         v.options = JSON.parse(v.options)

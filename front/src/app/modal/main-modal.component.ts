@@ -184,16 +184,13 @@ export class MainModalComponent implements OnInit {
           break
         case component == 'login':
         case res.length > 0:
+
           const ls = window.localStorage
           const isAdmin = body.isAdmin === true ? "true" : "false"
-
-          ls.removeItem('user_token')
-          ls.removeItem('user_admin')
+          ls.clear()
           ls.setItem('user_token', body.token)
           ls.setItem('user_admin', isAdmin)
-          this.router.navigateByUrl("/admin").then(n => {
-            console.log(n)
-          })
+          this.router.navigateByUrl("/admin").then(n => {})
           break
 
       }

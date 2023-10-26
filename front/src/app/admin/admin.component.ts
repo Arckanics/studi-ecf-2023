@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
+import { AuthService } from "./service/auth-service.service";
 
 @Component({
   selector: 'app-admin',
@@ -99,7 +100,8 @@ export class AdminComponent {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {
     this.ls = window.localStorage
     const token = this.ls.getItem('user_token');
@@ -131,8 +133,7 @@ export class AdminComponent {
   logOut() {
     const {headers} = this
     this.http.post('/logout', '', {headers})
-    this.ls.removeItem('user_token')
-    this.ls.removeItem('user_type')
+    this.ls.clear();
     this.router.navigateByUrl("/")
   }
 }

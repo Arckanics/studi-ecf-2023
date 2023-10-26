@@ -4,13 +4,12 @@ import { Subscription } from "rxjs";
 
 @Directive()
 export class AbstractListComponent implements OnInit, OnDestroy {
-
-
   public act: any
   list!: any[]
   protected sub!: Subscription
   protected formSub!: Subscription
   protected patchedElement!: number
+  protected db!:string
   formSet!: FormGroup
   event: string = ''
   createAction = {
@@ -25,26 +24,30 @@ export class AbstractListComponent implements OnInit, OnDestroy {
 
     this.event = act.action
     // @ts-ignore
-    new bootstrap.Modal('#admin-modal').show()
+    this.event !== 'delete' ? new bootstrap.Modal('#admin-modal').show() : null
 
     const pathData = () => {
       const data = this.list.find(e => e.id == act.id)
-      Object.entries(data).map(([ k, v ]) => {
-        const control: any = this.formSet.controls[k]
-        if (Array.isArray(v)) {
-          v.map(value => {
-            (control as FormArray).push(new FormControl(value))
-          })
-        } else {
-          control.setValue(v)
-        }
-      })
+      if (this.event !== 'delete') {
+        Object.entries(data).map(([ k, v ]) => {
+          const control: any = this.formSet.controls[k]
+          if (Array.isArray(v)) {
+            v.map(value => {
+              (control as FormArray).push(new FormControl(value))
+            })
+          } else {
+            control.setValue(v)
+          }
+        })
+      }
       this.patchedElement = act.id
-      return data
+      return this.event === 'edit' ? data : null
     }
 
     switch (true) {
       case this.event == 'edit':
+        return pathData()
+      case this.event == 'delete':
         return pathData()
       default:
         return false

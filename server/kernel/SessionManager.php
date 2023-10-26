@@ -48,8 +48,11 @@ class SessionManager extends globalMethod
       'device' => $this->makeUniq($user),
       'expireAt' => $this->resetLifeTime()
     ];
-    $sess = fopen($this->sessionDir . "/$this->token.json", "w+");
+    $filePath = "$this->sessionDir/$this->token.json";
+    $sess = fopen($filePath, "w+");
+    flock($sess, LOCK_EX);
     fwrite($sess, json_encode($session));
+    flock($sess, LOCK_UN);
     fclose($sess);
   }
 
@@ -110,9 +113,9 @@ class SessionManager extends globalMethod
   public function getSession($token = "", $request = true)
   {
     $this->token = $token;
-    $sessionManager = glob($this->sessionDir . "/$token.json");
-    if (!empty($sessionManager)) {
-      $session = [...json_decode(file_get_contents($sessionManager[0]), true)];
+    $filePath = $this->sessionDir . "/$token.json";
+    if (file_exists( "$this->sessionDir/$token.json")) {
+      $session = [...json_decode(file_get_contents($filePath), true)];
       if ($this->resetLifeTime() - $session["expireAt"] < 0) {
         if ($request) {
 
@@ -129,10 +132,5 @@ class SessionManager extends globalMethod
       $this->storeSession($session);
       return $this->prepareToken($session);
     }
-    if ($request) {
-
-      http_response_code(404);
-    }
-    return "Session Not Found";
   }
 }

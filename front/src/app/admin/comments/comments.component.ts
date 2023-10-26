@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DatabaseService } from "../service/database.service";
 import { AbstractListComponent } from "../abstract-list.component";
 import { FormControl, FormGroup } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-comments',
@@ -12,7 +13,7 @@ import { FormControl, FormGroup } from "@angular/forms";
         (action)="getAction($event)"
     ></app-comment>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal title="Témoignage">
+    <app-modal title="Témoignage" (xhrSend)="submitForm(null)" (submit)="submitForm($event)">
       <form [formGroup]="formSet" class="admin-form">
         <div class="input-group mb-3">
             <label for="name" class="input-group-text input-label">Nom</label>
@@ -55,10 +56,10 @@ import { FormControl, FormGroup } from "@angular/forms";
   ]
 })
 export class CommentsComponent extends AbstractListComponent {
-  private db: string = "comments"
 
   constructor(private bdd: DatabaseService) {
     super()
+    this.db = "comments"
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
       this.list = res
     })
@@ -83,4 +84,8 @@ export class CommentsComponent extends AbstractListComponent {
     return super.getAction(act);
   }
 
+  submitForm($event: any) {
+    this.prevSubmit($event);
+    console.log(this.formSet.value, this.event)
+  }
 }

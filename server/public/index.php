@@ -16,12 +16,13 @@ function staticReturn(): void {
   echo file_get_contents(__DIR__ . '/main.html');
 }
 
-function dataResponse ($class, $method)
+function dataResponse ($class, $method): void
 {
   echo json_encode($class->$method());
 }
 
-function provideSession($disconnect = false){
+function provideSession($disconnect = false): void
+{
   global $method, $status;
   $session = new SessionManager();
   if ($method !== "post") {

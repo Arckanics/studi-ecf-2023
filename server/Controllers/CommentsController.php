@@ -16,8 +16,7 @@ class CommentsController extends AbstractController {
 
   public function get()
   {
-
-    if ($this->session) {
+    if ($this->session !== null) {
       return $this->entity->getAll(true);
     }
     return $this->entity->getAll();

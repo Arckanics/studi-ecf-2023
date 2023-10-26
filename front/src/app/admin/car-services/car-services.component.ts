@@ -50,10 +50,10 @@ import { FormControl, FormGroup } from "@angular/forms";
 })
 export class CarServicesComponent extends AbstractListComponent {
 
-  private db: string = "services"
 
   constructor(private bdd: DatabaseService) {
     super()
+    this.db = "services"
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
 
       this.list = res

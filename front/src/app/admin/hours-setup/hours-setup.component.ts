@@ -85,7 +85,6 @@ import { FormControl, FormGroup } from "@angular/forms";
   ]
 })
 export class HoursSetupComponent extends AbstractListComponent {
-  private db: string = "hours"
   @ViewChild('beginHour') inputBh: any;
   @ViewChild('beginMin') inputBm: any;
   @ViewChild('endHour') inputEh: any;
@@ -93,6 +92,7 @@ export class HoursSetupComponent extends AbstractListComponent {
 
   constructor(private bdd: DatabaseService) {
     super()
+    this.db = "hours"
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
 
       this.list = res
