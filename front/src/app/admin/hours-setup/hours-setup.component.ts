@@ -12,8 +12,8 @@ import { FormControl, FormGroup } from "@angular/forms";
       (action)="getAction($event)"
     ></admin-hours>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal title="Horaire" [formGroup]="formSet">
-      <form class="admin-form">
+    <app-modal title="Horaire" *ngIf="modalToggle" (close)="closeModal()">
+      <form class="admin-form" [formGroup]="formSet">
         <div class="mb-3">
           <div class="input-group">
             <label class="input-group-text">Jour</label>

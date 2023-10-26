@@ -9,7 +9,7 @@ import { FormControl, FormGroup } from "@angular/forms";
     <app-loading *ngIf="!list"></app-loading>
     <car-service *ngFor="let s of list" [service]="s" (action)="getAction($event)"></car-service>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal title="Service">
+    <app-modal title="Service" *ngIf="modalToggle" (close)="closeModal()">
       <form class="admin-form" [formGroup]="formSet">
         <div class="mb-3">
           <div class="input-group">
