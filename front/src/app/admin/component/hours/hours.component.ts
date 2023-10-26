@@ -19,8 +19,8 @@ export type Hour = {
     </div>
     <div class="flex-shrink-0">
       <div class="d-flex align-items-end justify-content-end flex-md-row flex-column gap-2 actions">
-        <div role="button" class="btn btn-warning d-block" (click)="putAction(['edit','horaires',hour.id])"><i class="bi bi-pencil-square"></i></div>
-        <div role="button" class="btn btn-dark d-block" (click)="putAction(['delete','horaires',hour.id])"><i class="bi bi-trash3"></i></div>
+        <div role="button" class="btn btn-warning d-block" (click)="putAction(['edit','hours',hour.id])"><i class="bi bi-pencil-square"></i></div>
+        <div role="button" class="btn btn-dark d-block" (click)="putAction(['delete','hours',hour.id])"><i class="bi bi-trash3"></i></div>
       </div>
     </div>
   `,

@@ -25,7 +25,7 @@ class UsersEntity extends AbstractEntity {
       http_response_code(200);
       return [...$user, "password" => null];
     }
-    http_response_code(404);
+    http_response_code(403);
     return "Bad credentials";
   }
 }

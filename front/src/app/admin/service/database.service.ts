@@ -5,18 +5,29 @@ import { HttpClient } from "@angular/common/http";
   providedIn: 'root'
 })
 export class DatabaseService {
-  BDDLink: string = window.location.protocol + '//' + window.location.host.replace(/:[0-9]+$/, ':3000')
 
+  private headers: {[index:string]: string} = {
+    'XML-Http-Request': 'true'
+  }
+  private ls: Storage
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+
   ) {
+    this.ls = window.localStorage
+    const token = this.ls.getItem('user_token');
+    if (token) {
+      this.headers["Auth-User"] = token
+    }
   }
 
   getData(db: string) {
-    return this.http.get(`${this.BDDLink}/${db}`)
+    const { headers } = this
+    return this.http.get(`/${db}`, {headers})
   }
 
   fullRequest(db: string) {
-    return this.http.get(`${this.BDDLink}/${db}`, { observe: "response" })
+    const { headers } = this
+    return this.http.get(`/${db}`, { headers, observe: "response" })
   }
 }

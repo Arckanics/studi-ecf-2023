@@ -199,7 +199,7 @@
       "text": "Nouse reprenons votre véhicules. Pour tout achat de véhicules neuf, nous nous engagons à reprendre le votre"
     }
   ],
-  "commentaires": [
+  "comments": [
     {
       "id": 1,
       "name": "John Doe",
@@ -264,7 +264,7 @@
       "enabled": true
     }
   ],
-  "horaires": [
+  "hours": [
     {
       "id": 1,
       "day": 0,

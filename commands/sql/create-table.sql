@@ -27,7 +27,7 @@ CREATE table `comments`
     name    VARCHAR(30)               NOT NULL,
     message TEXT                      NOT NULL,
     note    INT                       NOT NULL,
-    enable  TINYINT(1)                NOT NULL,
+    enabled  TINYINT(1)                NOT NULL,
     primary key (id)
   );
 

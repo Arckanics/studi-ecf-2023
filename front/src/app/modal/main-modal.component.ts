@@ -6,6 +6,7 @@ import { ToggleModal } from "../../store/modal/modal.actions";
 import { StaticCompDirective } from "./static-comp.directive";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { catchError } from "rxjs";
 
 @Component({
   selector: 'app-main-modal',
@@ -18,7 +19,7 @@ import { Router } from "@angular/router";
               <h5 class="modal-title px-2 fw-bold">
                 {{titles[component]}}
                 <span *ngIf="wrongThings" class="d-inline text-danger small">
-                  (Erreur Client)
+                  {{ errorMsg }}
                 </span>
               </h5>
 
@@ -89,6 +90,7 @@ export class MainModalComponent implements OnInit {
   private data: any
   private url: string = ""
   wrongThings: any;
+  errorMsg: string = ""
 
   constructor(
     public dynamicComp: DynamicFormDirective,
@@ -170,26 +172,39 @@ export class MainModalComponent implements OnInit {
     }
 
     const result = (res: any) => {
-      const response = res[0]
+      const {body} = res
       switch (true) {
+        case component == 'login' && res.status == 404:
+          this.errorMsg = "Compte Inexistant"
+          this.wrongThings = true
+          break
+        case component == 'login' && res.status == 403:
+          this.errorMsg = "Mauvais mot de passe"
+          this.wrongThings = true
+          break
         case component == 'login':
         case res.length > 0:
           const ls = window.localStorage
-          const isAdmin = response.isAdmin === true ? "admin" : "user"
+          const isAdmin = body.isAdmin === true ? "true" : "false"
 
           ls.removeItem('user_token')
-          ls.removeItem('user_type')
-          ls.setItem('user_token', 'xxx')
-          ls.setItem('user_type', isAdmin)
+          ls.removeItem('user_admin')
+          ls.setItem('user_token', body.token)
+          ls.setItem('user_admin', isAdmin)
           this.router.navigateByUrl("/admin").then(n => {
             console.log(n)
           })
           break
-        case res.length == 0:
-          this.wrongThings = true
+
       }
+      return res;
     }
-    http.post(req.url, data, { headers }).subscribe(result)
+    const request = http.post(req.url, data, { headers, observe: "response" })
+      .pipe(catchError((err) => result(err)))
+      .subscribe((res) => {
+        request.unsubscribe()
+        return result(res)
+      })
     return true
   }
 }

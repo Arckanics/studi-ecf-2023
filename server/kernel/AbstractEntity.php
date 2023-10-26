@@ -2,7 +2,7 @@
 
 namespace kernel;
 
-class AbstractEntity
+class AbstractEntity extends globalMethod
 {
   protected $pdo = null;
 

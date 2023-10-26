@@ -52,11 +52,11 @@ import { DatabaseService } from "../service/database.service";
             </div>
             <div id="services-count" class="fs-5">
               <span class="text-decoration-underline fw-bold">Horaires :</span>
-              <span class="text-center"> {{counters.horaires}}</span>
+              <span class="text-center"> {{counters.hours}}</span>
             </div>
             <div id="services-count" class="fs-5">
               <span class="text-decoration-underline fw-bold">Témoignages :</span>
-              <span class="text-center"> {{counters.commentaires}}</span>
+              <span class="text-center"> {{counters.comments}}</span>
             </div>
           </div>
           <div class="card-footer">
@@ -154,15 +154,15 @@ export class HomeComponent implements OnDestroy {
   counters = {
     services: 0,
     cars: 0,
-    horaires: 0,
-    commentaires: 0,
+    hours: 0,
+    comments: 0,
   }
 
   private bdds: string[] | Subscription[] = [
     'cars',
     'services',
-    'horaires',
-    'commentaires'
+    'hours',
+    'comments'
   ]
 
   constructor(
@@ -174,9 +174,9 @@ export class HomeComponent implements OnDestroy {
     })
 
     this.bdds.map((v: any, i) =>
-      this.bdds[i] = this.bdd.fullRequest(v + '?_page=1').subscribe((e) => {
+      this.bdds[i] = this.bdd.fullRequest(v).subscribe((e) => {
         // @ts-ignore
-        this.counters[`${v}`] = Number(e.headers.get('X-Total-Count'))
+        this.counters[`${v}`] = e.body.length
         if (this.bdds[i] instanceof Subscription) {
           // @ts-ignore
           this.bdds[i].unsubscribe()

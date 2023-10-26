@@ -45,6 +45,7 @@ class SessionManager extends globalMethod
       'id' => $user['id'],
       'account' => $user['account'],
       'isAdmin' => !($user['isAdmin'] === 0),
+      'device' => $this->makeUniq($user),
       'expireAt' => $this->resetLifeTime()
     ];
     $sess = fopen($this->sessionDir . "/$this->token.json", "w+");
@@ -52,15 +53,36 @@ class SessionManager extends globalMethod
     fclose($sess);
   }
 
-  private function prepareToken($user) {
+  private function prepareToken($user)
+  {
     $response = [
       'token' => $this->token,
       'isAdmin' => !($user['isAdmin'] === 0)
     ];
-
     return json_encode($response, JSON_THROW_ON_ERROR);
   }
 
+  private function makeUniq($user)
+  {
+    $remote = $_SERVER['REMOTE_ADDR'];
+    $agent = $_SERVER['HTTP_USER_AGENT'];
+    $uid = $user['id'];
+    return "$remote/$agent - user $uid";
+  }
+
+  private function cleanSessions($user)
+  {
+    $files = scandir($this->sessionDir);
+    foreach ($files as $file) {
+      if (preg_match('/\.json$/', $file)) {
+        $filePath = "$this->sessionDir/$file";
+        $session = json_decode(file_get_contents($filePath), true);
+        if ($session['device'] === $this->makeUniq($user)) {
+          unlink($filePath);
+        }
+      }
+    }
+  }
 
   public function connect(): false|array|string
   {
@@ -72,6 +94,7 @@ class SessionManager extends globalMethod
     $this->token = bin2hex(random_bytes(16));
     $user = $this->entity->findUser($data);
     if (is_array($user)) {
+      $this->cleanSessions($user);
       $this->storeSession($user);
       return $this->prepareToken($user);
     }
@@ -83,23 +106,33 @@ class SessionManager extends globalMethod
     $this->token = $token;
     unlink($this->sessionDir . "/$this->token.json");
   }
-  public function getSession($token = "")
+
+  public function getSession($token = "", $request = true)
   {
     $this->token = $token;
-    $sessionManager = glob($this->sessionDir."/$token.json");
+    $sessionManager = glob($this->sessionDir . "/$token.json");
     if (!empty($sessionManager)) {
       $session = [...json_decode(file_get_contents($sessionManager[0]), true)];
       if ($this->resetLifeTime() - $session["expireAt"] < 0) {
-        http_response_code(440);
+        if ($request) {
+
+          http_response_code(440);
+        }
         $this->disconnect($token);
         return "session expired";
       }
-      http_response_code(200);
+      if ($request) {
+
+        http_response_code(200);
+      }
       $session["expireAt"] = $this->resetLifeTime();
       $this->storeSession($session);
       return $this->prepareToken($session);
     }
-    http_response_code(404);
+    if ($request) {
+
+      http_response_code(404);
+    }
     return "Session Not Found";
   }
 }

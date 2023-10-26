@@ -85,7 +85,7 @@ import { FormControl, FormGroup } from "@angular/forms";
   ]
 })
 export class HoursSetupComponent extends AbstractListComponent {
-  private db: string = "horaires"
+  private db: string = "hours"
   @ViewChild('beginHour') inputBh: any;
   @ViewChild('beginMin') inputBm: any;
   @ViewChild('endHour') inputEh: any;

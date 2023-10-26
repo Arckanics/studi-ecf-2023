@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-admin',
@@ -92,11 +93,19 @@ export class AdminComponent {
 
   list: any
   private ls
+  private headers: {[index:string]: string} = {
+    'XML-Http-Request': 'true'
+  }
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.ls = window.localStorage
+    const token = this.ls.getItem('user_token');
+    if (token) {
+      this.headers["Auth-User"] = token
+    }
     const initList = () => {
       const type: any = {
         user: [
@@ -108,7 +117,7 @@ export class AdminComponent {
           { name: 'hours', url: 'hours', title: "Hours" }
         ],
       }
-      const user = this.ls.getItem('user_type') || "user"
+      const user = this.ls.getItem('user_admin') == "true" ? "admin" : "user"
       return type[user];
     }
     this.list = initList()
@@ -120,6 +129,8 @@ export class AdminComponent {
   }
 
   logOut() {
+    const {headers} = this
+    this.http.post('/logout', '', {headers})
     this.ls.removeItem('user_token')
     this.ls.removeItem('user_type')
     this.router.navigateByUrl("/")

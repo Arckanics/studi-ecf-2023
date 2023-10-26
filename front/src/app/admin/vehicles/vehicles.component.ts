@@ -124,7 +124,14 @@ export class VehiclesComponent extends AbstractListComponent {
   constructor(private bdd: DatabaseService) {
     super()
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
-      this.list = res
+      let result = [...res];
+      console.log(result);
+      result = result.map((v) => {
+        v.gallery = JSON.parse(v.gallery)
+        v.options = JSON.parse(v.options)
+        return v
+      })
+      this.list = result
     })
     this.resetForm()
   }

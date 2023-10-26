@@ -24,7 +24,7 @@ export type vehicle = {
       <div class="row car-cards ">
         <div class="col-md-3 col-6 col-wrap">
           <div class=" main-pic">
-            <img [src]="car.mainPicture" class="d-block" [alt]="car.mainPicture"/>
+            <img [src]="'img/'+car.mainPicture" class="d-block" [alt]="car.mainPicture"/>
           </div>
         </div>
 
@@ -177,4 +177,5 @@ export type vehicle = {
 
 export class VehicleComponent extends AbstractComponent {
   @Input() car!: vehicle
+
 }

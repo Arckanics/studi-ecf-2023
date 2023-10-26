@@ -21,7 +21,7 @@ function dataResponse ($class, $method)
   echo json_encode($class->$method());
 }
 
-function provideSession(){
+function provideSession($disconnect = false){
   global $method, $status;
   $session = new SessionManager();
   if ($method !== "post") {
@@ -31,7 +31,11 @@ function provideSession(){
     if (!isset($status['Auth-User'])) {
       echo $session->connect();
     } else {
-      echo $session->getSession($status['Auth-User']);
+      if ($disconnect) {
+        echo $session->getSession($status['Auth-User']);
+      } else {
+        $session->disconnect($status['Auth-User']);
+      }
     }
   }
 
@@ -56,6 +60,8 @@ if (!isset($status['XML-Http-Request'])) {
       return dataResponse(new CarsController(), $method);
     case $uri === "/users":
       return provideSession();
+    case $uri === "/logout":
+      return provideSession(true);
     default:
       echo $uri;
       return staticReturn();
