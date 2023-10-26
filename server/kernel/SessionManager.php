@@ -44,7 +44,7 @@ class SessionManager extends globalMethod
     $session = [
       'id' => $user['id'],
       'account' => $user['account'],
-      'isAdmin' => !($user['isAdmin'] === 0),
+      'isAdmin' => $this->convertToBool($user['isAdmin']),
       'device' => $this->makeUniq($user),
       'expireAt' => $this->resetLifeTime()
     ];
@@ -60,7 +60,7 @@ class SessionManager extends globalMethod
   {
     $response = [
       'token' => $this->token,
-      'isAdmin' => !($user['isAdmin'] === 0)
+      'isAdmin' => $this->convertToBool($user['isAdmin'])
     ];
     return json_encode($response, JSON_THROW_ON_ERROR);
   }
@@ -97,6 +97,7 @@ class SessionManager extends globalMethod
     $this->token = bin2hex(random_bytes(16));
     $user = $this->entity->findUser($data);
     if (is_array($user)) {
+      var_dump($user);
       $this->cleanSessions($user);
       $this->storeSession($user);
       return $this->prepareToken($user);
