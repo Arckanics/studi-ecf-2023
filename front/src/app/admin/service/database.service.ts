@@ -1,33 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DatabaseService {
 
-  private headers: {[index:string]: string} = {
-    'XML-Http-Request': 'true'
-  }
   private ls: Storage
   constructor(
     private http: HttpClient,
 
   ) {
     this.ls = window.localStorage
-    const token = this.ls.getItem('user_token');
-    if (token) {
-      this.headers["Auth-User"] = token
-    }
   }
 
+  private getHeaders() {
+    const token = this.ls.getItem('user_token');
+    return {
+      'XML-Http-Request': 'true',
+      'Auth-User': token ? token : ""
+    }
+  }
   getData(db: string) {
-    const { headers } = this
-    return this.http.get(`/${db}`, {headers})
+    return this.http.get(`/${db}`, {headers: this.getHeaders()})
   }
 
   fullRequest(db: string) {
-    const { headers } = this
-    return this.http.get(`/${db}`, { headers, observe: "response" })
+    return this.http.get(`/${db}`, { headers: this.getHeaders(), observe: "response" })
   }
 }

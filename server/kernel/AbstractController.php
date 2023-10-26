@@ -3,14 +3,17 @@
 namespace kernel;
 class AbstractController implements ControllerInterface {
   protected $headers = null;
-  protected string|null $session;
+  protected $session;
 
   public function __construct()
   {
     $this->headers = getallheaders();
-    $session = new SessionManager();
-    $this->session = isset($this->headers['Auth-User']) ? $session->getSession($this->headers['Auth-User'], !isset($this->headers['XML-Http-Request
-	'])) : null;
+    if (isset($this->headers['Auth-User'])) {
+      $sessM = new SessionManager();
+      $this->session = $sessM->getSession($this->headers['Auth-User'], false);
+    } else {
+      $this->session = null;
+    }
   }
 
   protected function forbiddenError() {

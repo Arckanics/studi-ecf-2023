@@ -172,7 +172,6 @@ export class HomeComponent implements OnDestroy {
     this.clockObserve = interval(1000).subscribe(() => {
       this.currDate = new Date()
     })
-    console.log(this.ls.getItem('user_token'))
     this.bdds.map((v: any, i) =>
       this.bdds[i] = this.bdd.fullRequest(v).subscribe((e) => {
         // @ts-ignore
