@@ -7,15 +7,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">{{title}}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            <h5 class="modal-title">{{title}} <span class="text-danger fs-6">{{errorMsg}}</span></h5>
+            <button type="button" class="btn-close" aria-label="Close"
                     (click)="close.emit('close')"></button>
           </div>
           <div class="modal-body">
             <ng-content></ng-content>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close.emit('close')">
+            <button type="button" class="btn btn-secondary" (click)="close.emit('close')">
               Annuler
             </button>
             <button type="button" class="btn btn-primary" (click)="send()">Appliquer</button>
@@ -33,6 +33,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         left: 0;
         max-height: calc(100dvh - 7.4rem);
         background-color: rgba(0, 0, 0, 0.2);
+        &.modal {
+          display: block;
+        }
       }
     `
   ]
@@ -40,6 +43,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ModalComponent {
   @Input() title!: string
   @Input() data!: any
+  @Input() errorMsg!: string
   @Output() xhrSend = new EventEmitter()
   @Output() close = new EventEmitter()
 

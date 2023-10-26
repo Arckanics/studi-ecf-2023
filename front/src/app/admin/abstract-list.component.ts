@@ -10,6 +10,8 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   protected formSub!: Subscription
   protected patchedElement!: number
   protected db!:string
+  public modalToggle: boolean = false
+  errorMsg!: string
   formSet!: FormGroup
   event: string = ''
   createAction = {
@@ -24,8 +26,10 @@ export class AbstractListComponent implements OnInit, OnDestroy {
 
     this.event = act.action
     // @ts-ignore
-    this.event !== 'delete' ? new bootstrap.Modal('#admin-modal').show() : null
+    // this.event !== 'delete' ? new bootstrap.Modal('#admin-modal').show() : null
 
+
+    this.modalToggle = (this.event !== 'delete')
     const pathData = () => {
       const data = this.list.find(e => e.id == act.id)
       if (this.event !== 'delete') {
@@ -71,6 +75,11 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     if (this.formSub) {
       this.formSub.unsubscribe()
     }
+  }
+
+  closeModal() {
+    this.modalToggle = false
+    this.errorMsg = ""
   }
 
   fileToUrl(file: any) {
