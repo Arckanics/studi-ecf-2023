@@ -26,4 +26,8 @@ export class DatabaseService {
   fullRequest(db: string) {
     return this.http.get(`/${db}`, { headers: this.getHeaders(), observe: "response" })
   }
+
+  put(db: string, data: any) {
+    return this.http.put(`/${db}`, data,{ headers: this.getHeaders(), observe: "response" })
+  }
 }
