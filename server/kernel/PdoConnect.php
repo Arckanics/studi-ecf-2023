@@ -2,6 +2,8 @@
 
 namespace kernel;
 
+use PDO;
+
 require_once "../_config.php";
 
 class PdoConnect extends globalMethod
@@ -46,9 +48,11 @@ class PdoConnect extends globalMethod
     return self::$instance;
   }
 
+  //custom query
   public function query($sql) {
     return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
   }
+  // get Queries
   public function getAll($table)
   {
     $query = $this->pdo->prepare("
@@ -71,8 +75,31 @@ class PdoConnect extends globalMethod
     $sql = implode(" ", $list) . implode(" and ", $param);
     $query = $this->pdo->prepare($sql);
     $query->execute($filters);
-    $stmt = $query->fetchAll(\PDO::FETCH_ASSOC);
+    $stmt = $query->fetchAll(PDO::FETCH_ASSOC);
 
     return count($stmt) === 0 ? $stmt : $stmt[0];
+  }
+
+  public function updateOne($table, $data){
+    $fields = [];
+    $preData = [];
+    foreach ($data as $key => $row) {
+      if ($key !== "id") {
+        $fields[] = "$key = :$key";
+        $preData[$key] = is_bool($row) ? $this->boolToTinyInt($row): $row;
+      }
+    }
+    $sql = "UPDATE $table SET ".implode(", ",$fields)." WHERE id = ".$data['id'].";";
+
+    try {
+      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = $this->pdo->prepare($sql);
+      $query->execute($preData);
+
+      return $this->findOne($table, ["id" => $data["id"]]);
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      return "Erreur : " . $e->getMessage();
+    }
   }
 }

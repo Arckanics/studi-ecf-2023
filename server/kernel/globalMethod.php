@@ -12,6 +12,14 @@ class globalMethod
       default => false,
     };
   }
+
+  public function boolToTinyInt($val) {
+    return match ($val) {
+      false => 0,
+      true => 1,
+      default => 0,
+    };
+  }
   public function isStrBool($val) {
     return match ($val) {
       "false", "FALSE", "true", "TRUE" => true,

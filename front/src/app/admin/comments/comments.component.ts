@@ -2,22 +2,22 @@ import { Component } from '@angular/core';
 import { DatabaseService } from "../service/database.service";
 import { AbstractListComponent } from "../abstract-list.component";
 import { FormControl, FormGroup } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { catchError } from "rxjs";
 
 @Component({
   selector: 'app-comments',
   template: `
     <app-loading *ngIf="!list"></app-loading>
     <app-comment
-        *ngFor="let c of list" [comment]="c"
-        (action)="getAction($event)"
+      *ngFor="let c of list" [comment]="c"
+      (action)="getAction($event)"
     ></app-comment>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal title="Témoignage" (xhrSend)="submitForm(null)" (submit)="submitForm($event)">
+    <app-modal *ngIf="modalToggle" title="Témoignage" [errorMsg]="errorMsg" (xhrSend)="submitForm(null)" (submit)="submitForm($event)" (close)="closeModal()">
       <form [formGroup]="formSet" class="admin-form">
         <div class="input-group mb-3">
-            <label for="name" class="input-group-text input-label">Nom</label>
-            <input type="text" class="form-control" id="name" formControlName="name">
+          <label for="name" class="input-group-text input-label">Nom</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
         </div>
         <div class="input-group mb-3">
           <label for="message" class="input-group-text input-label">Message</label>
@@ -86,6 +86,35 @@ export class CommentsComponent extends AbstractListComponent {
 
   submitForm($event: any) {
     this.prevSubmit($event);
-    console.log(this.formSet.value, this.event)
+    const { event } = this
+    switch (true) {
+      case event == 'edit':
+        const request = this.bdd.put(this.db, this.formSet.value)
+          .pipe(
+            catchError((err: any) => {
+              this.errorMsg = `Erreur : ${err.status}`
+              return err
+            })
+          )
+          .subscribe((e: any) => {
+            request.unsubscribe()
+            if (e.status == 200) {
+              const data: any = { ...e.body }
+              let i = this.list.find((item) => item.id === data.id)
+              if (i) {
+                Object.entries(i).map(([k,v]) => i[k] = data[k]);
+              }
+              this.closeModal()
+              return true
+            }
+
+            return false
+
+          })
+        break;
+      default:
+        break;
+    }
+
   }
 }

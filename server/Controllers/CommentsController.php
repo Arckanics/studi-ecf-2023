@@ -25,9 +25,11 @@ class CommentsController extends AbstractController {
 
   public function put()
   {
+
     if (!$this->session) {
       return $this->forbiddenError();
     }
+    return $this->entity->update();
   }
 
   public function post()

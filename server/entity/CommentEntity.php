@@ -27,4 +27,9 @@ class CommentEntity extends AbstractEntity
     return $formatData;
   }
 
+  public function update() {
+    $request_body = json_decode(file_get_contents("php://input"), true);
+    return $this->pdo->updateOne($this->table, $request_body);
+  }
+
 }
