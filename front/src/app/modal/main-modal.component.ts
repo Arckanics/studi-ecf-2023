@@ -81,9 +81,9 @@ export class MainModalComponent implements OnInit {
     login: 'Connexion'
   }
   public urls: any = {
-    comment: 'commentaires',
+    comment: 'comments',
     contact: 'contact',
-    hours: 'horaires',
+    hours: 'hours',
     login: 'users'
   }
   public static: boolean = false
@@ -200,6 +200,7 @@ export class MainModalComponent implements OnInit {
       .pipe(catchError((err) => result(err)))
       .subscribe((res) => {
         request.unsubscribe()
+        this.store.dispatch(new ToggleModal(false))
         return result(res)
       })
     return true
