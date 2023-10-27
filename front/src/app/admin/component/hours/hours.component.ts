@@ -50,8 +50,8 @@ export class HoursComponent extends AbstractComponent {
   ngOnInit() {
     const { day } = this.hour
     let date = new Date()
-    let reset = date.getDay() + day - 5
-    date.setDate(date.getDate() + reset)
+    let reset = date.getDay() - 1
+    date.setDate(date.getDate() - reset + day)
     this.strDay = date.toLocaleDateString('fr-FR', { weekday: "long" })
   }
 }
