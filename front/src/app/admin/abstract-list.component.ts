@@ -25,6 +25,7 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   getAction(act: any) {
 
     this.event = act.action
+    this.act = {...act}
     // @ts-ignore
     // this.event !== 'delete' ? new bootstrap.Modal('#admin-modal').show() : null
 
@@ -32,7 +33,6 @@ export class AbstractListComponent implements OnInit, OnDestroy {
     this.modalToggle = (this.event !== 'delete')
     const pathData = () => {
       const data = this.list.find(e => e.id == act.id)
-      if (this.event !== 'delete') {
         Object.entries(data).map(([ k, v ]) => {
           const control: any = this.formSet.controls[k]
           if (Array.isArray(v)) {
@@ -43,16 +43,15 @@ export class AbstractListComponent implements OnInit, OnDestroy {
             control.setValue(v)
           }
         })
-      }
       this.patchedElement = act.id
       return this.event === 'edit' ? data : null
     }
 
-    switch (true) {
-      case this.event == 'edit':
+    switch (this.event) {
+      case 'edit':
         return pathData()
-      case this.event == 'delete':
-        return pathData()
+      case 'delete':
+        return act
       default:
         return false
     }
@@ -127,6 +126,28 @@ export class AbstractListComponent implements OnInit, OnDestroy {
                 Object.entries(i).map(([ k, v ]) => i[k] = data[k]);
               }
               this.closeModal()
+              return true
+            }
+
+            return false
+
+          })
+        break;
+        case event == 'delete':
+        request = bdd.delete(this.db, this.act.id)
+          .pipe(catchError(errorMsg))
+          .subscribe((e: any) => {
+            request.unsubscribe()
+            if (e.status == 200) {
+              let itemIndex;
+              let i = this.list.find((item, index) => {
+                itemIndex = index
+                return item.id === this.act.id
+              })
+
+              if (itemIndex) {
+                this.list.splice(itemIndex,1)
+              }
               return true
             }
 

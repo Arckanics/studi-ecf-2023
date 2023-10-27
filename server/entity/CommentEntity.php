@@ -36,7 +36,8 @@ class CommentEntity extends AbstractEntity
     $request_body = $this->getBody();
     if ($client) {
       $request_body['enabled'] = false;
-      return "true";
+      $this->pdo->insertOne($this->table, $request_body);
+      return true;
     }
     return $this->pdo->insertOne($this->table, $request_body);
   }

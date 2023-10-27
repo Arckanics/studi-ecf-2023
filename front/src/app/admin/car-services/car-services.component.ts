@@ -9,14 +9,19 @@ import { FormControl, FormGroup } from "@angular/forms";
     <app-loading *ngIf="!list"></app-loading>
     <car-service *ngFor="let s of list" [service]="s" (action)="getAction($event)"></car-service>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal title="Service" *ngIf="modalToggle" (close)="closeModal()">
+    <app-modal title="Service"
+               *ngIf="modalToggle"
+               [errorMsg]="errorMsg"
+               (xhrSend)="submitForm(null)"
+               (submit)="submitForm($event)"
+               (close)="closeModal()">
       <form class="admin-form" [formGroup]="formSet">
         <div class="mb-3">
           <div class="input-group">
             <label class="input-group-text">
               Titre
             </label>
-            <input type="text" class="form-control" formControlName="title" />
+            <input type="text" class="form-control" formControlName="title"/>
           </div>
         </div>
         <div class="mb-3">
@@ -40,6 +45,7 @@ import { FormControl, FormGroup } from "@angular/forms";
         padding: .4rem;
         padding-bottom: 4rem;
       }
+
       .add-btn {
         position: fixed;
         right: .4rem;
@@ -70,9 +76,16 @@ export class CarServicesComponent extends AbstractListComponent {
   }
 
   override getAction(act: any): any | boolean {
-    if (act.action == 'create') {
+    if (act.action == "create") {
       this.resetForm()
     }
-    return super.getAction(act);
+    super.getAction(act);
+    if (act.action == "delete") {
+      this.submitForm(null)
+    }
+  }
+
+  override submitForm($event: any) {
+    super.submitForm($event, this.bdd);
   }
 }

@@ -14,7 +14,11 @@ import { FormControl, FormGroup } from "@angular/forms";
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
     <app-modal title="Horaire" [ngClass]="{
         'd-none' : !modalToggle
-    }" (close)="closeModal()">
+    }"
+               [errorMsg]="errorMsg"
+               (xhrSend)="submitForm(null)"
+               (submit)="submitForm($event)"
+               (close)="closeModal()">
       <form class="admin-form" [formGroup]="formSet">
         <div class="mb-3">
           <div class="input-group">
@@ -102,9 +106,10 @@ export class HoursSetupComponent extends AbstractListComponent {
     this.resetForm()
   }
 
-  getStrDay(d: number) {
-    const date = new Date()
-    date.setDate(date.getDate() - date.getDay() + d)
+  getStrDay(day: number) {
+    let date = new Date()
+    let reset = date.getDay()
+    date.setDate(date.getDate() - reset + day)
     return date.toLocaleDateString('fr-FR', { weekday: "long" })
   }
 
@@ -112,7 +117,10 @@ export class HoursSetupComponent extends AbstractListComponent {
     if (act.action == "create") {
       this.resetForm()
     }
-    return super.getAction(act);
+    super.getAction(act);
+    if (act.action == "delete") {
+      this.submitForm(null)
+    }
   }
 
 
@@ -168,6 +176,10 @@ export class HoursSetupComponent extends AbstractListComponent {
       inputEh.nativeElement.value = end.hour
       inputEm.nativeElement.value = end.min
     })
+  }
+
+  override submitForm($event: any) {
+    super.submitForm($event, this.bdd);
   }
 
 }

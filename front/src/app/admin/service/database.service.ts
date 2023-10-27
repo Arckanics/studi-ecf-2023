@@ -35,5 +35,8 @@ export class DatabaseService {
     return this.http.put(`/${db}`, data,{ headers: this.getHeaders(), observe: "response" })
   }
 
+  delete(db: string, data: any) {
+    return this.http.delete(`/${db}?id=${data}`, { headers: this.getHeaders(), observe: "response" })
+  }
 
 }

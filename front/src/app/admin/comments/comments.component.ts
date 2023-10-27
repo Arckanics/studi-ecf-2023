@@ -77,10 +77,13 @@ export class CommentsComponent extends AbstractListComponent {
   }
 
   override getAction(act: any): any | boolean {
-    if (act.action == 'create') {
-      this.resetForm();
+    if (act.action == "create") {
+      this.resetForm()
     }
-    return super.getAction(act);
+    super.getAction(act);
+    if (act.action == "delete") {
+      this.submitForm(null)
+    }
   }
 
   override submitForm($event: any, bdd:any = null) {
