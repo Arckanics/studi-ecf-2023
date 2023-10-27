@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Store } from "@ngrx/store";
 
 @Component({
   selector: 'app-contact',
@@ -12,13 +13,13 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
         <div id="nameHelp" class="form-text">Votre nom</div>
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Prénom</label>
+        <label for="firstname" class="form-label">Prénom</label>
         <input type="text" class="form-control validator" id="firstname" formControlName="firstname" name="firstname"
                aria-describedby="firstnameHelp">
         <div id="firstnameHelp" class="form-text">Votre prénom</div>
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Adresse</label>
+        <label for="address" class="form-label">Adresse</label>
         <input type="text" class="form-control" id="address" formControlName="address" name="address"
                aria-describedby="addressHelp">
         <div id="addressHelp" class="form-text">Votre adresse</div>
@@ -34,6 +35,11 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
         <input type="text" class="form-control validator" id="phone" formControlName="phone" name="phone"
                aria-describedby="phoneHelp">
         <div id="phoneHelp" class="form-text">Votre téléphone</div>
+      </div>
+      <div class="mb-1">
+        <label for="subject" class="form-label">Sujet</label>
+        <input type="text" class="form-control" id="subject" formControlName="subject" name="subject"
+               >
       </div>
       <div class="mb-3">
         <div class="form-floating">
@@ -78,25 +84,36 @@ export class ContactComponent {
       validators: Validators.pattern("^[0-9]{10}$"),
       updateOn: "blur"
     }),
+    subject: new FormControl('', {
+      validators: Validators.required,
+    },),
     message: new FormControl('', {
       validators: Validators.required,
     }),
   })
 
+  constructor(private store: Store<{modal:any}>) {
+
+    this.store.select('modal').forEach((prop: any) => {
+      if (prop.extra) {
+        if (prop.extra.contactSubject) {
+          this.contactForm.controls['subject'].setValue(prop.extra.contactSubject)
+        }
+      }
+    })
+
+  }
+
   submitForm($event: any) {
     if ($event) {
       $event.preventDefault()
     }
-    this.formUpdate.emit(this.contactForm)
+    this.formUpdate.emit(this.contactForm.value)
   }
 
   ngOnInit() {
-    this.contactForm.valueChanges.subscribe(() => {
-      this.submitForm(null)
-    })
   }
 
   ngOnDestroy() {
-    this.contactForm.valueChanges.unsubscribe()
   }
 }

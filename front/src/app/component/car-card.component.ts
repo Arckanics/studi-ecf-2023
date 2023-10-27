@@ -207,7 +207,7 @@ export class CarCardComponent {
 
   toggleContactForm() {
     this.enableDetails(false);
-    this.store.dispatch(new SetModalItem({ item: 'contact', static: false }))
+    this.store.dispatch(new SetModalItem({ item: 'contact', static: false, extra: {contactSubject: this.car.name} }))
     this.store.dispatch(new ToggleModal(true))
   }
 }
