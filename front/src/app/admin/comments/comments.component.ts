@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { DatabaseService } from "../service/database.service";
 import { AbstractListComponent } from "../abstract-list.component";
 import { FormControl, FormGroup } from "@angular/forms";
-import { catchError } from "rxjs";
 
 @Component({
   selector: 'app-comments',
@@ -84,37 +83,7 @@ export class CommentsComponent extends AbstractListComponent {
     return super.getAction(act);
   }
 
-  submitForm($event: any) {
-    this.prevSubmit($event);
-    const { event } = this
-    switch (true) {
-      case event == 'edit':
-        const request = this.bdd.put(this.db, this.formSet.value)
-          .pipe(
-            catchError((err: any) => {
-              this.errorMsg = `Erreur : ${err.status}`
-              return err
-            })
-          )
-          .subscribe((e: any) => {
-            request.unsubscribe()
-            if (e.status == 200) {
-              const data: any = { ...e.body }
-              let i = this.list.find((item) => item.id === data.id)
-              if (i) {
-                Object.entries(i).map(([k,v]) => i[k] = data[k]);
-              }
-              this.closeModal()
-              return true
-            }
-
-            return false
-
-          })
-        break;
-      default:
-        break;
-    }
-
+  override submitForm($event: any, bdd:any = null) {
+    super.submitForm($event, this.bdd)
   }
 }

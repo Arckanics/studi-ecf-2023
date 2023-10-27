@@ -5,8 +5,11 @@ namespace entity;
 use kernel\AbstractEntity;
 
 class UsersEntity extends AbstractEntity {
-  private $table = "users";
-
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = "users";
+  }
   public function getUsers(): array
   {
     return $this->pdo->getAll($this->table);
@@ -27,5 +30,10 @@ class UsersEntity extends AbstractEntity {
     }
     http_response_code(403);
     return "Bad credentials";
+  }
+
+  public function update()
+  {
+    return false;
   }
 }

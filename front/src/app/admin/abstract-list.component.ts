@@ -1,6 +1,6 @@
 import { Directive, OnDestroy, OnInit } from "@angular/core";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
-import { Subscription } from "rxjs";
+import { catchError, Subscription } from "rxjs";
 
 @Directive()
 export class AbstractListComponent implements OnInit, OnDestroy {
@@ -9,7 +9,7 @@ export class AbstractListComponent implements OnInit, OnDestroy {
   protected sub!: Subscription
   protected formSub!: Subscription
   protected patchedElement!: number
-  protected db!:string
+  protected db!: string
   public modalToggle: boolean = false
   errorMsg!: string
   formSet!: FormGroup
@@ -88,5 +88,55 @@ export class AbstractListComponent implements OnInit, OnDestroy {
 
   getTypeOf(v: any) {
     return typeof v
+  }
+
+
+  submitForm($event: any, bdd: any = null) {
+    this.prevSubmit($event);
+    const { event } = this
+    let request:any;
+    const errorMsg = (err:any) => {
+      this.errorMsg = `Erreur : ${err.status}`
+      return err
+    }
+    switch (true) {
+      case event == 'create':
+        request = bdd.post(this.db, this.formSet.value)
+          .pipe(catchError(errorMsg))
+          .subscribe((e: any) => {
+            request.unsubscribe()
+            if (e.status == 200) {
+              const data: any = { ...e.body }
+              this.list.push({...data})
+              this.closeModal()
+              return true
+            }
+
+            return false
+          })
+        break
+      case event == 'edit':
+        request = bdd.put(this.db, this.formSet.value)
+          .pipe(catchError(errorMsg))
+          .subscribe((e: any) => {
+            request.unsubscribe()
+            if (e.status == 200) {
+              const data: any = { ...e.body }
+              let i = this.list.find((item) => item.id === data.id)
+              if (i) {
+                Object.entries(i).map(([ k, v ]) => i[k] = data[k]);
+              }
+              this.closeModal()
+              return true
+            }
+
+            return false
+
+          })
+        break;
+      default:
+        break;
+    }
+
   }
 }

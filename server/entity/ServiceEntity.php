@@ -6,8 +6,11 @@ use kernel\AbstractEntity;
 
 class ServiceEntity extends AbstractEntity
 {
-  private $table = "services";
-
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = "services";
+  }
   public function getAll()
   {
     return $this->pdo->getAll($this->table);

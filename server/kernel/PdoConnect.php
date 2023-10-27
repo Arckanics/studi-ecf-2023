@@ -89,7 +89,7 @@ class PdoConnect extends globalMethod
         $preData[$key] = is_bool($row) ? $this->boolToTinyInt($row): $row;
       }
     }
-    $sql = "UPDATE $table SET ".implode(", ",$fields)." WHERE id = ".$data['id'].";";
+    $sql = "update $table set ".implode(", ",$fields)." where id = ".$data['id'].";";
 
     try {
       $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -97,6 +97,33 @@ class PdoConnect extends globalMethod
       $query->execute($preData);
 
       return $this->findOne($table, ["id" => $data["id"]]);
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      return "Erreur : " . $e->getMessage();
+    }
+  }
+
+  public function insertOne($table, $data) {
+    $columns = [];
+    $values = [];
+    $preData = [];
+    foreach ($data as $key => $row) {
+      $columns[] = "$key";
+      $values[] = ":$key";
+      $preData[$key] = is_bool($row) ? $this->boolToTinyInt($row): $row;
+    }
+
+    $columns = implode(", ",$columns);
+    $values = implode(", ",$values);
+    $sql = "insert into $table ($columns) values ($values)";
+
+
+    try {
+      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = $this->pdo->prepare($sql);
+      $query->execute($preData);
+
+      return $data;
     } catch (\PDOException $e) {
       http_response_code(500);
       return "Erreur : " . $e->getMessage();
