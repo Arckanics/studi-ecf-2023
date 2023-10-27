@@ -9,9 +9,10 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
     <app-loading *ngIf="!list"></app-loading>
     <app-vehicle *ngFor="let v of list" [car]="v" (action)="getAction($event)"></app-vehicle>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule" [ngClass]="{
-        'd-none' : !modalToggle
-    }"
+    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule"
+               [ngClass]="{
+                'd-none': !modalToggle
+               }"
                [errorMsg]="errorMsg"
                (submit)="submitForm($event)"
                (close)="closeModal()">
@@ -67,7 +68,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
           <div class="row w-auto g-2">
             <div class="col-6 p-1 gallery-input" *ngFor="let img of gallery.controls; let i=index">
               <div class="inner-img input-group overflow-hidden">
-                <div class="img-inputs p-0">
+                <div class="img-inputs">
                   <div class="btn btn-secondary">
                     <input type="checkbox" class="form-check-input" [checked]="isMainPic(img)"
                            (click)="setMainPicture(i)">
@@ -78,10 +79,10 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
                   <div role="button" class="btn btn-outline-danger" (click)="gallery.removeAt(i)"><i class="bi bi-trash"></i></div>
                 </div>
                 <label class="img-input-wrap position-relative" for="img-{{i}}">
-                  <img *ngIf="getTypeOf(img.value) == 'string'" [src]="URLFiles[i] || img.value" [alt]="URLFiles[i] || img.value"/>
+                  <img *ngIf="getTypeOf(img.value) == 'string'" [src]="URLFiles[i] || '/img/'+img.value" [alt]="URLFiles[i] || img.value"/>
                   <img *ngIf="getTypeOf(img.value) !== 'string'" [src]="URLFiles[i]" [alt]="URLFiles[i]"/>
                   <span class="img-overlay">
-                    <span class="btn btn-dark">
+                    <span class="btn btn-light btn-sm">
                       <i class="bi bi-image" ></i>
                       <span class="fs-6 small"> &lt;Img/&gt;</span>
                     </span>
@@ -111,6 +112,67 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
         padding: .4rem;
         padding-bottom: 4rem;
       }
+
+      .gallery-input > .inner-img {
+        position: relative;
+        height: 185px;
+
+        .img-inputs {
+          z-index: 50;
+          position: absolute;
+          padding: .4rem;
+          width: 100%;
+          bottom: 0;
+          background-color: rgba(255, 255, 255, 0.2);
+          display: flex;
+          justify-content: space-between;
+
+          .btn {
+            filter: drop-shadow(1px 1px 3px black);
+          }
+        }
+
+        .img-input-wrap {
+          z-index: 35;
+          display: block;
+          max-height: 100%;
+          width: 100%;
+
+          img {
+            height: 100%;
+          }
+
+          .img-overlay {
+            z-index: 40;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: 350ms ease;
+            cursor: pointer;
+            .btn {
+              position: absolute;
+              top: .4rem;
+              right: .4rem;
+              transition-delay: 0ms;
+              transition: 200ms;
+              opacity: 0;
+              visibility: hidden;
+              transform: translateY(-100%);
+            }
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.5);
+              .btn {
+                transition-delay: 200ms;
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0%);
+              }
+            }
+          }
+        }
+      }
     `
   ]
 })
@@ -133,6 +195,7 @@ export class VehiclesComponent extends AbstractListComponent {
       result = result.map((v) => {
         v.gallery = JSON.parse(v.gallery)
         v.options = JSON.parse(v.options)
+        v.gallery.unshift(v.mainPicture);
         return v
       })
       this.list = result
@@ -141,11 +204,13 @@ export class VehiclesComponent extends AbstractListComponent {
   }
 
   override getAction(act: any): any | boolean {
-    if (act.action == 'create') {
+    this.resetForm()
+    if (act.action !== 'create') {
       this.optVals = []
       this.URLFiles = []
     }
-    return super.getAction(act);
+    super.getAction(act);
+    console.log(this.gallery)
   }
 
   areOptEquals(i: number): boolean {
@@ -172,11 +237,8 @@ export class VehiclesComponent extends AbstractListComponent {
 
   exportOptValues(i: number) {
     const field = this.options.get(i.toString())
-    if (!this.optVals) {
-      const initField = this.list.find(e => e.id == this.patchedElement).options
-      this.optVals = [ ...initField ]
-    }
-
+    const opts = this.list.find(e => e.id == this.patchedElement).options
+    this.optVals = [...opts]
     return {
       init: this.optVals[i],
       current: field
@@ -223,7 +285,6 @@ export class VehiclesComponent extends AbstractListComponent {
 
 
   resetForm() {
-
     this.formSet = new FormGroup({
       id: new FormControl(),
       year: new FormControl(new Date().getFullYear()),
@@ -235,8 +296,6 @@ export class VehiclesComponent extends AbstractListComponent {
       options: new FormArray([]),
       gallery: new FormArray([])
     })
-    // this.formSub = this.formSet.valueChanges.subscribe(ev => {
-    //   console.log('update')})
   }
 
   setMainPicture(i: number) {
