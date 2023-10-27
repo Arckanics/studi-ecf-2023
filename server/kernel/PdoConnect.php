@@ -108,22 +108,28 @@ class PdoConnect extends globalMethod
     $values = [];
     $preData = [];
     foreach ($data as $key => $row) {
-      $columns[] = "$key";
+      $columns[] = (string)$key;
       $values[] = ":$key";
       $preData[$key] = is_bool($row) ? $this->boolToTinyInt($row): $row;
     }
 
     $columns = implode(", ",$columns);
     $values = implode(", ",$values);
-    $sql = "insert into $table ($columns) values ($values)";
+    $sql = "
+        insert into $table ($columns)
+        values ($values)";
 
 
     try {
       $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $query = $this->pdo->prepare($sql);
       $query->execute($preData);
+      $query = $this->pdo->query(
+        "SELECT * FROM $table WHERE id = LAST_INSERT_ID()"
+      );
+      $stmt = $query->fetchAll(PDO::FETCH_ASSOC);
 
-      return $data;
+      return count($stmt) > 0 ? $stmt[0]: $stmt;
     } catch (\PDOException $e) {
       http_response_code(500);
       return "Erreur : " . $e->getMessage();

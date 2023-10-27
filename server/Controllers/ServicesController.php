@@ -19,6 +19,14 @@ class ServicesController extends AbstractController
     return $this->entity->getAll();
   }
 
+
+  public function post()
+  {
+    if (!$this->session) {
+      return $this->forbiddenError();
+    }
+    return $this->entity->create();
+  }
   public function put()
   {
 
@@ -26,13 +34,5 @@ class ServicesController extends AbstractController
       return $this->forbiddenError();
     }
     return $this->entity->update();
-  }
-
-  public function post()
-  {
-    if (!$this->session) {
-      return $this->entity->create(true);
-    }
-    return $this->entity->create();
   }
 }

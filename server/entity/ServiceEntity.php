@@ -15,4 +15,9 @@ class ServiceEntity extends AbstractEntity
   {
     return $this->pdo->getAll($this->table);
   }
+
+  public function create()
+  {
+    return $this->pdo->insertOne($this->table, $this->getBody());
+  }
 }
