@@ -11,10 +11,28 @@ class ServicesController extends AbstractController
 
   public function __construct()
   {
+    parent::__construct();
     $this->entity = new ServiceEntity();
   }
   public function get()
   {
     return $this->entity->getAll();
+  }
+
+  public function put()
+  {
+
+    if (!$this->session) {
+      return $this->forbiddenError();
+    }
+    return $this->entity->update();
+  }
+
+  public function post()
+  {
+    if (!$this->session) {
+      return $this->entity->create(true);
+    }
+    return $this->entity->create();
   }
 }

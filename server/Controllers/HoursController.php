@@ -11,6 +11,7 @@ class HoursController extends AbstractController
 
   public function __construct()
   {
+    parent::__construct();
     $this->entity = new HourEntity();
   }
   public function get()

@@ -10,6 +10,7 @@ class CarsController extends AbstractController
   private $entity = null;
   public function __construct()
   {
+    parent::__construct();
     $this->entity = new CarEntity();
   }
   function get()
