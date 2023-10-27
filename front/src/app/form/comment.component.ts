@@ -17,13 +17,21 @@ import { FormControl, FormGroup } from "@angular/forms";
         </div>
       </div>
 
-      <app-note-input class="mb-1" [(value)]="commentForm.controls.note.value" >
+      <app-note-input class="mb-3" [(value)]="commentForm.controls.note.value" >
         <input type="number" formControlName="note">
       </app-note-input>
+      <div class="mt-2 info">
+        <div class="form-floating">
+          <div class="text-secondary text-end">Votre commentaire passera par une validation avant d'être visible</div>
+        </div>
+      </div>
     </form>
   `,
   styles: [
     `
+      .info {
+        font-size: .9rem;
+      }
     `
   ]
 })
