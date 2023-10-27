@@ -6,7 +6,11 @@ use kernel\AbstractEntity;
 
 class CommentEntity extends AbstractEntity
 {
-  private $table = "comments";
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = "comments";
+  }
 
   public function getAll($withStatus = false)
   {
@@ -27,9 +31,15 @@ class CommentEntity extends AbstractEntity
     return $formatData;
   }
 
-  public function update() {
-    $request_body = json_decode(file_get_contents("php://input"), true);
-    return $this->pdo->updateOne($this->table, $request_body);
+  public function create($client = false)
+  {
+    $request_body = $this->getBody();
+    if ($client) {
+      $request_body['enabled'] = false;
+      return "true";
+    }
+    return $this->pdo->insertOne($this->table, $request_body);
   }
+
 
 }

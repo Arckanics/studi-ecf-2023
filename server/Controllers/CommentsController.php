@@ -34,7 +34,10 @@ class CommentsController extends AbstractController {
 
   public function post()
   {
-    // TODO: Implement post() method.
+    if (!$this->session) {
+      return $this->entity->create(true);
+    }
+    return $this->entity->create();
   }
 
   public function delete()
