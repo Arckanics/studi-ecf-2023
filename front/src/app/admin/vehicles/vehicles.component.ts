@@ -9,7 +9,12 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
     <app-loading *ngIf="!list"></app-loading>
     <app-vehicle *ngFor="let v of list" [car]="v" (action)="getAction($event)"></app-vehicle>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule" (close)="resetForm()">
+    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule" [ngClass]="{
+        'd-none' : !modalToggle
+    }"
+               [errorMsg]="errorMsg"
+               (submit)="submitForm($event)"
+               (close)="closeModal()">
       <form [formGroup]="formSet" (submit)="prevSubmit($event)" *ngIf="event !== 'delete'" class="admin-form">
         <div class="mb-3">
           <div class="input-group">
@@ -57,10 +62,10 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
             <div role="button" class="btn btn-outline-success w-100" (click)="addOpt()"><i class="bi bi-plus"></i></div>
           </div>
         </div>
-        <div class="mb-3" formArrayName="galerie">
+        <div class="mb-3" formArrayName="gallery">
           <label class="form-label">Photos</label>
           <div class="row w-auto g-2">
-            <div class="col-6 p-1 galerie-input" *ngFor="let img of galerie.controls; let i=index">
+            <div class="col-6 p-1 gallery-input" *ngFor="let img of gallery.controls; let i=index">
               <div class="inner-img input-group overflow-hidden">
                 <div class="img-inputs p-0">
                   <div class="btn btn-secondary">
@@ -70,7 +75,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
                   <input type="file" class="d-none" (change)="setImg($event, i)" id="img-{{i}}"
                          [accept]="acceptFiles">
 
-                  <div role="button" class="btn btn-outline-danger" (click)="galerie.removeAt(i)"><i class="bi bi-trash"></i></div>
+                  <div role="button" class="btn btn-outline-danger" (click)="gallery.removeAt(i)"><i class="bi bi-trash"></i></div>
                 </div>
                 <label class="img-input-wrap position-relative" for="img-{{i}}">
                   <img *ngIf="getTypeOf(img.value) == 'string'" [src]="URLFiles[i] || img.value" [alt]="URLFiles[i] || img.value"/>
@@ -84,7 +89,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
                 </label>
               </div>
             </div>
-            <div class="col-6 p-1 galerie-input">
+            <div class="col-6 p-1 gallery-input">
                 <div role="button" class="btn btn-outline-success w-100 add-img btn-lg" (click)="addImg()">
                   <i class="bi bi-plus-lg"></i>
                 </div>
@@ -182,8 +187,8 @@ export class VehiclesComponent extends AbstractListComponent {
     return this.formSet.get('options') as FormArray
   }
 
-  get galerie(): FormArray {
-    return this.formSet.get('galerie') as FormArray
+  get gallery(): FormArray {
+    return this.formSet.get('gallery') as FormArray
   }
 
   override ngOnInit() {
@@ -207,13 +212,13 @@ export class VehiclesComponent extends AbstractListComponent {
 
   setImg($event: any, i: number) {
     const file = $event.target.files[0]
-    const control = this.galerie.controls[i]
+    const control = this.gallery.controls[i]
     this.URLFiles[i] = this.fileToUrl(file)
     control.setValue(file)
   }
 
   addImg() {
-    this.galerie.push(new FormControl(''))
+    this.gallery.push(new FormControl(''))
   }
 
 
@@ -228,14 +233,14 @@ export class VehiclesComponent extends AbstractListComponent {
       fuel: new FormControl(this.energies[0]),
       mainPicture: new FormControl(''),
       options: new FormArray([]),
-      galerie: new FormArray([])
+      gallery: new FormArray([])
     })
     // this.formSub = this.formSet.valueChanges.subscribe(ev => {
     //   console.log('update')})
   }
 
   setMainPicture(i: number) {
-    const img = this.getImgName(this.galerie.controls[i])
+    const img = this.getImgName(this.gallery.controls[i])
     this.formSet.controls['mainPicture'].setValue(img)
   }
 
