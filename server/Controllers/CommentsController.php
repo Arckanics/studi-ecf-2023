@@ -41,6 +41,9 @@ class CommentsController extends AbstractController {
 
   public function delete()
   {
-    // TODO: Implement delete() method.
+    if (!$this->session) {
+      return $this->forbiddenError();
+    }
+    return $this->entity->delete();
   }
 }

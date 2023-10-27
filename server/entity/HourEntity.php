@@ -20,4 +20,5 @@ class HourEntity extends AbstractEntity
   public function create() {
     return $this->pdo->insertOne($this->table, $this->getBody());
   }
+
 }

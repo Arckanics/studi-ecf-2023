@@ -12,8 +12,14 @@ class AbstractEntity extends globalMethod
   }
 
   public function getBody() {
-    if (count($_POST) == 0) {
-      return json_decode(file_get_contents("php://input"), true);
+    if (count($_POST) === 0) {
+      $input = json_decode(file_get_contents("php://input"), true);
+      if ($input) {
+        return $input;
+      }
+      if (count($_REQUEST) > 1) {
+        return $_REQUEST;
+      }
     }
     return $_POST;
   }
@@ -21,5 +27,10 @@ class AbstractEntity extends globalMethod
   public function update() {
     $request_body = $this->getBody();
     return $this->pdo->updateOne($this->table, $request_body);
+  }
+
+  public function delete()
+  {
+    return $this->pdo->deleteOne($this->table, $this->getBody());
   }
 }

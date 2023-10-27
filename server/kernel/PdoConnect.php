@@ -135,4 +135,17 @@ class PdoConnect extends globalMethod
       return "Erreur : " . $e->getMessage();
     }
   }
+
+  public function deleteOne($table, $data) {
+    $sql = "delete from $table where id = :id";
+    try {
+      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = $this->pdo->prepare($sql);
+      $query->execute(["id" => $data["id"]]);
+      return true;
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      return "Erreur : " . $e->getMessage();
+    }
+  }
 }

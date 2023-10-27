@@ -35,4 +35,12 @@ class ServicesController extends AbstractController
     }
     return $this->entity->update();
   }
+
+  public function delete()
+  {
+    if (!$this->session) {
+      return $this->forbiddenError();
+    }
+    return $this->entity->delete();
+  }
 }
