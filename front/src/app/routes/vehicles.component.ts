@@ -6,7 +6,7 @@ import { CarService } from "../services/car.service";
 @Component({
   selector: 'app-vehicules',
   template: `
-      <div class="pt-2 flex-shrink-0 flex-grow-0 mb-2">
+      <div class="pt-2 flex-shrink-0 flex-grow-0 mb-2 position-relative">
         <div class="d-flex justify-content-end mb-1">
           <button class="btn btn-outline-primary d-md-block d-none" data-bs-toggle="collapse"
                      data-bs-target="#filters"
@@ -45,7 +45,6 @@ import { CarService } from "../services/car.service";
         flex-grow: 1;
         flex-shrink: 1;
         overflow: auto;
-        position: relative;
         height: 100%;
       }
     `,
