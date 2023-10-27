@@ -37,7 +37,7 @@ import { CarService } from "../services/car.service";
         flex-direction: column;
         flex-grow: 1;
         flex-shrink: 1;
-        height: 100%;
+        height: fit-content;
         max-height: 100%;
       }
 
