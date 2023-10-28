@@ -77,7 +77,7 @@ class PdoConnect extends globalMethod
     $query->execute($filters);
     $stmt = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    return count($stmt) === 0 ? $stmt : $stmt[0];
+    return count($stmt) === 0 ? false : $stmt[0];
   }
 
   public function updateOne($table, $data){

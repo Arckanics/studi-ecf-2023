@@ -116,24 +116,16 @@ class SessionManager extends globalMethod
     $filePath = $this->sessionDir . "/$token.json";
     if (file_exists( "$this->sessionDir/$token.json")) {
       $session = [...json_decode(file_get_contents($filePath), true)];
-      if ($this->resetLifeTime() - $session["expireAt"] < 0) {
-        if ($request) {
-          http_response_code(440);
-        }
+      if ($this->resetLifeTime() < $session["expireAt"]) {
+        http_response_code(440);
         $this->disconnect($token);
         return "session expired";
-      }
-      if ($request) {
-        http_response_code(200);
       }
       $session["expireAt"] = $this->resetLifeTime();
       $this->storeSession($session);
       return $this->prepareToken($session);
     }
-    if ($request) {
-      http_response_code(403);
-    }
-    header('Location: /');
+    http_response_code(403);
     return false;
   }
 }

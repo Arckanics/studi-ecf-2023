@@ -10,7 +10,7 @@ values (null, 0, '08:30', '12:00'),
        (null, 4, '08:00', '12:30'),
        (null, 4, '13:00', '17:00');
 
-insert into comments (id, name, message, note, enable)
+insert into comments (id, name, message, note, enabled)
 values (null, 'John Doe', 'Service de réparation rapide.', 8, 1),
        (null, 'Alice Smith', 'Excellent travail sur la carrosserie.', 7, 1),
        (null, 'Bob Johnson', 'Le personnel est très compétent.', 9, 1),
@@ -28,45 +28,30 @@ values (null, 'Service de réparation', 'Nous offrons un service de réparation 
 
 insert into cars (id, name, price, year, fuel, km, mainPicture, gallery, options)
 values (null, 'Toyota Corolla', 15000, 2019, 'essence', 45000, 'toyota-corolla.png', '[
-  "image1.jpg",
-  "image2.jpg",
-  "image3.jpg"
 ]', '[
   "GPS",
   "ABS",
   "Sièges chauffants"
 ]'),
        (null, 'Honda Civic', 14000, 2018, 'essence', 38000, 'honda-civic.webp', '[
-         "image4.jpg",
-         "image5.jpg",
-         "image6.jpg"
-       ]', '[
+         ]', '[
          "GPS",
          "ABS",
          "Caméra de recul"
        ]'),
        (null, 'Ford Focus', 16000, 2020, 'essence', 32000, 'ford-focus.jpg', '[
-         "image7.jpg",
-         "image8.jpg",
-         "image9.jpg"
        ]', '[
          "GPS",
          "ABS",
          "Bluetooth"
        ]'),
        (null, 'Volkswagen Golf', 15500, 2019, 'essence', 40000, 'volkswagen-golf.png', '[
-         "image10.jpg",
-         "image11.jpg",
-         "image12.jpg"
        ]', '[
          "GPS",
          "ABS",
          "Climatisation"
        ]'),
        (null, 'Nissan Altima', 14500, 2018, 'essence', 42000, 'nissan-altima.jpg', '[
-         "image13.jpg",
-         "image14.jpg",
-         "image15.jpg"
        ]', '[
          "GPS",
          "ABS",

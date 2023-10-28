@@ -29,4 +29,8 @@ class globalMethod
   public function boolStrToInt($val): int {
     return $this->convertToBool($val) ? 1 : 0;
   }
+
+  public function genId($size = 8) {
+    return bin2hex(random_bytes($size));
+  }
 }

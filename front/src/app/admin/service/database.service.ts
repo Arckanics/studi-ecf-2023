@@ -12,7 +12,7 @@ export class DatabaseService {
     this.ls = window.localStorage
   }
 
-  private getHeaders() {
+  getHeaders() {
     const token = this.ls.getItem('user_token');
     return {
       'XML-Http-Request': 'true',

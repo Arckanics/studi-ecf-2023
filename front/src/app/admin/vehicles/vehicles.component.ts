@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DatabaseService } from "../service/database.service";
 import { AbstractListComponent } from "../abstract-list.component";
 import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-vehicles',
@@ -9,11 +10,12 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
     <app-loading *ngIf="!list"></app-loading>
     <app-vehicle *ngFor="let v of list" [car]="v" (action)="getAction($event)"></app-vehicle>
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Ajouter</div>
-    <app-modal (xhrSend)="prevSubmit($event)" title="Véhicule"
+    <app-modal title="Véhicule"
                [ngClass]="{
                 'd-none': !modalToggle
                }"
                [errorMsg]="errorMsg"
+               (xhrSend)="submitForm(null)"
                (submit)="submitForm($event)"
                (close)="closeModal()">
       <form [formGroup]="formSet" (submit)="prevSubmit($event)" *ngIf="event !== 'delete'" class="admin-form">
@@ -49,20 +51,6 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
             </select>
           </div>
         </div>
-        <div class="mb-3" formArrayName="options">
-          <label class="form-label">Options</label>
-          <div class="input-group mb-1" *ngFor="let opt of options.controls; let i=index">
-            <div role="button" class="btn btn-secondary" (click)="resetOpt(i)" *ngIf="!areOptEquals(i)"><i
-              class="bi bi-arrow-counterclockwise"></i></div>
-            <input
-              type="text" class="form-control car-opt"
-              formControlName="{{i}}">
-            <div role="button" class="btn btn-outline-danger" (click)="deleteOpt(i)"><i class="bi bi-trash"></i></div>
-          </div>
-          <div class="input-group mb-1">
-            <div role="button" class="btn btn-outline-success w-100" (click)="addOpt()"><i class="bi bi-plus"></i></div>
-          </div>
-        </div>
         <div class="mb-3" formArrayName="gallery">
           <label class="form-label">Photos</label>
           <div class="row w-auto g-2">
@@ -91,13 +79,25 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
               </div>
             </div>
             <div class="col-6 p-1 gallery-input">
-                <div role="button" class="btn btn-outline-success w-100 add-img btn-lg" (click)="addImg()">
-                  <i class="bi bi-plus-lg"></i>
-                </div>
+              <div role="button" class="btn btn-outline-success w-100 add-img btn-lg" (click)="addImg()">
+                <i class="bi bi-plus-lg"></i>
+              </div>
             </div>
 
           </div>
 
+        </div>
+        <div class="mb-3" formArrayName="options">
+          <label class="form-label">Options</label>
+          <div class="input-group mb-1" *ngFor="let opt of options.controls; let i=index">
+            <input
+            type="text" class="form-control car-opt"
+            formControlName="{{i}}">
+            <div role="button" class="btn btn-outline-danger" (click)="deleteOpt(i)"><i class="bi bi-trash"></i></div>
+          </div>
+          <div class="input-group mb-1">
+            <div role="button" class="btn btn-outline-success w-100" (click)="addOpt()"><i class="bi bi-plus"></i></div>
+          </div>
         </div>
       </form>
     </app-modal>
@@ -184,10 +184,10 @@ export class VehiclesComponent extends AbstractListComponent {
     { name: 'Hybride', value: 'hybride' },
   ]
   private optVals!: string[]
-  acceptFiles: string = "image/png,image/jpeg,image/jpg"
+  acceptFiles: string = "image/png,image/jpeg,image/jpg,image/webp"
   URLFiles: string[] = []
 
-  constructor(private bdd: DatabaseService) {
+  constructor(private bdd: DatabaseService, private http: HttpClient) {
     super()
     this.db = "cars"
     this.sub = this.bdd.getData(this.db).subscribe((res: any) => {
@@ -195,7 +195,7 @@ export class VehiclesComponent extends AbstractListComponent {
       result = result.map((v) => {
         v.gallery = JSON.parse(v.gallery)
         v.options = JSON.parse(v.options)
-        v.gallery.unshift(v.mainPicture);
+        v.gallery.unshift(v.mainPicture)
         return v
       })
       this.list = result
@@ -206,11 +206,12 @@ export class VehiclesComponent extends AbstractListComponent {
   override getAction(act: any): any | boolean {
     this.resetForm()
     if (act.action !== 'create') {
-      this.optVals = []
       this.URLFiles = []
     }
     super.getAction(act);
-    console.log(this.gallery)
+    if (act.action == 'delete') {
+      this.submitForm(act)
+    }
   }
 
   areOptEquals(i: number): boolean {
@@ -236,9 +237,17 @@ export class VehiclesComponent extends AbstractListComponent {
   }
 
   exportOptValues(i: number) {
+
+    if (!this.optVals) {
+      const opts = this.list.find(e => e.id == this.patchedElement)
+      this.optVals = []
+      if (opts) {
+        this.optVals = [...opts.options]
+      }
+    }
+
     const field = this.options.get(i.toString())
-    const opts = this.list.find(e => e.id == this.patchedElement).options
-    this.optVals = [...opts]
+
     return {
       init: this.optVals[i],
       current: field
@@ -257,17 +266,15 @@ export class VehiclesComponent extends AbstractListComponent {
     super.ngOnInit();
   }
 
-  resetOpt(i: number) {
-    const { init, current } = this.exportOptValues(i)
-    current?.setValue(init)
-  }
-
   deleteOpt(i: number) {
     this.options.removeAt(i)
     this.optVals.splice(i, 1)
   }
 
   addOpt() {
+    if (!this.optVals) {
+      this.optVals = []
+    }
     this.optVals.push('')
     this.options.push(new FormControl(''))
   }
@@ -291,8 +298,8 @@ export class VehiclesComponent extends AbstractListComponent {
       km: new FormControl(0),
       price: new FormControl(0),
       name: new FormControl(''),
-      fuel: new FormControl(this.energies[0]),
-      mainPicture: new FormControl(''),
+      fuel: new FormControl('essence'),
+      mainPicture: new FormControl(null),
       options: new FormArray([]),
       gallery: new FormArray([])
     })
@@ -301,6 +308,81 @@ export class VehiclesComponent extends AbstractListComponent {
   setMainPicture(i: number) {
     const img = this.getImgName(this.gallery.controls[i])
     this.formSet.controls['mainPicture'].setValue(img)
+  }
+
+  override closeModal() {
+    this.optVals = [];
+    super.closeModal();
+  }
+
+  override submitForm($event: any) {
+    const fD = new FormData()
+    if (this.event !== 'delete') {
+      for (let control in this.formSet.controls) {
+        switch (control) {
+          case 'options':
+            const opt = [...this.options.value]
+            fD.append(control, JSON.stringify(opt))
+            break
+          case 'gallery':
+            if (this.formSet.controls[control].value.length > 0) {
+              this.gallery.controls.map((img,i) => {
+                fD.append('gallery-'+i, img.value)
+              })
+            }
+            break
+          case 'mainPicture':
+            if (this.formSet.controls[control].value !== null) {
+              fD.append(control, this.formSet.controls[control].value)
+            }
+            break
+          default:
+            fD.append(control, this.formSet.controls[control].value)
+        }
+      }
+
+    }
+    const formatEntity = (car:any) => {
+      car.options = JSON.parse(car.options)
+      car.gallery = JSON.parse(car.gallery)
+      car.gallery.unshift(car.mainPicture)
+      return car;
+    }
+    switch (this.event) {
+      case 'edit':
+        const id = this.formSet.value.id
+        this.http.post(`${this.db}`, fD, {headers: this.bdd.getHeaders()}).subscribe((e:any) => {
+          let carIndex = this.list.length;
+          this.list.find((c, i) => {
+            carIndex = i
+            return c.id == id
+          })
+          let car = {...e}
+          this.list[carIndex] = formatEntity(car)
+        })
+        break
+      case 'create':
+        fD.delete('id');
+        this.http.post(`${this.db}`, fD, {headers: this.bdd.getHeaders()}).subscribe((e:any) => {
+          let car = {...e}
+
+          this.list.push(formatEntity(car))
+        })
+        break
+      default:
+        this.bdd.delete(this.db, $event.id).subscribe((e) => {
+          let carIndex = null;
+          const car = this.list.find((car, index) => {
+            carIndex = index
+            car.id = $event.id
+          })
+          if (carIndex) {
+            this.list.splice(carIndex,1)
+          }
+
+        })
+    }
+    this.closeModal();
   }
 
 }
