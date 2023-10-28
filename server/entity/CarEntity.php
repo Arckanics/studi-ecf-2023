@@ -72,7 +72,7 @@ class CarEntity extends AbstractEntity
     }
     if (!isset($formatBody['mainPicture'])) {
       $formatBody['mainPicture'] = $formatBody['gallery'][0];
-      unset($formatBody['gallery'][0]);
+      array_shift($formatBody['gallery']);
     }
     $formatBody['gallery'] = json_encode($formatBody['gallery']);
     if (isset($body['id'])) {
