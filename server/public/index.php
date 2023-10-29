@@ -1,6 +1,7 @@
 <?php
 
 namespace public;
+use Controllers\AccountsController;
 use Controllers\CarsController;
 use Controllers\CommentsController;
 use Controllers\HoursController;
@@ -18,7 +19,7 @@ function staticReturn(): void {
 
 function dataResponse ($class, $method): void
 {
-  echo htmlspecialchars(json_encode($class->$method()));
+  echo json_encode($class->$method());
 }
 
 function provideSession($disconnect = false): void
@@ -59,6 +60,8 @@ if (!isset($status['XML-Http-Request'])) {
       return dataResponse(new HoursController(), $method);
     case $uri === "/cars":
       return dataResponse(new CarsController(), $method);
+    case $uri === "/accounts":
+      return dataResponse(new AccountsController(), $method);
     case $uri === "/users":
       return provideSession();
     case $uri === "/logout":

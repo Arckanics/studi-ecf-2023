@@ -115,6 +115,7 @@ export class AdminComponent {
           { name: 'comments', title: "Témoignages" }
         ],
         admin: [
+          { name: 'accounts', url: 'accounts', title: "Comptes" },
           { name: 'services', url: 'services', title: "Services" },
           { name: 'hours', url: 'hours', title: "Hours" }
         ],

@@ -62,6 +62,28 @@ class PdoConnect extends globalMethod
     return $query->fetchAll(\PDO::FETCH_ASSOC);
   }
 
+  public function getAllWithFilters($table, $filters, $columns = false)
+  {
+    $selector = "*";
+    if ($columns) {
+      $selector = implode(", ", $columns);
+    }
+    $select = "select $selector from $table";
+    $list = [$select . " where "];
+    $param = [];
+    foreach ($filters as $key => $val) {
+      $val = $this->isStrBool($val) ? $this->boolStrToInt($val) : $val;
+      $filters[$key] = $val;
+      $param[] = "$key = :$key";
+    }
+    $sql = implode(" ", $list) . implode(" and ", $param);
+    $query = $this->pdo->prepare($sql);
+    $query->execute($filters);
+    $stmt = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return count($stmt) === 0 ? false : $stmt;
+  }
+
   public function findOne($table, $filters)
   {
     $select = "select * from $table";

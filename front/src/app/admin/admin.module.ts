@@ -12,6 +12,7 @@ import { CarServicesComponent } from './car-services/car-services.component';
 import { HoursSetupComponent } from './hours-setup/hours-setup.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { DatabaseService } from "./service/database.service";
+import { AccountComponent } from './account/account.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DatabaseService } from "./service/database.service";
     CommentsComponent,
     CarServicesComponent,
     HoursSetupComponent,
+    AccountComponent,
   ],
   imports: [
     CommonModule,

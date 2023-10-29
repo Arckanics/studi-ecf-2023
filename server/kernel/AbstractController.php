@@ -10,7 +10,7 @@ class AbstractController implements ControllerInterface {
     $this->headers = getallheaders();
     if (isset($this->headers['Auth-User'])) {
       $sessM = new SessionManager();
-      $this->session = $sessM->getSession($this->headers['Auth-User'], false);
+      $this->session = json_decode($sessM->getSession($this->headers['Auth-User'], false));
     } else {
       $this->session = null;
     }
