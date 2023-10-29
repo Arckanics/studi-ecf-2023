@@ -5,6 +5,7 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { CarServiceComponent } from './car-service/car-service.component';
 import { HoursComponent } from './hours/hours.component';
 import { ModalComponent } from './modal.component';
+import { AccountComponent } from './account/account.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ModalComponent } from './modal.component';
     VehicleComponent,
     CarServiceComponent,
     HoursComponent,
-    ModalComponent
+    ModalComponent,
+    AccountComponent
   ],
   exports: [
     CommentComponent,

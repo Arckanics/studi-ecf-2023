@@ -7,7 +7,7 @@ import { VehiclesComponent } from "./vehicles/vehicles.component";
 import { CommentsComponent } from "./comments/comments.component";
 import { CarServicesComponent } from "./car-services/car-services.component";
 import { HoursSetupComponent } from "./hours-setup/hours-setup.component";
-import { AccountComponent } from "./account/account.component";
+import { AccountsComponent } from "./account/accounts.component";
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: "comments", component: CommentsComponent },
       { path: "services", component: CarServicesComponent },
       { path: "hours", component: HoursSetupComponent },
-      { path: "accounts", component: AccountComponent },
+      { path: "accounts", component: AccountsComponent },
       { path: "", component: HomeComponent }
     ]
   }

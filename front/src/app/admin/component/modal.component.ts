@@ -43,7 +43,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ModalComponent {
   @Input() title!: string
   @Input() data!: any
-  @Input() errorMsg!: string
+  @Input() errorMsg: string = ""
   @Output() xhrSend = new EventEmitter()
   @Output() close = new EventEmitter()
 
