@@ -18,7 +18,7 @@ function staticReturn(): void {
 
 function dataResponse ($class, $method): void
 {
-  echo json_encode($class->$method());
+  echo htmlspecialchars(json_encode($class->$method()));
 }
 
 function provideSession($disconnect = false): void

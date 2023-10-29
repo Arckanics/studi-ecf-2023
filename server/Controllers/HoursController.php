@@ -23,11 +23,17 @@ class HoursController extends AbstractController
 
   public function post()
   {
+    if(!$this->session) {
+      return $this->forbiddenError();
+    }
     return $this->entity->create();
   }
 
   public function put()
   {
+    if(!$this->session) {
+      return $this->forbiddenError();
+    }
     return $this->entity->update();
   }
 

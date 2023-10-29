@@ -80,29 +80,6 @@ class PdoConnect extends globalMethod
     return count($stmt) === 0 ? false : $stmt[0];
   }
 
-  public function updateOne($table, $data){
-    $fields = [];
-    $preData = [];
-    foreach ($data as $key => $row) {
-      if ($key !== "id") {
-        $fields[] = "$key = :$key";
-        $preData[$key] = is_bool($row) ? $this->boolToTinyInt($row): $row;
-      }
-    }
-    $sql = "update $table set ".implode(", ",$fields)." where id = ".$data['id'].";";
-
-    try {
-      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $query = $this->pdo->prepare($sql);
-      $query->execute($preData);
-
-      return $this->findOne($table, ["id" => $data["id"]]);
-    } catch (\PDOException $e) {
-      http_response_code(500);
-      return "Erreur : " . $e->getMessage();
-    }
-  }
-
   public function insertOne($table, $data) {
     $columns = [];
     $values = [];
@@ -130,6 +107,29 @@ class PdoConnect extends globalMethod
       $stmt = $query->fetchAll(PDO::FETCH_ASSOC);
 
       return count($stmt) > 0 ? $stmt[0]: $stmt;
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      return "Erreur : " . $e->getMessage();
+    }
+  }
+
+  public function updateOne($table, $data){
+    $fields = [];
+    $preData = [];
+    foreach ($data as $key => $row) {
+      if ($key !== "id") {
+        $fields[] = "$key = :$key";
+        $preData[$key] = is_bool($row) ? $this->boolToTinyInt($row): $row;
+      }
+    }
+    $sql = "update $table set ".implode(", ",$fields)." where id = ".$data['id'].";";
+
+    try {
+      $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = $this->pdo->prepare($sql);
+      $query->execute($preData);
+
+      return $this->findOne($table, ["id" => $data["id"]]);
     } catch (\PDOException $e) {
       http_response_code(500);
       return "Erreur : " . $e->getMessage();
