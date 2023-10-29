@@ -22,7 +22,8 @@ import { AccountComponent } from './account/account.component';
     VehicleComponent,
     CarServiceComponent,
     HoursComponent,
-    ModalComponent
+    ModalComponent,
+    AccountComponent
   ],
   imports: [
     CommonModule

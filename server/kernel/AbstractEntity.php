@@ -24,6 +24,16 @@ class AbstractEntity extends globalMethod
     return $_POST;
   }
 
+  protected function hashPassword(string $password) {
+    return password_hash($password, PASSWORD_BCRYPT);
+  }
+  protected function validateMail(string $mail) {
+    if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+      return true;
+    }
+    return false;
+  }
+
   public function update() {
     $request_body = $this->getBody();
     return $this->pdo->updateOne($this->table, $request_body);
