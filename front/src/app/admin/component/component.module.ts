@@ -6,6 +6,7 @@ import { CarServiceComponent } from './car-service/car-service.component';
 import { HoursComponent } from './hours/hours.component';
 import { ModalComponent } from './modal.component';
 import { AccountComponent } from './account/account.component';
+import { MessageComponent } from './message/message.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AccountComponent } from './account/account.component';
     CarServiceComponent,
     HoursComponent,
     ModalComponent,
-    AccountComponent
+    AccountComponent,
+    MessageComponent
   ],
   exports: [
     CommentComponent,
@@ -23,7 +25,8 @@ import { AccountComponent } from './account/account.component';
     CarServiceComponent,
     HoursComponent,
     ModalComponent,
-    AccountComponent
+    AccountComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule

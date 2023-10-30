@@ -82,7 +82,7 @@ export class MainModalComponent implements OnInit {
   }
   public urls: any = {
     comment: 'comments',
-    contact: 'contact',
+    contact: 'messages',
     hours: 'hours',
     login: 'users'
   }
@@ -128,12 +128,11 @@ export class MainModalComponent implements OnInit {
   }
 
   requestParse(): boolean {
-    // front dev login requests
-    // not for production
     const { urls, component, data, http } = this
-    const host = window.location.host
-    const proto = window.location.protocol
-    let headers: {[index:string]: string} = {"XML-Http-Request": "true"}
+    let headers = {
+      "XML-Http-Request": "true",
+      'Content-Type': 'application/json'
+    }
 
 
     const assert = (v: any): boolean => {
@@ -155,21 +154,13 @@ export class MainModalComponent implements OnInit {
       if (data.account.length == 0 || data.password.length == 0) {
         return false
       }
-      headers = {
-        ...headers,
-        'Content-Type': 'application/json'
-      }
     }
-    const formatData = (data: any): Array<string | undefined> =>
-      Object.entries(data).map(([ k, v ]) =>
-        assert(v) ? `${k}_like=${v}` : undefined)
-        .filter(x => x !== undefined)
-
 
     const req = {
-      url: `${proto}//${host}/${urls[component]}`,
-      body: `?${formatData(data).join('&')}`
+      url: `${urls[component]}`,
+      body: data
     }
+
 
     const result = (res: any) => {
       const {body} = res
@@ -194,17 +185,20 @@ export class MainModalComponent implements OnInit {
             console.log(n)
           })
           break
-
+        return res
       }
-      return res;
     }
     const request = http.post(req.url, data, { headers, observe: "response" })
-      .pipe(catchError((err) => result(err)))
       .subscribe((res) => {
         request.unsubscribe()
         this.store.dispatch(new ToggleModal(false))
-        return result(res)
-      })
+        result(res)
+        return res
+      },
+        error => {
+          request.unsubscribe()
+          error
+        })
     return true
   }
 }

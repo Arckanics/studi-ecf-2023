@@ -15,10 +15,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             <ng-content></ng-content>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="close.emit('close')">
+            <button *ngIf="mailFooter" type="button" class="btn btn-secondary" (click)="close.emit('close')">
+              Fermer
+            </button>
+            <button *ngIf="!mailFooter" type="button" class="btn btn-secondary" (click)="close.emit('close')">
               Annuler
             </button>
-            <button type="button" class="btn btn-primary" (click)="send()">Appliquer</button>
+            <button *ngIf="!mailFooter" type="button" class="btn btn-primary" (click)="send()">Appliquer</button>
           </div>
         </div>
       </div>
@@ -44,6 +47,7 @@ export class ModalComponent {
   @Input() title!: string
   @Input() data!: any
   @Input() errorMsg: string = ""
+  @Input() mailFooter: boolean = false
   @Output() xhrSend = new EventEmitter()
   @Output() close = new EventEmitter()
 

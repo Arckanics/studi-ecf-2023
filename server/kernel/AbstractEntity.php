@@ -10,7 +10,6 @@ class AbstractEntity extends globalMethod
   public function __construct() {
     $this->pdo = PdoConnect::getInstance();
   }
-
   public function getBody() {
     if (count($_POST) === 0) {
       $input = json_decode(file_get_contents("php://input"), true);
@@ -32,6 +31,16 @@ class AbstractEntity extends globalMethod
       return true;
     }
     return false;
+  }
+
+  protected function validateName(string $name) {
+    if (!preg_match('/^[a-zA-Z]{2,}$/', $name)) {
+      return false;
+    }
+    return true;
+  }
+  public function get() {
+    return $this->pdo->getAll($this->table);
   }
 
   public function update() {

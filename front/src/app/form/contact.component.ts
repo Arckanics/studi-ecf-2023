@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Store } from "@ngrx/store";
 
@@ -25,13 +25,13 @@ import { Store } from "@ngrx/store";
         <div id="addressHelp" class="form-text">Votre adresse</div>
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Email</label>
-        <input type="email" class="form-control validator" id="email" formControlName="email" name="email"
-               aria-describedby="emailHelp" [email]="true">
+        <label for="mail" class="form-label">Email</label>
+        <input type="mail" class="form-control validator" id="mail" formControlName="mail" name="mail"
+               aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">Votre email</div>
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Téléphone</label>
+        <label for="phone" class="form-label">Téléphone</label>
         <input type="text" class="form-control validator" id="phone" formControlName="phone" name="phone"
                aria-describedby="phoneHelp">
         <div id="phoneHelp" class="form-text">Votre téléphone</div>
@@ -68,7 +68,7 @@ import { Store } from "@ngrx/store";
 })
 export class ContactComponent {
   @Input() formClass: string = ''
-  @Output() formUpdate = new EventEmitter<FormGroup>()
+  @Output() formUpdate = new EventEmitter()
   contactForm: any = new FormGroup({
     name: new FormControl('', {
       validators: Validators.required,
@@ -77,7 +77,7 @@ export class ContactComponent {
       validators: Validators.required,
     }),
     address: new FormControl(''),
-    email: new FormControl('', {
+    mail: new FormControl('', {
       validators: Validators.required,
     },),
     phone: new FormControl('', {
@@ -104,14 +104,17 @@ export class ContactComponent {
 
   }
 
+  ngOnInit() {
+    this.contactForm.valueChanges.subscribe((e:any) => {
+      this.formUpdate.emit(this.contactForm)
+    })
+  }
+
   submitForm($event: any) {
     if ($event) {
       $event.preventDefault()
     }
-    this.formUpdate.emit(this.contactForm.value)
-  }
-
-  ngOnInit() {
+    this.formUpdate.emit(this.contactForm)
   }
 
   ngOnDestroy() {

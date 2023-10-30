@@ -5,6 +5,7 @@ use Controllers\AccountsController;
 use Controllers\CarsController;
 use Controllers\CommentsController;
 use Controllers\HoursController;
+use Controllers\MessagesController;
 use Controllers\ServicesController;
 use kernel\SessionManager;
 
@@ -62,6 +63,8 @@ if (!isset($status['XML-Http-Request'])) {
       return dataResponse(new HoursController(), $method);
     case $uri === "/cars":
       return dataResponse(new CarsController(), $method);
+    case $uri === "/messages":
+      return dataResponse(new MessagesController(), $method);
     case $uri === "/accounts":
       return dataResponse(new AccountsController(), $method);
     case $uri === "/users":

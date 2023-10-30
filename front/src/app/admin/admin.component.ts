@@ -112,7 +112,8 @@ export class AdminComponent {
       const type: any = {
         user: [
           { name: 'vehicles', title: "Véhicules" },
-          { name: 'comments', title: "Témoignages" }
+          { name: 'comments', title: "Témoignages" },
+          { name: 'messages', title: "Messages" }
         ],
         admin: [
           { name: 'accounts', url: 'accounts', title: "Comptes" },
@@ -128,9 +129,10 @@ export class AdminComponent {
 
   ngOnInit() {
     this.authService.sessionValidate().subscribe((next: any) => {
-      const { isConnected } = next.body
-      if (!isConnected) {
-        console.log('error session')
+      const { isConnected, token } = next.body
+      if (!isConnected && !token) {
+        this.ls.clear()
+        this.router.navigateByUrl("/")
       }
     })
   }

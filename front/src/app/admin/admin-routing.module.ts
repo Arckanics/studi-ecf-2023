@@ -8,6 +8,7 @@ import { CommentsComponent } from "./comments/comments.component";
 import { CarServicesComponent } from "./car-services/car-services.component";
 import { HoursSetupComponent } from "./hours-setup/hours-setup.component";
 import { AccountsComponent } from "./account/accounts.component";
+import { MessagesComponent } from "./messages/messages.component";
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: "services", component: CarServicesComponent },
       { path: "hours", component: HoursSetupComponent },
       { path: "accounts", component: AccountsComponent },
+      { path: "messages", component: MessagesComponent },
       { path: "", component: HomeComponent }
     ]
   }
