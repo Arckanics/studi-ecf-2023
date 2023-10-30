@@ -101,7 +101,7 @@ export class AdminComponent {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.ls = window.localStorage
     const token = this.ls.getItem('user_token');
@@ -126,9 +126,19 @@ export class AdminComponent {
     this.list = initList()
   }
 
+  ngOnInit() {
+    this.authService.sessionValidate().subscribe((next: any) => {
+      const { isConnected } = next.body
+      if (!isConnected) {
+        this.ls.clear()
+        this.router.navigateByUrl("/")
+      }
+    })
+  }
+
   getRole() {
-    const role = this.ls.getItem('user_type')
-    return role === "admin" ? "administrateur" : "employé"
+    const role = this.ls.getItem('user_admin')
+    return role == "true" ? "administrateur" : "employé"
   }
 
   logOut() {

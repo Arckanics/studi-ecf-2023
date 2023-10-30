@@ -104,10 +104,14 @@ class SessionManager extends globalMethod
     return $user;
   }
 
-  public function disconnect($token = ""): void
+  public function disconnect($token = "")
   {
     $this->token = $token;
-    unlink($this->sessionDir . "/$this->token.json");
+    $fileToDel = $this->sessionDir . "/$this->token.json";
+    if (file_exists($fileToDel)) {
+      unlink($fileToDel);
+    }
+    return ['isConnected' => false];
   }
 
   public function getSession($token = "", $request = true)

@@ -28,7 +28,7 @@ function provideSession($disconnect = false): void
   $session = new SessionManager();
   if ($method !== "post") {
     http_response_code(403);
-    echo "la méthode '$method' de requête n'est pas authorizée sur cette route !";
+    echo "la méthode '$method' de requête n'est pas authorisée sur cette route !";
   } else {
     if (!isset($status['Auth-User'])) {
       echo $session->connect();
@@ -36,7 +36,7 @@ function provideSession($disconnect = false): void
       if ($disconnect) {
         echo $session->getSession($status['Auth-User']);
       } else {
-        $session->disconnect($status['Auth-User']);
+        echo json_encode($session->disconnect($status['Auth-User']));
       }
     }
   }

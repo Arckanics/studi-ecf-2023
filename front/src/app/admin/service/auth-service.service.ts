@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { DatabaseService } from "./database.service";
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +8,11 @@ import { HttpClient } from "@angular/common/http";
 export class AuthService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient, private bdd: DatabaseService
   ) {
+  }
 
+  sessionValidate() {
+    return this.bdd.post('users', '')
   }
 }

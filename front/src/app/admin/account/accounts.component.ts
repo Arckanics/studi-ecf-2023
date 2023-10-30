@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractListComponent } from "../abstract-list.component";
 import { DatabaseService } from "../service/database.service";
-import { act } from "@ngrx/effects";
 import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
