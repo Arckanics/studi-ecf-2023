@@ -13,16 +13,6 @@ class AccountsController extends AbstractController {
     parent::__construct();
     $this->entity = new AccountEntity();
   }
-
-  private function isAdmin() {
-    if (!$this->session) {
-      return false;
-    }
-    if (!$this->session['isAdmin']) {
-      return false;
-    }
-    return true;
-  }
   public function get()
   {
     if (!$this->isAdmin()) {

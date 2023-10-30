@@ -16,6 +16,15 @@ class AbstractController implements ControllerInterface {
     }
   }
 
+  protected function isAdmin() {
+    if (!$this->session) {
+      return false;
+    }
+    if (!$this->session['isAdmin']) {
+      return false;
+    }
+    return true;
+  }
   protected function forbiddenError() {
     http_response_code(403);
     return "403 Authorization";
