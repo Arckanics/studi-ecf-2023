@@ -47,6 +47,8 @@ CREATE table `messages`
     address   VARCHAR(120)              NOT NULL,
     mail      VARCHAR(50)               NOT NULL,
     phone     VARCHAR(10)               NOT NULL,
+    subject VARCHAR(60) NOT NULL,
+    message TEXT NOT NULL,
     primary key (id)
   );
 

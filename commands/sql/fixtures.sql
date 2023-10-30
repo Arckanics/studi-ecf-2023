@@ -58,9 +58,9 @@ values (null, 'Toyota Corolla', 15000, 2019, 'essence', 45000, 'toyota-corolla.p
          "Régulateur de vitesse"
        ]');
 
-insert into messages (id, name, firstname, address, mail, phone)
-values (null, 'Fréderic', 'Pichon', '36 rue de l\'impasses, 68000 Colmar', 'frederic.pichon@gmail.com', '0356974623'),
-       (null, 'Sophie', 'Lefebvre', '22 rue de la Paix, 75001 Paris', 'sophie.lefebvre@gmail.com', '0145698237'),
-       (null, 'Thomas', 'Durand', '10 avenue du Général de Gaulle, 69000 Lyon', 'thomas.durand@gmail.com', '0478563214'),
-       (null, 'Marie', 'Dubois', '45 Rue de la Liberté, 13001 Marseille', 'marie.dubois@gmail.com', '0498127536'),
-       (null, 'Jean', 'Martin', '8 Place de la Bourse, 33000 Bordeaux', 'jean.martin@gmail.com', '0556789123');
+insert into messages (id, name, firstname, address, mail, phone, subject, message)
+values (null, 'Fréderic', 'Pichon', '36 rue de l\'impasses, 68000 Colmar', 'frederic.pichon@gmail.com', '0356974623', 'subject', 'message'),
+       (null, 'Sophie', 'Lefebvre', '22 rue de la Paix, 75001 Paris', 'sophie.lefebvre@gmail.com', '0145698237', 'subject', 'message'),
+       (null, 'Thomas', 'Durand', '10 avenue du Général de Gaulle, 69000 Lyon', 'thomas.durand@gmail.com', '0478563214', 'subject', 'message'),
+       (null, 'Marie', 'Dubois', '45 Rue de la Liberté, 13001 Marseille', 'marie.dubois@gmail.com', '0498127536', 'subject', 'message'),
+       (null, 'Jean', 'Martin', '8 Place de la Bourse, 33000 Bordeaux', 'jean.martin@gmail.com', '0556789123', 'subject', 'message');
