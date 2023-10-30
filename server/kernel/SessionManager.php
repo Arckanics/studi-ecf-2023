@@ -9,7 +9,6 @@ class SessionManager extends globalMethod
 {
   private string $token = "";
   private ?UsersEntity $entity = null;
-  private $sessDock = null;
   private int $lifetime = 2 * 60 * 60;
   private string $sessionDir = __DIR__ . '/SessDock';
 
@@ -22,16 +21,9 @@ class SessionManager extends globalMethod
           throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
       }
-      return opendir($dir);
     }
-
-    $this->sessDock = openSessionDock($this->sessionDir);
+    openSessionDock($this->sessionDir);
     $this->entity = new UsersEntity();
-  }
-
-  public function __destruct()
-  {
-    closedir($this->sessDock);
   }
 
   private function resetLifeTime()
@@ -49,7 +41,7 @@ class SessionManager extends globalMethod
       'expireAt' => $this->resetLifeTime()
     ];
     $filePath = "$this->sessionDir/$this->token.json";
-    $sess = fopen($filePath, "w");
+    $sess = fopen($filePath, 'wb');
     fwrite($sess, json_encode($session));
     fclose($sess);
   }
@@ -60,7 +52,7 @@ class SessionManager extends globalMethod
       'token' => $this->token,
       'isAdmin' => $this->convertToBool($user['isAdmin'])
     ];
-    return json_encode($response, JSON_THROW_ON_ERROR);
+    return $response;
   }
 
   private function makeUniq($user)
@@ -114,16 +106,38 @@ class SessionManager extends globalMethod
 
   public function getSession($token = "", $request = true)
   {
+    function awaitFile($path) {
+      $file = fopen($path, "rb");
+      $size = filesize($path);
+      while ($file === false) {
+        if (file_exists($path)) {
+          $file = fopen($path, "rb");
+          $size = filesize($path);
+        }
+      }
+      stream_set_blocking($file, FALSE);
+      $data = fread($file, $size);
+      fclose($file);
+      try {
+        return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+      } catch (\Exception $e) {
+        usleep(100);
+        return awaitFile($path);
+      }
+    }
+
     $this->token = $token;
     $filePath = $this->sessionDir . "/$token.json";
     if (file_exists( "$this->sessionDir/$token.json")) {
-      $file = fopen($filePath, "r");
-      $content = fread($file, filesize($filePath));
-      $session = json_decode($content, true);
-      fclose($file);
+      $session = awaitFile($filePath);
+
+      if (is_null($session["expireAt"])) {
+        var_dump($session);
+      }
+
       if ($session["expireAt"] < time()) {
         http_response_code(440);
-        $this->disconnect($token);
+        // $this->disconnect($token);
         return "session expired";
       }
       $session["expireAt"] = $this->resetLifeTime();

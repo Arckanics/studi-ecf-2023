@@ -18,7 +18,7 @@ class AccountsController extends AbstractController {
     if (!$this->session) {
       return false;
     }
-    if (!$this->session->isAdmin) {
+    if (!$this->session['isAdmin']) {
       return false;
     }
     return true;

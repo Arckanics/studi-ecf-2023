@@ -32,10 +32,10 @@ function provideSession($disconnect = false): void
   } else {
 
     if (!isset($status['Auth-User'])) {
-      echo $session->connect();
+      echo json_encode($session->connect());
     } else {
-      if ($disconnect) {
-        echo $session->getSession($status['Auth-User']);
+      if (!$disconnect) {
+        echo json_encode($session->getSession($status['Auth-User']));
       } else {
         echo json_encode($session->disconnect($status['Auth-User']));
       }
