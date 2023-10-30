@@ -30,6 +30,7 @@ function provideSession($disconnect = false): void
     http_response_code(403);
     echo "la méthode '$method' de requête n'est pas authorisée sur cette route !";
   } else {
+
     if (!isset($status['Auth-User'])) {
       echo $session->connect();
     } else {
@@ -39,6 +40,7 @@ function provideSession($disconnect = false): void
         echo json_encode($session->disconnect($status['Auth-User']));
       }
     }
+
   }
 
 }

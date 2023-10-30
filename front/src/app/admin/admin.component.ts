@@ -117,7 +117,7 @@ export class AdminComponent {
         admin: [
           { name: 'accounts', url: 'accounts', title: "Comptes" },
           { name: 'services', url: 'services', title: "Services" },
-          { name: 'hours', url: 'hours', title: "Hours" }
+          { name: 'hours', url: 'hours', title: "Horaires" }
         ],
       }
       const user = this.ls.getItem('user_admin') == "true" ? "admin" : "user"
@@ -130,8 +130,7 @@ export class AdminComponent {
     this.authService.sessionValidate().subscribe((next: any) => {
       const { isConnected } = next.body
       if (!isConnected) {
-        this.ls.clear()
-        this.router.navigateByUrl("/")
+        console.log('error session')
       }
     })
   }

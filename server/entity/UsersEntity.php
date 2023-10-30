@@ -32,8 +32,4 @@ class UsersEntity extends AbstractEntity {
     return "Bad credentials";
   }
 
-  public function update()
-  {
-    return false;
-  }
 }

@@ -10,7 +10,7 @@ class SessionManager extends globalMethod
   private string $token = "";
   private ?UsersEntity $entity = null;
   private $sessDock = null;
-  private int $lifetime = 2 * 60 * 60 * 1000;
+  private int $lifetime = 2 * 60 * 60;
   private string $sessionDir = __DIR__ . '/SessDock';
 
   public function __construct()
@@ -36,7 +36,7 @@ class SessionManager extends globalMethod
 
   private function resetLifeTime()
   {
-    return round(microtime(true) * 1000) + $this->lifetime;
+    return time() + $this->lifetime;
   }
 
   private function storeSession($user): void
@@ -49,10 +49,8 @@ class SessionManager extends globalMethod
       'expireAt' => $this->resetLifeTime()
     ];
     $filePath = "$this->sessionDir/$this->token.json";
-    $sess = fopen($filePath, "w+");
-    flock($sess, LOCK_EX);
+    $sess = fopen($filePath, "w");
     fwrite($sess, json_encode($session));
-    flock($sess, LOCK_UN);
     fclose($sess);
   }
 
@@ -119,8 +117,11 @@ class SessionManager extends globalMethod
     $this->token = $token;
     $filePath = $this->sessionDir . "/$token.json";
     if (file_exists( "$this->sessionDir/$token.json")) {
-      $session = [...json_decode(file_get_contents($filePath), true)];
-      if ($this->resetLifeTime() < $session["expireAt"]) {
+      $file = fopen($filePath, "r");
+      $content = fread($file, filesize($filePath));
+      $session = json_decode($content, true);
+      fclose($file);
+      if ($session["expireAt"] < time()) {
         http_response_code(440);
         $this->disconnect($token);
         return "session expired";

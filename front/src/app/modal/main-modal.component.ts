@@ -190,7 +190,9 @@ export class MainModalComponent implements OnInit {
           ls.clear()
           ls.setItem('user_token', body.token)
           ls.setItem('user_admin', isAdmin)
-          this.router.navigateByUrl("/admin").then(n => {})
+          this.router.navigateByUrl("/admin").then(n => {
+            console.log(n)
+          })
           break
 
       }
