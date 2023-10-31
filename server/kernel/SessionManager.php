@@ -106,11 +106,11 @@ class SessionManager extends globalMethod
 
   public function getSession($token = "", $request = true)
   {
-    function awaitFile($path) {
+    function awaitFile($path , $count = 0) {
       $file = fopen($path, "rb");
       $size = filesize($path);
-      while ($file === false) {
-        if (file_exists($path)) {
+      while ($file === false || $count >= 1000) {
+        if (file_exists($path) && $size > 0) {
           $file = fopen($path, "rb");
           $size = filesize($path);
         }
@@ -122,7 +122,8 @@ class SessionManager extends globalMethod
         return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
       } catch (\Exception $e) {
         usleep(100);
-        return awaitFile($path);
+        $count += 100;
+        return awaitFile($path, $count);
       }
     }
 
@@ -132,12 +133,14 @@ class SessionManager extends globalMethod
       $session = awaitFile($filePath);
 
       if (is_null($session["expireAt"])) {
-        var_dump($session);
+        http_response_code(404);
+        $this->disconnect($token);
+        return "session introuvable";
       }
 
       if ($session["expireAt"] < time()) {
         http_response_code(440);
-        // $this->disconnect($token);
+        $this->disconnect($token);
         return "session expired";
       }
       $session["expireAt"] = $this->resetLifeTime();
