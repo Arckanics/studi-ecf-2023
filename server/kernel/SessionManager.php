@@ -98,39 +98,49 @@ class SessionManager extends globalMethod
   {
     $this->token = $token;
     $fileToDel = $this->sessionDir . "/$this->token.json";
+    $sessionList = glob($this->sessionDir . "/*.json");
+    foreach ($sessionList as $sess) {
+      if (time() - filemtime($sess) > $this->lifetime) {
+        unlink($sess);
+      }
+    }
     if (file_exists($fileToDel)) {
       unlink($fileToDel);
     }
     return ['isConnected' => false];
   }
 
-  public function getSession($token = "", $request = true)
-  {
-    function awaitFile($path , $count = 0) {
-      $file = fopen($path, "rb");
-      $size = filesize($path);
-      while ($file === false || $count >= 1000) {
-        if (file_exists($path) && $size > 0) {
-          $file = fopen($path, "rb");
-          $size = filesize($path);
-        }
-      }
-      stream_set_blocking($file, FALSE);
-      $data = fread($file, $size);
-      fclose($file);
-      try {
-        return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-      } catch (\Exception $e) {
-        usleep(100);
-        $count += 100;
-        return awaitFile($path, $count);
+  private function openFile($path) {
+    $file = fopen($path, "rb");
+    $size = filesize($path);
+    $count = 0;
+    while ($file === false) {
+      if (file_exists($path) && $size > 0 && $count <= 1000) {
+        $file = fopen($path, "rb");
+        $size = filesize($path);
+        usleep(15);
+        $count += 15;
+      } else {
+        break;
       }
     }
+    stream_set_blocking($file, FALSE);
+    $data = fread($file, $size);
+    fclose($file);
+    try {
+      return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+    } catch (\Exception $e) {
+      return false;
+    }
+  }
+
+  public function getSession($token = "", $request = true)
+  {
 
     $this->token = $token;
     $filePath = $this->sessionDir . "/$token.json";
     if (file_exists( "$this->sessionDir/$token.json")) {
-      $session = awaitFile($filePath);
+      $session = $this->openFile($filePath);
 
       if (is_null($session["expireAt"])) {
         http_response_code(404);
@@ -147,7 +157,6 @@ class SessionManager extends globalMethod
       $this->storeSession($session);
       return $this->prepareToken($session);
     }
-    http_response_code(403);
     return false;
   }
 }
