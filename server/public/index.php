@@ -4,6 +4,7 @@ namespace public;
 use Controllers\AccountsController;
 use Controllers\CarsController;
 use Controllers\CommentsController;
+use Controllers\CountsController;
 use Controllers\HoursController;
 use Controllers\MessagesController;
 use Controllers\ServicesController;
@@ -67,6 +68,8 @@ if (!isset($status['XML-Http-Request'])) {
       return dataResponse(new MessagesController(), $method);
     case $uri === "/accounts":
       return dataResponse(new AccountsController(), $method);
+    case $uri === "/counts":
+      return dataResponse(new CountsController(), $method);
     case $uri === "/users":
       return provideSession();
     case $uri === "/logout":

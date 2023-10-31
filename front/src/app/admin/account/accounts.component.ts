@@ -7,7 +7,7 @@ import { FormControl, FormGroup } from "@angular/forms";
   selector: 'app-accounts',
   template: `
     <div role="button" class="btn btn-secondary add-btn" (click)="getAction(createAction)">Créer un compte</div>
-    <app-account *ngFor="let acc of list" [user]="acc" (action)="getAction($event)"></app-account>
+    <app-account *ngFor="let acc of list; let i = index" [user]="acc" [index]="i" (action)="getAction($event)"></app-account>
     <app-modal [ngClass]="{
         'd-none': !modalToggle
     }"
@@ -100,7 +100,7 @@ export class AccountsComponent extends AbstractListComponent {
   }
 
   override getAction(act: any): any | boolean {
-    console.log(act.action)
+    this.act = {...act}
     if (act.action == "edit-password") {
       this.passwordEdit = true
       this.user = this.list.find(u => u.id = act.id)
@@ -124,7 +124,7 @@ export class AccountsComponent extends AbstractListComponent {
       }
       this.formSet = new FormGroup({
         id: new FormControl(this.user.id),
-        account: new FormControl('')
+        account: new FormControl(this.list[this.act.index].account)
       })
       this.event = act.action
       this.modalToggle = true
@@ -139,6 +139,7 @@ export class AccountsComponent extends AbstractListComponent {
       this.event = act.action
       this.modalToggle = true
     }
+
     if (act.action == "delete") {
       super.getAction(act);
       this.submitForm(null, this.bdd)
@@ -159,26 +160,27 @@ export class AccountsComponent extends AbstractListComponent {
     this.viewPassword = !this.viewPassword
   }
 
-  override submitForm($event: any, bdd: any = null) {
+
+  override submitForm($event: any, bdd:any = null) {
+    const errorXhr = (err: any) => {
+      const {message, error} = err
+      console.log({message, error})
+      this.errorTxt = error
+    }
+
     if (this.event == 'edit-password') {
-      this.bdd.put(this.db, this.formSet.value).subscribe(e => {
+      this.bdd.put(this.db, this.formSet.value).subscribe((e:any) => {
         this.closeModal()
       },
-        err => {
-        const {message, error} = err
-          console.log({message, error})
-        this.errorTxt = error
-      })
+        err => errorXhr(err))
     }
     if (this.event == 'edit-account') {
-      this.bdd.put(this.db, this.formSet.value).subscribe(e => {
+      this.bdd.put(this.db, this.formSet.value).subscribe((e:any) => {
+        const index = this.act.index
+        this.list[index].account = e.body.account
         this.closeModal()
       },
-        err => {
-        const {message, error} = err
-          console.log({message, error})
-        this.errorTxt = error
-      })
+        err => errorXhr(err))
     }
 
     if (this.event === "create" || this.event === "delete") {
