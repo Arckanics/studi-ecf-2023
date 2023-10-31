@@ -21,7 +21,7 @@ Sujet garge 2023/2024 pour l'ecf graduate développeur Fullstack
   
 2. Installer la base donnée :
 
-   : Exécuter le fichier app-install.php ```php app-install.php```
+   Exécuter le fichier app-install.php ```php app-install.php```
      - configuration du fichier d'environnement
      - installation de la base de donnée
      - installation des fixtures
