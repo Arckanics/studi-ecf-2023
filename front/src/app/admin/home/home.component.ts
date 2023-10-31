@@ -158,13 +158,6 @@ export class HomeComponent implements OnDestroy {
     comments: 0,
   }
 
-  private bdds: string[] | Subscription[] = [
-    'cars',
-    'services',
-    'hours',
-    'comments'
-  ]
-
   constructor(
     private bdd: DatabaseService
   ) {
@@ -172,16 +165,10 @@ export class HomeComponent implements OnDestroy {
     this.clockObserve = interval(1000).subscribe(() => {
       this.currDate = new Date()
     })
-    this.bdds.map((v: any, i) =>
-      this.bdds[i] = this.bdd.fullRequest(v).subscribe((e) => {
-        // @ts-ignore
-        this.counters[`${v}`] = e.body.length
-        if (this.bdds[i] instanceof Subscription) {
-          // @ts-ignore
-          this.bdds[i].unsubscribe()
-        }
-      })
-    )
+    this.bdd.fullRequest('counts').subscribe((next:any) => {
+      const dataSize = next.body
+      this.counters = {...dataSize}
+    })
   }
 
   ngOnDestroy(): void {
