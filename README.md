@@ -17,6 +17,7 @@ Sujet garge 2023/2024 pour l'ecf graduate développeur Fullstack
 1. Copie du projet : 
 
  : - Copier le dépôt à l'aide de Git
+ : - entrer dans le projet avec un inviter de commande
   
 2. Installer la base donnée :
 
