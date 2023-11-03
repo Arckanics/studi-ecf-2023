@@ -46,5 +46,10 @@ Sujet garge 2023/2024 pour l'ecf graduate développeur Fullstack
   <VirtualHost *:80>
      ServerName "nom-d'hote"
      DocumentRoot {chemin-du-projet}/server/public
+     <Directory {chemin-du-projet}/server/public>
+        AllowOverride None
+        Require all granted
+        FallbackResource /index.php
+    </Directory>
   </VirtualHost>
  ```
