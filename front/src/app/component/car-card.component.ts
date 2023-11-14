@@ -196,9 +196,12 @@ export class CarCardComponent {
 
   constructor(private ref: ElementRef, private store: Store<{ modal: any }>) {
   }
+  autoParse(data:any): any {
+    return typeof data === "string" ? JSON.parse(data) : data
+  }
   ngOnInit() {
-    this.car.gallery = JSON.parse(this.car.gallery)
-    this.car.options = JSON.parse(this.car.options)
+    this.car.gallery = this.autoParse(this.car.gallery)
+    this.car.options = this.autoParse(this.car.options)
   }
   enableDetails(status: boolean) {
     this.carouselId = "car-"+this.car.id
