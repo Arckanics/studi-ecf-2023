@@ -1,5 +1,7 @@
 # Projet ECF - Studi Hiver 23/24
 
+
+Lien Trello : https://trello.com/invite/b/6gxJVeVH/ATTIa63be0cddee7ad14faece25f743933fdF4B9DA2D/projet-ecf-studi
 Sujet garge 2023/2024 pour l'ecf graduate développeur Fullstack
 
 ---
@@ -44,5 +46,10 @@ Sujet garge 2023/2024 pour l'ecf graduate développeur Fullstack
   <VirtualHost *:80>
      ServerName "nom-d'hote"
      DocumentRoot {chemin-du-projet}/server/public
+     <Directory {chemin-du-projet}/server/public>
+        AllowOverride None
+        Require all granted
+        FallbackResource /index.php
+    </Directory>
   </VirtualHost>
  ```
