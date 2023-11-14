@@ -16,7 +16,7 @@ class CommentEntity extends AbstractEntity
   {
     $sql = $withStatus ?
       "select * from $this->table" :
-      "select name, message, note from $this->table";
+      "select name, message, note from $this->table where enabled = 1";
 
     $data = $this->pdo->query($sql);
     if (!$withStatus) {

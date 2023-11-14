@@ -80,7 +80,6 @@ class PdoConnect extends globalMethod
     $query = $this->pdo->prepare($sql);
     $query->execute($filters);
     $stmt = $query->fetchAll(PDO::FETCH_ASSOC);
-
     return count($stmt) === 0 ? false : $stmt;
   }
 

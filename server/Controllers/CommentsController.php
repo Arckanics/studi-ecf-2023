@@ -17,7 +17,6 @@ class CommentsController extends AbstractController {
   public function get()
   {
     if ($this->session !== null) {
-
       return $this->entity->getAll(true);
     }
     return $this->entity->getAll();
@@ -25,7 +24,7 @@ class CommentsController extends AbstractController {
 
   public function post()
   {
-    if (!$this->session) {
+    if ($this->session === null) {
       return $this->entity->create(true);
     }
     return $this->entity->create();
